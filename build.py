@@ -5,19 +5,19 @@ OUT=os.path.dirname(os.path.abspath(__file__))
 FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">'
 SITE='https://canhastech.com/'
 import json
-def seo_head(page,title,desc,jsonld=None,preload=None):
+def seo_head(page,title,desc,jsonld=None,preload=None,image='og-canhastech.jpg'):
     url=SITE+('' if page=='index.html' else page)
     m=f'''<meta name="description" content="{desc}">
 <link rel="canonical" href="{url}">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="theme-color" content="#000000">
 <meta property="og:type" content="website"><meta property="og:site_name" content="CanhasTech"><meta property="og:locale" content="tr_TR">
-<meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE}device-bar.jpg">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{SITE}device-bar.jpg">'''
+<meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE}{image}">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{SITE}{image}">'''
     if preload:m+=f'\n<link rel="preload" as="image" href="{preload}" fetchpriority="high">'
     if jsonld:m+='\n<script type="application/ld+json">'+json.dumps(jsonld,ensure_ascii=False)+'</script>'
     return m
-ORG={"@context":"https://schema.org","@type":"Organization","name":"CanhasTech","alternateName":"Can Has Tech","url":SITE,"logo":SITE+"device-bar.jpg","email":"info@canhastech.com","address":{"@type":"PostalAddress","addressLocality":"İstanbul","addressCountry":"TR"},"description":"İhtiyaca göre özel web siteleri ve mobil uygulamalar geliştiren yazılım, donanım ve yapay zekâ stüdyosu."}
+ORG={"@context":"https://schema.org","@type":"Organization","name":"CanhasTech","alternateName":"Can Has Tech","url":SITE,"logo":SITE+"canhastech-logo.png","email":"info@canhastech.com","address":{"@type":"PostalAddress","addressLocality":"İstanbul","addressCountry":"TR"},"description":"İhtiyaca göre özel web siteleri ve mobil uygulamalar geliştiren yazılım, donanım ve yapay zekâ stüdyosu."}
 def crumbs(name,page):
     return {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"CanhasTech","item":SITE},{"@type":"ListItem","position":2,"name":"Ekosistem","item":SITE+"#projeler"},{"@type":"ListItem","position":3,"name":name,"item":SITE+page}]}
 
@@ -58,7 +58,7 @@ def nav(active):
     items=[('index.html','Ana sayfa'),('index.html#hizmetler','Hizmetler'),('index.html#projeler','Ekosistem'),('hasrep.html','Has Rep'),('index.html#iletisim','İletişim')]
     li=''.join(f'<li><a href="{h}" data-kinetic data-delay="{.15+i*.08:.2f}" data-step="0.02">{t}</a></li>' for i,(h,t) in enumerate(items))
     return f'''<nav aria-label="Ana menü"><div class="wrap">
-  <a class="logo" href="index.html" aria-label="Can Has Tech"><svg><use href="#ct"/></svg><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
+  <a class="logo" href="index.html" aria-label="Can Has Tech"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
   <ul>{li}</ul>
   <a class="btn sm primary" href="index.html#iletisim">Proje başlat</a>
 </div></nav>'''
@@ -66,7 +66,7 @@ def nav(active):
 def footer():
     links=''.join(f'<li><a href="{p["slug"]}.html">{p["name"]}</a></li>' for p in PROJECTS)
     return f'''<footer><div class="wrap">
-  <a class="logo" href="index.html" aria-label="Can Has Tech"><svg><use href="#ct"/></svg><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
+  <a class="logo" href="index.html" aria-label="Can Has Tech"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
   <ul>{links}</ul>
   <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İSTANBUL</span>
 </div></footer>'''
@@ -103,7 +103,7 @@ INDEX_CSS='''
 .node.hub .pill{width:84px;height:84px;border-radius:26px;background:#fff;color:#000;border-color:#fff;animation:hubBob 4.5s ease-in-out infinite}
 @keyframes hubBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .node.hub small{color:#fff}
-.node .pill svg{width:44px;height:38px}
+.node .pill img{width:52px;height:auto}
 @media(max-width:700px){.schema{height:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:8px 0 24px}.schema svg.wires{display:none}.node{position:static;transform:none;width:auto}.node.hub{grid-column:span 3}@keyframes nodeIn{from{opacity:.001;transform:translateY(30px) scale(.7)}to{opacity:1;transform:none}}}
 
 .services{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -162,7 +162,7 @@ def index_page():
     pos=[(12,24),(50,16),(88,24),(12,82),(50,90),(88,82)]
     nodes=''.join(f'<a class="node" href="{p["slug"]}.html" style="left:{x}%;top:{y}%;animation-delay:{1.35+i*.1:.2f}s"><span class="pill">{p["mark"]}</span><small>{p["name"]}</small></a>' for i,(p,(x,y)) in enumerate(zip(PROJECTS,pos)))
     wires=''.join(f'<path class="wire" d="M450 180 L {x*9} {y*3.4}"/>' for x,y in pos)
-    hub=f'<a class="node hub" href="#projeler" style="left:50%;top:53%;animation-delay:1.25s"><span class="pill"><svg><use href="#ct"/></svg></span><small>CanhasTech Hub</small></a>'
+    hub=f'<a class="node hub" href="#projeler" style="left:50%;top:53%;animation-delay:1.25s"><span class="pill"><img src="canhastech-mark.png" width="52" height="53" alt="CanhasTech"></span><small>CanhasTech Hub</small></a>'
     cards=''
     for i,p in enumerate(PROJECTS):
         vis=f'<img src="device-bar.jpg" width="1004" height="310" loading="lazy" decoding="async" alt="Olimpik bara takılı Has Rep VBT sensörü">' if p['slug']=='hasrep' else f'<div class="g"></div><div class="mark">{p["mark"]}</div>'
@@ -220,7 +220,14 @@ document.getElementById('contact').addEventListener('submit',e=>{e.preventDefaul
 
 # ---------------------------------------------------------------- HAS REP
 HASREP_CSS='''
+.hero .brand{display:block;width:min(260px,60vw);height:auto;margin:22px auto -6px;-webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,#000 55%,transparent 100%)}
 .hero .product{margin:56px auto 0;max-width:1004px;position:relative}
+.gallery{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-top:14px}
+.gallery figure{margin:0;border-radius:var(--r);border:1px solid var(--line);background:var(--card);overflow:hidden;position:relative}
+.gallery img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;transition:transform .9s var(--ease)}
+.gallery figure:hover img{transform:scale(1.03)}
+.gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:14px 18px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.75),transparent)}
+@media(max-width:700px){.gallery{grid-template-columns:1fr}}
 .hero .product img{display:block;width:100%;height:auto;border-radius:16px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(180deg,#000 70%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(180deg,#000 70%,transparent);mask-composite:intersect}
 .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .pillar{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:26px;min-height:220px;display:flex;flex-direction:column}
@@ -327,6 +334,7 @@ def hasrep_page():
   <div class="beam" aria-hidden="true"></div>
   <div class="wrap">
     <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="index.html#projeler">Ekosistem</a><i>/</i><span style="color:#fff">Has Rep</span></div>
+    <img class="brand up" src="hasrep-logo.jpg" width="900" height="609" alt="Has Rep logosu" style="animation-delay:.1s" decoding="async">
     <h1><span class="line"><span data-kinetic data-delay=".15">Has Rep</span></span><span class="line thin"><span data-kinetic data-delay=".4" data-step="0.018">Ağırlık antrenmanlarını veriye dönüştürün</span></span></h1>
     <p class="lede up" style="animation-delay:1s">Bara takılan VBT cihazı hareket hızını ölçer ve tekrarları sayar; uygulama form analizi yapar, yapay zekâ ile antrenman oluşturur ve analiz eder.</p>
     <p class="sub up" style="animation-delay:1.1s">Sporcu ve antrenör için tek sistem: cihaz + iOS / Android uygulaması.</p>
@@ -347,6 +355,10 @@ def hasrep_page():
     <div class="fl"><div class="n">01</div><h3>Bara tak</h3><p>Manyetik klips saniyeler içinde oturur. Squat, bench, deadlift, olimpik kaldırışlar — bar olan her yerde.</p></div>
     <div class="fl"><div class="n">02</div><h3>Antrenmanını yap</h3><p>Cihaz hızı ölçer, tekrarları sayar; uygulama form analizini ve seti canlı gösterir.</p></div>
     <div class="fl"><div class="n">03</div><h3>Analizi oku</h3><p>Antrenman sonunda yapay zekâ analizi ve bir sonraki antrenman önerisi hazırdır.</p></div>
+  </div>
+  <div class="gallery rv">
+    <figure><img src="hasrep-box.jpg" width="1100" height="905" loading="lazy" decoding="async" alt="Has Rep kutusu ve üzerinde sensör — Every rep counts"><figcaption>Every rep counts · Train · Measure · Improve</figcaption></figure>
+    <figure><img src="hasrep-puck.jpg" width="1000" height="921" loading="lazy" decoding="async" alt="Has Rep sensörü masa üzerinde"><figcaption>Manyetik klips · Bar olan her yerde</figcaption></figure>
   </div>
 </div></section>
 
@@ -385,8 +397,8 @@ def hasrep_page():
 </div></section>
 {band()}
 </main>'''
-    prod={"@context":"https://schema.org","@type":"Product","name":"Has Rep","brand":{"@type":"Brand","name":"CanhasTech"},"image":SITE+"device-bar.jpg","description":"Ağırlık antrenmanlarını veriye dönüştüren VBT cihazı ve uygulaması: hareket hızı ölçümü, otomatik tekrar sayımı, uzamsal form analizi, yapay zekâ ile antrenman oluşturma ve analiz.","url":SITE+"hasrep.html","category":"Spor teknolojisi"}
-    meta=seo_head('hasrep.html','Has Rep — VBT cihazı ve kullanım kılavuzu | CanhasTech','Has Rep: bara takılan VBT cihazı hareket hızını ölçer ve tekrarları sayar; uygulama form analizi yapar, yapay zekâ ile antrenman oluşturur. LED göstergeleri, cihazı uyandırma ve uygulamaya bağlanma rehberi.',[prod,crumbs('Has Rep','hasrep.html')],preload='device-bar.jpg')
+    prod={"@context":"https://schema.org","@type":"Product","name":"Has Rep","brand":{"@type":"Brand","name":"CanhasTech"},"image":[SITE+"hasrep-box.jpg",SITE+"hasrep-puck.jpg",SITE+"device-bar.jpg"],"description":"Ağırlık antrenmanlarını veriye dönüştüren VBT cihazı ve uygulaması: hareket hızı ölçümü, otomatik tekrar sayımı, uzamsal form analizi, yapay zekâ ile antrenman oluşturma ve analiz.","url":SITE+"hasrep.html","category":"Spor teknolojisi"}
+    meta=seo_head('hasrep.html','Has Rep — VBT cihazı ve kullanım kılavuzu | CanhasTech','Has Rep: bara takılan VBT cihazı hareket hızını ölçer ve tekrarları sayar; uygulama form analizi yapar, yapay zekâ ile antrenman oluşturur. LED göstergeleri, cihazı uyandırma ve uygulamaya bağlanma rehberi.',[prod,crumbs('Has Rep','hasrep.html')],preload='device-bar.jpg',image='og-hasrep.jpg')
     return shell('Has Rep — VBT cihazı ve kullanım kılavuzu | CanhasTech',body,HASREP_CSS,HASREP_JS,meta=meta)
 
 # ---------------------------------------------------------------- OTHER PROJECT PAGES

@@ -5,7 +5,7 @@ OUT=os.path.dirname(os.path.abspath(__file__))
 FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">'
 SITE='https://canhastech.com/'
 WEB3FORMS_KEY='YOUR_WEB3FORMS_ACCESS_KEY'   # web3forms.com adresinden alınan access key
-WHATSAPP='905000000000'                 # ülke koduyla, boşluksuz
+WHATSAPP='905537621914'                 # ülke koduyla, boşluksuz
 import json
 def seo_head(page,title,desc,jsonld=None,preload=None,image='og-canhastech.jpg'):
     url=SITE+('' if page=='index.html' else page)

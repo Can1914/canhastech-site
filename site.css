@@ -150,3 +150,35 @@ footer a:hover{color:#fff}
 
 /* mobile: lighter blur for the smoke layers (GPU cost) */
 @media(max-width:700px){.smoke i{filter:blur(48px)}}
+
+/* ---------- mobile menu ---------- */
+.burger{display:none;width:42px;height:42px;border-radius:9px;border:1px solid var(--line2);background:transparent;cursor:pointer;position:relative;flex:none}
+.burger i{position:absolute;left:12px;right:12px;height:1.5px;background:#fff;transition:transform .35s var(--ease),opacity .2s,top .35s var(--ease)}
+.burger i:nth-child(1){top:15px}.burger i:nth-child(2){top:20px}.burger i:nth-child(3){top:25px}
+.burger[aria-expanded="true"] i:nth-child(1){top:20px;transform:rotate(45deg)}
+.burger[aria-expanded="true"] i:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] i:nth-child(3){top:20px;transform:rotate(-45deg)}
+.mnav{position:fixed;inset:64px 0 0 0;z-index:39;background:rgba(0,0,0,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:28px 24px;display:none;flex-direction:column;gap:6px;overflow:auto}
+.mnav.open{display:flex}
+.mnav a{font-size:28px;font-weight:500;letter-spacing:-.03em;padding:14px 0;border-bottom:1px solid var(--line);color:#fff;opacity:.001;transform:translateY(18px);animation:up .6s var(--ease) forwards}
+.mnav a.sub{font-size:16px;color:var(--muted);padding:12px 0}
+.mnav .k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:22px 0 4px}
+.mnav .btn{margin-top:auto;align-self:stretch;opacity:.001;animation:up .6s .3s var(--ease) forwards}
+body.menu-open{overflow:hidden}
+@media(max-width:820px){.burger{display:block}nav .wrap>.btn{display:none}}
+
+/* ---------- WhatsApp ---------- */
+.wa{position:fixed;right:20px;bottom:20px;z-index:38;display:flex;align-items:center;gap:10px;height:52px;padding:0 18px 0 14px;border-radius:999px;background:#111;border:1px solid var(--line2);color:#fff;font-size:14px;font-weight:500;box-shadow:0 12px 40px -12px rgba(0,0,0,.9);transition:transform .3s var(--ease),border-color .3s,background .3s}
+.wa svg{width:22px;height:22px;fill:#fff}
+.wa:hover{transform:translateY(-2px);border-color:#fff;background:#161616}
+.wa .dot{width:8px;height:8px;border-radius:50%;background:var(--led-green);box-shadow:0 0 10px var(--led-green)}
+@media(max-width:600px){.wa span{display:none}.wa{padding:0 14px}}
+
+/* ---------- form states ---------- */
+.f .req{color:var(--muted)}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--muted);line-height:1.5}
+.consent input{margin-top:3px;accent-color:#fff}
+.consent a{color:#fff;border-bottom:1px solid var(--line2)}
+.done.err{color:var(--led-red)}
+.btn[disabled]{opacity:.5;cursor:wait}
+.hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}

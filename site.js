@@ -27,3 +27,14 @@
   const here=location.pathname.split('/').pop()||'index.html';
   document.querySelectorAll('nav ul a').forEach(a=>{const h=a.getAttribute('href').split('#')[0]||'index.html';if(h===here)a.classList.add('active')});
 })();
+
+/* mobile menu */
+(function(){
+  const b=document.querySelector('.burger'),m=document.getElementById('mnav');if(!b||!m)return;
+  const close=()=>{b.setAttribute('aria-expanded','false');m.classList.remove('open');document.body.classList.remove('menu-open')};
+  b.addEventListener('click',()=>{const open=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',open);m.classList.toggle('open',open);document.body.classList.toggle('menu-open',open);
+    if(open)m.querySelectorAll('a').forEach((a,i)=>{a.style.animation='none';void a.offsetWidth;a.style.animation='';a.style.animationDelay=(i*.05)+'s'})});
+  m.addEventListener('click',e=>{if(e.target.closest('a'))close()});
+  addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  addEventListener('resize',()=>{if(innerWidth>820)close()});
+})();

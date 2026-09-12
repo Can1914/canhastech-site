@@ -4,6 +4,8 @@ OUT=os.path.dirname(os.path.abspath(__file__))
 
 FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">'
 SITE='https://canhastech.com/'
+WEB3FORMS_KEY='YOUR_WEB3FORMS_ACCESS_KEY'   # web3forms.com adresinden alınan access key
+WHATSAPP='905000000000'                 # ülke koduyla, boşluksuz
 import json
 def seo_head(page,title,desc,jsonld=None,preload=None,image='og-canhastech.jpg'):
     url=SITE+('' if page=='index.html' else page)
@@ -11,6 +13,7 @@ def seo_head(page,title,desc,jsonld=None,preload=None,image='og-canhastech.jpg')
 <link rel="canonical" href="{url}">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="theme-color" content="#000000">
+<link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="manifest" href="manifest.json">
 <meta property="og:type" content="website"><meta property="og:site_name" content="CanhasTech"><meta property="og:locale" content="tr_TR">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE}{image}">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{SITE}{image}">'''
@@ -61,7 +64,13 @@ def nav(active):
   <a class="logo" href="index.html" aria-label="Can Has Tech"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
   <ul>{li}</ul>
   <a class="btn sm primary" href="index.html#iletisim">Proje başlat</a>
-</div></nav>'''
+  <button class="burger" type="button" aria-label="Menü" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
+</div></nav>
+<div class="mnav" id="mnav">
+  <a href="index.html">Ana sayfa</a><a href="index.html#hizmetler">Hizmetler</a><a href="index.html#projeler">Ekosistem</a><a href="hasrep.html">Has Rep</a><a href="index.html#iletisim">İletişim</a>
+  <div class="k">Projeler</div>{''.join(f'<a class="sub" href="{p["slug"]}.html">{p["name"]}</a>' for p in PROJECTS)}
+  <a class="btn primary" href="index.html#iletisim">Proje başlat</a>
+</div>'''
 
 def footer():
     links=''.join(f'<li><a href="{p["slug"]}.html">{p["name"]}</a></li>' for p in PROJECTS)
@@ -71,11 +80,12 @@ def footer():
   <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İSTANBUL</span>
 </div></footer>'''
 
+WA=f'<a class="wa" href="https://wa.me/{WHATSAPP}?text=Merhaba%2C%20CanhasTech%20ile%20bir%20proje%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp ile yazın"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1.1 2.7 11.5 11.5 0 0 0 4.4 3.9c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2 2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg><span>WhatsApp</span><i class="dot"></i></a>'
 SMOKE='<div class="smoke" aria-hidden="true"><i class="s1"></i><i class="s2"></i><i class="s3"></i></div>'
 
 def shell(title,body,extra_css='',extra_js='',main=False,meta=''):
     head=f'<title>{title}</title>\n{meta}\n{FONTS}\n<link rel="stylesheet" href="site.css">\n<style>{extra_css}</style>'
-    doc=f'{head}\n{MARK}\n{SMOKE}\n<div class="page">\n{body}\n</div>\n{footer()}\n<script src="site.js" defer></script>\n<script defer>{extra_js}</script>'
+    doc=f'{head}\n{MARK}\n{SMOKE}\n<div class="page">\n{body}\n</div>\n{footer()}\n{WA}\n<script src="site.js" defer></script>\n<script defer>{extra_js}</script>'
     if main: return doc   # the Artifact tool wraps the main page in its own skeleton
     return f'<!doctype html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">\n{doc[:doc.index("<svg")]}</head><body>\n{doc[doc.index("<svg"):]}\n</body></html>'
 
@@ -206,15 +216,24 @@ def index_page():
 <section class="cta" id="iletisim"><div class="wrap rv">
   <div><div class="eyebrow">İletişim</div><h2><span class="line"><span>Projenizi</span></span><span class="line"><span>hayata geçirelim.</span></span></h2><p class="lead">Bir fikir, bir ekran görüntüsü ya da yarım kalmış bir proje — nereden başladığınız fark etmez. 48 saat içinde dönüş yapar, ilk görüşmede kapsam ve yol haritasını birlikte çıkarırız.</p>
     <div class="contacts"><a href="mailto:info@canhastech.com">info@canhastech.com<span>E-posta</span></a><a href="https://canhastech.com" target="_blank" rel="noopener">canhastech.com<span>Web</span></a><a href="#top">İstanbul, Türkiye<span>Konum</span></a></div></div>
-  <form class="card" id="contact"><div class="f2"><div class="f"><label for="n">Ad Soyad</label><input id="n" placeholder="Adınız" required></div><div class="f"><label for="e">E-posta</label><input id="e" type="email" placeholder="ornek@sirket.com" required></div></div>
+  <form class="card" id="contact" action="https://api.web3forms.com/submit" method="POST"><input type="hidden" name="access_key" value="{WEB3FORMS_KEY}"><input type="hidden" name="subject" value="CanhasTech — yeni proje talebi"><input type="hidden" name="from_name" value="canhastech.com"><input type="hidden" name="proje_turu" id="ptype" value="Web sitesi"><input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off"><div class="f2"><div class="f"><label for="n">Ad Soyad <span class="req">*</span></label><input id="n" name="ad_soyad" placeholder="Adınız" required autocomplete="name"></div><div class="f"><label for="e">E-posta <span class="req">*</span></label><input id="e" name="email" type="email" placeholder="ornek@sirket.com" required autocomplete="email"></div></div>
     <div class="f"><label>Proje türü</label><div class="chips" id="chips"><button type="button" class="chip on">Web sitesi</button><button type="button" class="chip">Mobil uygulama</button><button type="button" class="chip">Web + Mobil</button><button type="button" class="chip">Donanım / IoT</button><button type="button" class="chip">Yapay zekâ</button></div></div>
-    <div class="f"><label for="m">Kısaca anlatın</label><textarea id="m" placeholder="Ne yapmak istiyorsunuz, kimin için, ne zaman?"></textarea></div>
-    <button class="btn primary" type="submit">Gönder</button><div class="done" id="done"></div></form>
+    <div class="f"><label for="m">Kısaca anlatın</label><textarea id="m" name="mesaj" placeholder="Ne yapmak istiyorsunuz, kimin için, ne zaman?"></textarea></div>
+    <label class="consent"><input type="checkbox" required name="kvkk"> <span>Gönderdiğim bilgilerin talebimle ilgili iletişim amacıyla işlenmesini kabul ediyorum.</span></label>
+    <button class="btn primary" type="submit" id="send">Gönder</button><div class="done" id="done"></div></form>
 </div></section>
 </main>'''
     js='''
 (function(){const chips=document.getElementById('chips');chips.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;chips.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));b.classList.add('on')});
-document.getElementById('contact').addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('n').value.trim();const type=chips.querySelector('.on').textContent;document.getElementById('done').textContent=`Teşekkürler ${name} — "${type}" talebiniz alındı, 48 saat içinde dönüyoruz. (prototip: veri gönderilmez)`;e.target.reset()});})();'''
+const form=document.getElementById('contact'),done=document.getElementById('done'),send=document.getElementById('send');
+form.addEventListener('submit',async e=>{e.preventDefault();done.className='done';done.textContent='Gönderiliyor…';send.disabled=true;
+  document.getElementById('ptype').value=chips.querySelector('.on').textContent;
+  const name=document.getElementById('n').value.trim();
+  try{const r=await fetch(form.action,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)});const j=await r.json();
+    if(r.ok&&j.success){done.textContent=`Teşekkürler ${name} — talebiniz ulaştı, 48 saat içinde dönüyoruz.`;form.reset();chips.querySelectorAll('.chip').forEach((c,i)=>c.classList.toggle('on',i===0))}
+    else throw new Error(j.message||'Gönderilemedi')}
+  catch(err){done.className='done err';done.textContent='Gönderilemedi. Lütfen tekrar deneyin ya da info@canhastech.com adresine yazın.'}
+  finally{send.disabled=false}});})();'''
     meta=seo_head('index.html','CanhasTech — Özel web siteleri ve mobil uygulamalar','İhtiyacınıza göre özel web siteleri ve mobil uygulamalar geliştiriyoruz. Has Rep VBT cihazı, City Diamond Turizm, Cagriaslanfit, Cemil Has Medikal, TBI Athletics ve Has Contract — CanhasTech ekosistemi.',ORG)
     return shell('CanhasTech — Özel web siteleri ve mobil uygulamalar',body,INDEX_CSS,js,main=True,meta=meta)
 
@@ -468,7 +487,20 @@ def project_page(p):
     meta=seo_head(f"{p['slug']}.html",title,f"{p['name']}: {p['desc']}",[{"@context":"https://schema.org","@type":"WebPage","name":title,"url":SITE+p['slug']+'.html',"description":p['desc'],"isPartOf":{"@type":"WebSite","name":"CanhasTech","url":SITE}},crumbs(p['name'],p['slug']+'.html')])
     return shell(title,body,meta=meta)
 
+# ---------------------------------------------------------------- 404
+def notfound_page():
+    body=f'''{nav('404')}
+<header class="hero"><div class="beam" aria-hidden="true"></div><div class="wrap">
+  <div class="eyebrow up">404</div>
+  <h1><span class="line"><span data-kinetic data-delay=".15">Sayfa bulunamadı</span></span></h1>
+  <p class="lede up" style="animation-delay:.8s">Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.</p>
+  <div class="cta-row up" style="animation-delay:.95s"><a class="btn primary" href="index.html">Ana sayfaya dön</a><a class="btn" href="hasrep.html">Has Rep</a><a class="btn" href="index.html#iletisim">İletişim</a></div>
+</div></header>
+<main><section style="padding-top:0"><div class="wrap"><div class="grid3 rv">{''.join(f'<a class="card glass" href="{p["slug"]}.html"><div class="k"><span>{p["sector"]}</span></div><h3>{p["name"]}</h3><p>{p["short"]}</p></a>' for p in PROJECTS)}</div></div></section></main>'''
+    return shell('Sayfa bulunamadı | CanhasTech',body,meta='<meta name="robots" content="noindex">')
+
 # ---------------------------------------------------------------- write
+open(os.path.join(OUT,'404.html'),'w').write(notfound_page())
 open(os.path.join(OUT,'index.html'),'w').write(index_page())
 open(os.path.join(OUT,'hasrep.html'),'w').write(hasrep_page())
 for p in PROJECTS[1:]:

@@ -32,3 +32,8 @@ Repo → Settings → Pages → Source: `main` / root. Site `https://<kullanıc�
 - `sitemap.xml`, `robots.txt`
 - Core Web Vitals: font `preconnect` + `display=swap`, hero görseli `fetchpriority="high"` + `preload`, kart görselleri `loading="lazy"`, `width/height` ile CLS 0, `site.js` `defer`, mobilde hafifletilmiş blur
 - Sayfalar `build.py` ile üretilir: `python3 build.py`
+
+## Yapılandırma (build.py başında)
+- `WEB3FORMS_KEY` — https://web3forms.com adresinde e-posta girip alınan access key; iletişim formu bu anahtarla `info@canhastech.com`'a düşer.
+- `WHATSAPP` — sağ alttaki WhatsApp düğmesinin numarası (ülke koduyla, örn. `905321234567`).
+Değiştirdikten sonra `python3 build.py` çalıştırın.

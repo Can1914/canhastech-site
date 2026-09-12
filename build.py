@@ -77,7 +77,7 @@ def footer():
     return f'''<footer><div class="wrap">
   <a class="logo" href="index.html" aria-label="Can Has Tech"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
   <ul>{links}</ul>
-  <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İSTANBUL</span>
+  <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İSTANBUL · <a href="kvkk.html">KVKK</a></span>
 </div></footer>'''
 
 WA=f'<a class="wa" href="https://wa.me/{WHATSAPP}?text=Merhaba%2C%20CanhasTech%20ile%20bir%20proje%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp ile yazın"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1.1 2.7 11.5 11.5 0 0 0 4.4 3.9c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2 2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg><span>WhatsApp</span><i class="dot"></i></a>'
@@ -219,7 +219,7 @@ def index_page():
   <form class="card" id="contact" action="https://api.web3forms.com/submit" method="POST"><input type="hidden" name="access_key" value="{WEB3FORMS_KEY}"><input type="hidden" name="subject" value="CanhasTech — yeni proje talebi"><input type="hidden" name="from_name" value="canhastech.com"><input type="hidden" name="proje_turu" id="ptype" value="Web sitesi"><input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off"><div class="f2"><div class="f"><label for="n">Ad Soyad <span class="req">*</span></label><input id="n" name="ad_soyad" placeholder="Adınız" required autocomplete="name"></div><div class="f"><label for="e">E-posta <span class="req">*</span></label><input id="e" name="email" type="email" placeholder="ornek@sirket.com" required autocomplete="email"></div></div>
     <div class="f"><label>Proje türü</label><div class="chips" id="chips"><button type="button" class="chip on">Web sitesi</button><button type="button" class="chip">Mobil uygulama</button><button type="button" class="chip">Web + Mobil</button><button type="button" class="chip">Donanım / IoT</button><button type="button" class="chip">Yapay zekâ</button></div></div>
     <div class="f"><label for="m">Kısaca anlatın</label><textarea id="m" name="mesaj" placeholder="Ne yapmak istiyorsunuz, kimin için, ne zaman?"></textarea></div>
-    <label class="consent"><input type="checkbox" required name="kvkk"> <span>Gönderdiğim bilgilerin talebimle ilgili iletişim amacıyla işlenmesini kabul ediyorum.</span></label>
+    <label class="consent"><input type="checkbox" required name="kvkk"> <span>Gönderdiğim bilgilerin talebimle ilgili iletişim amacıyla işlenmesini kabul ediyorum. <a href="kvkk.html" target="_blank" rel="noopener">KVKK aydınlatma metni</a></span></label>
     <button class="btn primary" type="submit" id="send">Gönder</button><div class="done" id="done"></div></form>
 </div></section>
 </main>'''
@@ -499,13 +499,42 @@ def notfound_page():
 <main><section style="padding-top:0"><div class="wrap"><div class="grid3 rv">{''.join(f'<a class="card glass" href="{p["slug"]}.html"><div class="k"><span>{p["sector"]}</span></div><h3>{p["name"]}</h3><p>{p["short"]}</p></a>' for p in PROJECTS)}</div></div></section></main>'''
     return shell('Sayfa bulunamadı | CanhasTech',body,meta='<meta name="robots" content="noindex">')
 
+# ---------------------------------------------------------------- KVKK
+def kvkk_page():
+    body=f'''{nav('kvkk')}
+<header class="hero" style="padding-bottom:24px"><div class="beam" aria-hidden="true"></div><div class="wrap">
+  <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><span style="color:#fff">KVKK</span></div>
+  <h1><span class="line"><span data-kinetic data-delay=".15" data-step="0.02">Aydınlatma Metni</span></span></h1>
+  <p class="lede up" style="animation-delay:.8s">6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında bilgilendirme</p>
+</div></header>
+<main><section style="padding-top:24px"><div class="wrap"><div class="legal rv">
+<p class="meta">Veri sorumlusu: <b>CanhasTech</b> · İstanbul · <a href="mailto:info@canhastech.com">info@canhastech.com</a> · Son güncelleme: 13 Eylül 2026</p>
+<h2>1. Hangi verileri işliyoruz?</h2>
+<p>Web sitemizdeki iletişim formu üzerinden paylaştığınız <b>ad-soyad, e-posta adresi, proje türü ve mesaj içeriği</b>; WhatsApp üzerinden yazmanız hâlinde telefon numaranız ve mesajınız. Sitemiz çerez kullanmaz ve ziyaretçi takibi yapmaz.</p>
+<h2>2. Hangi amaçla?</h2>
+<p>Talebinize yanıt vermek, teklif ve proje kapsamı hazırlamak, sizinle iletişim kurmak. Verileriniz pazarlama listelerine eklenmez, üçüncü kişilere satılmaz.</p>
+<h2>3. Hukuki dayanak</h2>
+<p>KVKK m. 5/2-c (sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması) ve m. 5/2-f (meşru menfaat); formu göndererek verdiğiniz açık rıza.</p>
+<h2>4. Kimlere aktarılıyor?</h2>
+<p>Form gönderimleri, e-posta iletimi için <b>Web3Forms</b> (form işleme hizmeti) ve e-posta sağlayıcımız üzerinden tarafımıza ulaşır; site <b>GitHub Pages</b> altyapısında barındırılır. Bu hizmet sağlayıcıları yalnızca iletim amacıyla veri işler.</p>
+<h2>5. Ne kadar süre saklıyoruz?</h2>
+<p>Talebiniz sonuçlanana kadar; iş ilişkisi kurulmazsa en geç 1 yıl içinde silinir. İş ilişkisi kurulursa ilgili mevzuattaki saklama süreleri uygulanır.</p>
+<h2>6. Haklarınız</h2>
+<p>KVKK m. 11 kapsamında verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini veya silinmesini isteme, itiraz etme haklarınız vardır. Talebinizi <a href="mailto:info@canhastech.com">info@canhastech.com</a> adresine iletebilirsiniz; en geç 30 gün içinde yanıtlanır.</p>
+</div></div></section></main>'''
+    css='.legal{max-width:68ch;color:var(--muted);font-size:16px}.legal h2{font-size:20px;color:#fff;margin:34px 0 10px}.legal p{margin-bottom:12px}.legal b{color:#fff;font-weight:500}.legal a{color:#fff;border-bottom:1px solid var(--line2)}.legal .meta{font-family:var(--mono);font-size:12.5px;padding-bottom:18px;border-bottom:1px solid var(--line)}'
+    meta=seo_head('kvkk.html','KVKK Aydınlatma Metni | CanhasTech','CanhasTech web sitesi iletişim formu ve WhatsApp üzerinden paylaşılan kişisel verilerin işlenmesine ilişkin KVKK aydınlatma metni.')
+    return shell('KVKK Aydınlatma Metni | CanhasTech',body,css,meta=meta)
+
 # ---------------------------------------------------------------- write
+open(os.path.join(OUT,'kvkk.html'),'w').write(kvkk_page())
+open(os.path.join(OUT,'CNAME'),'w').write('canhastech.com\n')
 open(os.path.join(OUT,'404.html'),'w').write(notfound_page())
 open(os.path.join(OUT,'index.html'),'w').write(index_page())
 open(os.path.join(OUT,'hasrep.html'),'w').write(hasrep_page())
 for p in PROJECTS[1:]:
     open(os.path.join(OUT,f"{p['slug']}.html"),'w').write(project_page(p))
-pages=['index.html']+[f"{p['slug']}.html" for p in PROJECTS]
+pages=['index.html']+[f"{p['slug']}.html" for p in PROJECTS]+['kvkk.html']
 open(os.path.join(OUT,'sitemap.xml'),'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{SITE}{"" if pg=="index.html" else pg}</loc><changefreq>monthly</changefreq><priority>{"1.0" if pg=="index.html" else "0.8" if pg=="hasrep.html" else "0.6"}</priority></url>\n' for pg in pages)+'</urlset>\n')
 open(os.path.join(OUT,'robots.txt'),'w').write(f'User-agent: *\nAllow: /\nSitemap: {SITE}sitemap.xml\n')
 print('built:',sorted(f for f in os.listdir(OUT) if f.endswith('.html')))

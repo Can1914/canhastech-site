@@ -147,3 +147,6 @@ footer a:hover{color:#fff}
 .pnav a.next{text-align:right}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.up,.line>span,.k .ch{opacity:1;transform:none}.rv.pre{opacity:1;transform:none}}
+
+/* mobile: lighter blur for the smoke layers (GPU cost) */
+@media(max-width:700px){.smoke i{filter:blur(48px)}}

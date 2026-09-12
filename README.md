@@ -23,3 +23,12 @@ ve http://localhost:8080
 
 ## GitHub Pages ile yayın
 Repo → Settings → Pages → Source: `main` / root. Site `https://<kullanıcı>.github.io/<repo>/` adresinde yayınlanır.
+
+## SEO & performans
+`efeunalmedia-lab/efeunal-website-seo` skill setine göre uygulandı:
+- Her sayfada benzersiz `<title>`, `meta description`, `canonical`, Open Graph / Twitter kartları
+- JSON-LD: `Organization` (ana sayfa), `Product` (Has Rep), `WebPage` + `BreadcrumbList` (proje sayfaları)
+- Semantik yapı: tek `h1`, `h2/h3` hiyerarşisi, `<main>`, `aria-labelledby` bölümler
+- `sitemap.xml`, `robots.txt`
+- Core Web Vitals: font `preconnect` + `display=swap`, hero görseli `fetchpriority="high"` + `preload`, kart görselleri `loading="lazy"`, `width/height` ile CLS 0, `site.js` `defer`, mobilde hafifletilmiş blur
+- Sayfalar `build.py` ile üretilir: `python3 build.py`

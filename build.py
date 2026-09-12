@@ -1,0 +1,467 @@
+# Builds the CanhasTech multi-page prototype from shared fragments.
+import os
+OUT=os.path.dirname(os.path.abspath(__file__))
+
+FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">'
+SITE='https://canhastech.com/'
+import json
+def seo_head(page,title,desc,jsonld=None,preload=None):
+    url=SITE+('' if page=='index.html' else page)
+    m=f'''<meta name="description" content="{desc}">
+<link rel="canonical" href="{url}">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website"><meta property="og:site_name" content="CanhasTech"><meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE}device-bar.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{SITE}device-bar.jpg">'''
+    if preload:m+=f'\n<link rel="preload" as="image" href="{preload}" fetchpriority="high">'
+    if jsonld:m+='\n<script type="application/ld+json">'+json.dumps(jsonld,ensure_ascii=False)+'</script>'
+    return m
+ORG={"@context":"https://schema.org","@type":"Organization","name":"CanhasTech","alternateName":"Can Has Tech","url":SITE,"logo":SITE+"device-bar.jpg","email":"info@canhastech.com","address":{"@type":"PostalAddress","addressLocality":"İstanbul","addressCountry":"TR"},"description":"İhtiyaca göre özel web siteleri ve mobil uygulamalar geliştiren yazılım, donanım ve yapay zekâ stüdyosu."}
+def crumbs(name,page):
+    return {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"CanhasTech","item":SITE},{"@type":"ListItem","position":2,"name":"Ekosistem","item":SITE+"#projeler"},{"@type":"ListItem","position":3,"name":name,"item":SITE+page}]}
+
+MARK='''<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="silverG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#C8CBD0"/><stop offset="1" stop-color="#6E7076"/></linearGradient>
+<symbol id="ct" viewBox="0 0 120 100">
+  <path d="M68 31A32 32 0 1 0 68 79" fill="none" stroke="url(#silverG)" stroke-width="13"/>
+  <path d="M40 61A14 14 0 1 0 54 44" fill="none" stroke="#fff" stroke-width="1.5" opacity=".5"/>
+  <path d="M30 70 84 16" stroke="url(#silverG)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M72 6h30v30l-9-9-9 9-12-12 9-9z" fill="#E6E8EB"/>
+  <path d="M94 36h11v60H94V74H66V64l28-28zm0 16L80 64h14z" fill="#9A9DA3"/>
+  <rect x="37" y="46" width="14" height="14" rx="2" fill="#000" stroke="#fff" stroke-width="1.5"/>
+  <path d="M40 46v-3M44 46v-3M48 46v-3M40 60v3M44 60v3M48 60v3M37 49h-3M37 53h-3M37 57h-3M51 49h3M51 53h3M51 57h3" stroke="#fff" stroke-width="1.2"/>
+</symbol></defs></svg>'''
+
+PROJECTS=[
+ dict(slug='hasrep',name='Has Rep',mark='HR',sector='Spor teknolojisi',kind='Donanım + App',
+      short='Akıllı VBT fitness cihazı & app',
+      desc='Ağırlık antrenmanlarını veriye dönüştüren akıllı spor teknolojisi: bara takılan VBT cihazı hareket hızını ölçer, tekrarları sayar; uygulama uzamsal form analizi yapar, yapay zekâ ile antrenman oluşturur ve analiz eder.'),
+ dict(slug='citydiamond',name='City Diamond Turizm',mark='CD',sector='Turizm',kind='Web + Panel',
+      short='Shuttle Merkezi',
+      desc='Turizm shuttle merkezi çözümü ve dijital altyapısı: online rezervasyon, sefer ve araç planlama, sürücü yönetimi, acente ve otel entegrasyonları.'),
+ dict(slug='cagriaslanfit',name='Cagriaslanfit',mark='CA',sector='Fitness',kind='Mobil App',
+      short='Fitness mobil uygulaması',
+      desc='Fitness ve sporcu odaklı özel mobil uygulama: kişiye özel programlar, ilerleme takibi ve koç-sporcu iletişimi tek yerde.'),
+ dict(slug='cemilhasmedikal',name='Cemil Has Medikal',mark='CH',sector='Medikal',kind='Yazılım + App',
+      short='Medikal yazılımı',
+      desc='Medikal sektör için geliştirilmiş özel yazılım ve uygulama: ürün kataloğu, sipariş ve teslimat takibi, saha ekibi mobil uygulaması.'),
+ dict(slug='tbiathletics',name='TBI Athletics',mark='TBI',sector='Atletizm',kind='Performans App',
+      short='Performans app’i',
+      desc='Spor ve atletizm odaklı performans yazılımı: sporcu profilleri, antrenman yükü ve toparlanma takibi, antrenör raporları.'),
+ dict(slug='hascontract',name='Has Contract',mark='HC',sector='Kurumsal',kind='Web Platform',
+      short='Kurumsal çözümler',
+      desc='Kurumsal sözleşme ve yönetim çözümleri: sözleşme yaşam döngüsü, onay akışları, arşiv ve raporlama — denetime hazır.'),
+]
+
+def nav(active):
+    items=[('index.html','Ana sayfa'),('index.html#hizmetler','Hizmetler'),('index.html#projeler','Ekosistem'),('hasrep.html','Has Rep'),('index.html#iletisim','İletişim')]
+    li=''.join(f'<li><a href="{h}" data-kinetic data-delay="{.15+i*.08:.2f}" data-step="0.02">{t}</a></li>' for i,(h,t) in enumerate(items))
+    return f'''<nav aria-label="Ana menü"><div class="wrap">
+  <a class="logo" href="index.html" aria-label="Can Has Tech"><svg><use href="#ct"/></svg><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
+  <ul>{li}</ul>
+  <a class="btn sm primary" href="index.html#iletisim">Proje başlat</a>
+</div></nav>'''
+
+def footer():
+    links=''.join(f'<li><a href="{p["slug"]}.html">{p["name"]}</a></li>' for p in PROJECTS)
+    return f'''<footer><div class="wrap">
+  <a class="logo" href="index.html" aria-label="Can Has Tech"><svg><use href="#ct"/></svg><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
+  <ul>{links}</ul>
+  <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İSTANBUL</span>
+</div></footer>'''
+
+SMOKE='<div class="smoke" aria-hidden="true"><i class="s1"></i><i class="s2"></i><i class="s3"></i></div>'
+
+def shell(title,body,extra_css='',extra_js='',main=False,meta=''):
+    head=f'<title>{title}</title>\n{meta}\n{FONTS}\n<link rel="stylesheet" href="site.css">\n<style>{extra_css}</style>'
+    doc=f'{head}\n{MARK}\n{SMOKE}\n<div class="page">\n{body}\n</div>\n{footer()}\n<script src="site.js" defer></script>\n<script defer>{extra_js}</script>'
+    if main: return doc   # the Artifact tool wraps the main page in its own skeleton
+    return f'<!doctype html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">\n{doc[:doc.index("<svg")]}</head><body>\n{doc[doc.index("<svg"):]}\n</body></html>'
+
+def pnav(slug):
+    i=[p['slug'] for p in PROJECTS].index(slug);prev=PROJECTS[i-1];nxt=PROJECTS[(i+1)%len(PROJECTS)]
+    return f'''<div class="pnav rv"><a href="{prev['slug']}.html"><span class="k">← Önceki proje</span><b>{prev['name']}</b></a><a class="next" href="{nxt['slug']}.html"><span class="k">Sonraki proje →</span><b>{nxt['name']}</b></a></div>'''
+
+def band():
+    return '''<section class="band rv"><div class="wrap"><div class="eyebrow" style="justify-content:center">Birlikte çalışalım</div><h2><span class="line"><span>Benzer bir projeniz mi var?</span></span></h2><p>İhtiyacınıza göre özel web siteleri ve mobil uygulamalar geliştiriyoruz. Kapsamı birlikte çıkaralım.</p><a class="btn primary" href="index.html#iletisim">Projenizi anlatın <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a></div></section>'''
+
+# ---------------------------------------------------------------- INDEX
+INDEX_CSS='''
+.hero{padding-top:104px;padding-bottom:40px}
+/* schema menu: hub + orbiting nodes, spring-in, bounce on hover */
+.schema{position:relative;height:340px;margin:72px auto 0;max-width:900px}
+.schema svg.wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.schema .wire{stroke:rgba(255,255,255,.14);stroke-width:1;fill:none;stroke-dasharray:6 6;animation:dash 30s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-600}}
+.node{position:absolute;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:8px;opacity:.001;animation:nodeIn .9s var(--spring) forwards;text-align:center;width:120px}
+@keyframes nodeIn{from{opacity:.001;transform:translate(-50%,-50%) translateY(40px) scale(.6)}to{opacity:1;transform:translate(-50%,-50%)}}
+.node .pill{width:64px;height:64px;border-radius:20px;border:1px solid var(--line2);background:var(--card);display:grid;place-items:center;font-weight:500;font-size:15px;letter-spacing:-.02em;color:var(--silver);transition:transform .45s var(--spring),border-color .3s,background .3s,box-shadow .3s;box-shadow:0 10px 30px -18px rgba(0,0,0,.9)}
+.node small{font-size:12px;color:var(--muted);transition:color .3s;line-height:1.3}
+.node:hover .pill,.node:focus-visible .pill{transform:translateY(-10px) scale(1.06);border-color:#fff;background:#161616;box-shadow:0 0 0 1px rgba(255,255,255,.35),0 18px 40px -20px rgba(255,255,255,.4)}
+.node:hover small{color:#fff}
+.node.hub .pill{width:84px;height:84px;border-radius:26px;background:#fff;color:#000;border-color:#fff;animation:hubBob 4.5s ease-in-out infinite}
+@keyframes hubBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.node.hub small{color:#fff}
+.node .pill svg{width:44px;height:38px}
+@media(max-width:700px){.schema{height:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:8px 0 24px}.schema svg.wires{display:none}.node{position:static;transform:none;width:auto}.node.hub{grid-column:span 3}@keyframes nodeIn{from{opacity:.001;transform:translateY(30px) scale(.7)}to{opacity:1;transform:none}}}
+
+.services{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.svc{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:36px;position:relative;overflow:hidden;transition:border-color .3s}
+.svc:hover{border-color:var(--line2)}
+.svc::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);opacity:.6}
+.svc .k{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--dim);text-transform:uppercase;margin-bottom:22px;display:flex;justify-content:space-between}
+.svc h3{font-size:26px;margin-bottom:12px}
+.svc>p{color:var(--muted);font-size:15px;max-width:44ch;margin-bottom:26px}
+.svc ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.svc li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.svc li span{color:var(--muted);font-family:var(--mono);font-size:12px;white-space:nowrap}
+@media(max-width:820px){.services{grid-template-columns:1fr}.svc{padding:28px}}
+
+.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pj{display:flex;flex-direction:column;min-height:360px;padding:0;cursor:pointer}
+.pj .visual{height:160px;position:relative;overflow:hidden;background:var(--card2);border-bottom:1px solid var(--line);display:grid;place-items:center}
+.pj .visual img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);transition:transform .8s var(--ease),filter .5s}
+.pj:hover .visual img{transform:scale(1.04);filter:grayscale(.2)}
+.pj .mark{font-size:44px;font-weight:300;letter-spacing:-.04em;color:var(--silver);position:relative;transition:transform .6s var(--ease)}
+.pj:hover .mark{transform:scale(1.06)}
+.pj .visual .g{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:28px 28px;mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,#000,transparent);-webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,#000,transparent)}
+.pj .body{padding:22px 24px 24px;display:flex;flex-direction:column;flex:1;position:relative;z-index:1}
+.pj .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);display:flex;justify-content:space-between;margin-bottom:12px}
+.pj h3{font-size:20px;margin-bottom:8px}
+.pj p{color:var(--muted);font-size:14.5px;flex:1}
+.pj .more{margin-top:18px;font-size:13px;color:var(--silver);display:flex;align-items:center;gap:8px}
+.pj .more::after{content:"→";transition:transform .3s}
+.pj:hover .more::after{transform:translateX(4px)}
+.pj.feature{grid-column:span 2}.pj.feature .visual{height:210px}
+@media(max-width:900px){.projects{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.projects{grid-template-columns:1fr}.pj.feature{grid-column:auto}}
+
+.cta{border-top:1px solid var(--line)}
+.cta .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.cta h2{font-size:clamp(34px,5vw,62px);margin:18px 0 18px}
+.cta .lead{color:var(--muted);font-size:17px;max-width:44ch;margin-bottom:32px}
+.contacts{display:grid;font-size:14px;color:var(--muted)}
+.contacts a{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);transition:color .2s}
+.contacts a:hover{color:#fff}.contacts span{font-family:var(--mono);font-size:12px;color:var(--dim)}
+form.card{display:grid;gap:14px}
+.f{display:grid;gap:6px}.f label{font-size:12.5px;color:var(--muted)}
+.f input,.f textarea{background:#000;border:1px solid var(--line2);border-radius:8px;color:#fff;padding:11px 13px;font-family:var(--sans);font-size:14px;transition:border-color .2s;width:100%}
+.f input:focus,.f textarea:focus{outline:none;border-color:rgba(255,255,255,.5)}
+.f textarea{min-height:110px;resize:vertical}.f input::placeholder,.f textarea::placeholder{color:var(--dim)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:13px;padding:7px 12px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);cursor:pointer;background:transparent;font-family:var(--sans);transition:all .2s}
+.chip.on{background:#fff;color:#000;border-color:#fff}
+.done{font-family:var(--mono);font-size:12px;color:var(--silver);min-height:18px}
+@media(max-width:820px){.cta .wrap{grid-template-columns:1fr}.f2{grid-template-columns:1fr}}
+'''
+
+def index_page():
+    # schema node positions (percent of the 900x300 stage)
+    pos=[(12,24),(50,16),(88,24),(12,82),(50,90),(88,82)]
+    nodes=''.join(f'<a class="node" href="{p["slug"]}.html" style="left:{x}%;top:{y}%;animation-delay:{1.35+i*.1:.2f}s"><span class="pill">{p["mark"]}</span><small>{p["name"]}</small></a>' for i,(p,(x,y)) in enumerate(zip(PROJECTS,pos)))
+    wires=''.join(f'<path class="wire" d="M450 180 L {x*9} {y*3.4}"/>' for x,y in pos)
+    hub=f'<a class="node hub" href="#projeler" style="left:50%;top:53%;animation-delay:1.25s"><span class="pill"><svg><use href="#ct"/></svg></span><small>CanhasTech Hub</small></a>'
+    cards=''
+    for i,p in enumerate(PROJECTS):
+        vis=f'<img src="device-bar.jpg" width="1004" height="310" loading="lazy" decoding="async" alt="Olimpik bara takılı Has Rep VBT sensörü">' if p['slug']=='hasrep' else f'<div class="g"></div><div class="mark">{p["mark"]}</div>'
+        cards+=f'''<a class="card glass pj{' feature' if p['slug']=='hasrep' else ''}" href="{p['slug']}.html"><div class="visual">{vis}</div><div class="body"><div class="tag"><span>{p['sector']}</span><span>{p['kind']}</span></div><h3>{p['name']}</h3><p>{p['desc']}</p><div class="more">{p['name']} sayfasına git</div></div></a>'''
+    body=f'''{nav('index')}
+<header class="hero" id="top">
+  <div class="beam" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="eyebrow up" style="animation-delay:.05s">Yazılım · Donanım · Yapay zekâ</div>
+    <h1><span class="line"><span data-kinetic data-delay=".15">CanhasTech</span></span><span class="line thin"><span data-kinetic data-delay=".4" data-step="0.02">Akıllı teknolojiler ekosistemi</span></span></h1>
+    <p class="lede up" style="animation-delay:.9s">İhtiyacınıza göre özel web siteleri ve mobil uygulamalar geliştiriyoruz.</p>
+    <p class="sub up" style="animation-delay:1s">Fikirden ürüne: tasarım, yazılım, gerekirse donanım ve yapay zekâ — tek ekipten, tek sorumlulukla.</p>
+    <div class="cta-row up" style="animation-delay:1.1s"><a class="btn primary" href="#iletisim">Projenizi anlatın <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a><a class="btn" href="#projeler">Ekosistemi keşfet</a></div>
+    <div class="schema up" style="animation-delay:1.2s" aria-label="Ekosistem şeması">
+      <svg class="wires" viewBox="0 0 900 340" preserveAspectRatio="none" aria-hidden="true">{wires}</svg>
+      {hub}{nodes}
+    </div>
+  </div>
+</header>
+<main>
+<div class="metrics up" style="animation-delay:1.7s"><div class="wrap">
+  <div class="m"><div class="v">6</div><div class="l">canlı ürün ve platform</div></div>
+  <div class="m"><div class="v">2<span>alan</span></div><div class="l">web ve mobil geliştirme</div></div>
+  <div class="m"><div class="v">1</div><div class="l">kendi donanımımız: Has Rep</div></div>
+  <div class="m"><div class="v">48<span>sa</span></div><div class="l">içinde ilk dönüş</div></div>
+</div></div>
+
+<section id="hizmetler"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">Hizmetler</div><h2><span class="line"><span>Web ve mobil,</span></span><span class="line"><span>ölçeğinize göre.</span></span></h2></div><p>Şablon satmıyoruz. Her projeyi işin gerçek akışından başlayarak tasarlıyor, kendi ekibimizle geliştiriyor ve yayına aldıktan sonra da yanında kalıyoruz.</p></div>
+  <div class="services rv">
+    <article class="svc"><div class="k"><span>01 — Web</span><span>Kurumsal · Panel · E-ticaret</span></div><h3>Web sitesi geliştirme</h3><p>Hızlı açılan, arama motorlarında görünen ve yönetmesi kolay siteler. Kurumsal vitrinden yönetim paneline kadar.</p><ul><li>Kurumsal web sitesi<span>tasarım + kod</span></li><li>Rezervasyon ve operasyon panelleri<span>web app</span></li><li>Yönetim ve raporlama arayüzleri<span>dashboard</span></li><li>Performans, SEO, erişilebilirlik<span>standart</span></li></ul></article>
+    <article class="svc"><div class="k"><span>02 — Mobil</span><span>iOS · Android</span></div><h3>Mobil uygulama geliştirme</h3><p>iOS ve Android’de aynı kalitede çalışan, mağazaya biz çıkaran, cihaz ve sensörlerle konuşabilen uygulamalar.</p><ul><li>iOS &amp; Android uygulamalar<span>native / cross</span></li><li>Donanım ve sensör entegrasyonu<span>BLE · IoT</span></li><li>Yapay zekâ destekli özellikler<span>on-device · bulut</span></li><li>Mağaza yayını ve sürüm yönetimi<span>App Store · Play</span></li></ul></article>
+  </div>
+</div></section>
+
+<section id="projeler" style="padding-top:0"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">Ekosistem &amp; projeler</div><h2><span class="line"><span>Kendi ürünlerimiz,</span></span><span class="line"><span>müşteri çözümlerimiz.</span></span></h2></div><p>Spor teknolojisinden turizme, medikalden kurumsal yönetime. Her kart kendi sayfasına açılır.</p></div>
+  <div class="projects rv">{cards}</div>
+</div></section>
+
+<section class="cta" id="iletisim"><div class="wrap rv">
+  <div><div class="eyebrow">İletişim</div><h2><span class="line"><span>Projenizi</span></span><span class="line"><span>hayata geçirelim.</span></span></h2><p class="lead">Bir fikir, bir ekran görüntüsü ya da yarım kalmış bir proje — nereden başladığınız fark etmez. 48 saat içinde dönüş yapar, ilk görüşmede kapsam ve yol haritasını birlikte çıkarırız.</p>
+    <div class="contacts"><a href="mailto:info@canhastech.com">info@canhastech.com<span>E-posta</span></a><a href="https://canhastech.com" target="_blank" rel="noopener">canhastech.com<span>Web</span></a><a href="#top">İstanbul, Türkiye<span>Konum</span></a></div></div>
+  <form class="card" id="contact"><div class="f2"><div class="f"><label for="n">Ad Soyad</label><input id="n" placeholder="Adınız" required></div><div class="f"><label for="e">E-posta</label><input id="e" type="email" placeholder="ornek@sirket.com" required></div></div>
+    <div class="f"><label>Proje türü</label><div class="chips" id="chips"><button type="button" class="chip on">Web sitesi</button><button type="button" class="chip">Mobil uygulama</button><button type="button" class="chip">Web + Mobil</button><button type="button" class="chip">Donanım / IoT</button><button type="button" class="chip">Yapay zekâ</button></div></div>
+    <div class="f"><label for="m">Kısaca anlatın</label><textarea id="m" placeholder="Ne yapmak istiyorsunuz, kimin için, ne zaman?"></textarea></div>
+    <button class="btn primary" type="submit">Gönder</button><div class="done" id="done"></div></form>
+</div></section>
+</main>'''
+    js='''
+(function(){const chips=document.getElementById('chips');chips.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;chips.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));b.classList.add('on')});
+document.getElementById('contact').addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('n').value.trim();const type=chips.querySelector('.on').textContent;document.getElementById('done').textContent=`Teşekkürler ${name} — "${type}" talebiniz alındı, 48 saat içinde dönüyoruz. (prototip: veri gönderilmez)`;e.target.reset()});})();'''
+    meta=seo_head('index.html','CanhasTech — Özel web siteleri ve mobil uygulamalar','İhtiyacınıza göre özel web siteleri ve mobil uygulamalar geliştiriyoruz. Has Rep VBT cihazı, City Diamond Turizm, Cagriaslanfit, Cemil Has Medikal, TBI Athletics ve Has Contract — CanhasTech ekosistemi.',ORG)
+    return shell('CanhasTech — Özel web siteleri ve mobil uygulamalar',body,INDEX_CSS,js,main=True,meta=meta)
+
+# ---------------------------------------------------------------- HAS REP
+HASREP_CSS='''
+.hero .product{margin:56px auto 0;max-width:1004px;position:relative}
+.hero .product img{display:block;width:100%;height:auto;border-radius:16px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(180deg,#000 70%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(180deg,#000 70%,transparent);mask-composite:intersect}
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.pillar{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:26px;min-height:220px;display:flex;flex-direction:column}
+.pillar .ic{width:38px;height:38px;border-radius:9px;border:1px solid var(--line2);background:#000;display:grid;place-items:center;margin-bottom:20px;color:var(--silver)}
+.pillar .ic svg{width:18px;height:18px}
+.pillar h3{font-size:18px;margin-bottom:8px}.pillar p{color:var(--muted);font-size:14.5px;flex:1}
+@media(max-width:900px){.pillars{grid-template-columns:1fr 1fr}}@media(max-width:560px){.pillars{grid-template-columns:1fr}}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);margin-top:14px}
+.fl{padding:30px 28px 30px 0;border-right:1px solid var(--line)}.fl+.fl{padding-left:28px}.fl:last-child{border-right:0}
+.fl .n{font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:12px}.fl h3{font-size:17px;margin-bottom:8px}.fl p{color:var(--muted);font-size:14px}
+@media(max-width:820px){.flow{grid-template-columns:1fr}.fl{border-right:0;border-bottom:1px solid var(--line);padding-left:0}.fl+.fl{padding-left:0}}
+
+/* guide */
+.guide{border-top:1px solid var(--line)}
+.guide-grid{display:grid;grid-template-columns:400px 1fr;gap:14px;align-items:start}
+.stage{position:sticky;top:84px;border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:28px;display:grid;gap:22px}
+.stage .pod{width:100%;aspect-ratio:1.28;display:grid;place-items:center;position:relative}
+.stage .pod svg{width:78%;height:auto;overflow:visible}
+.stage .pod.shake svg{animation:shake .7s cubic-bezier(.36,.07,.19,.97) both}
+@keyframes shake{10%,90%{transform:translate3d(-2px,0,0) rotate(-1deg)}20%,80%{transform:translate3d(4px,0,0) rotate(1.5deg)}30%,50%,70%{transform:translate3d(-7px,0,0) rotate(-2.5deg)}40%,60%{transform:translate3d(7px,0,0) rotate(2.5deg)}}
+.stage .halo{position:absolute;inset:10%;border-radius:50%;background:radial-gradient(circle,var(--ledc,transparent) 0%,transparent 60%);opacity:0;transition:opacity .5s,background .5s;filter:blur(30px);pointer-events:none}
+.stage .pod.lit .halo{opacity:.35}
+#led{transition:fill .35s}
+.stage .pod.pulse #led{animation:ledPulse 1.6s ease-in-out infinite}
+@keyframes ledPulse{0%,100%{opacity:1}50%{opacity:.25}}
+.status{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.status div{background:#0D0D0D;padding:12px 14px}
+.status .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.status .v{font-size:14px;font-weight:500;margin-top:2px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.status .v i{width:8px;height:8px;border-radius:50%;background:var(--dim);display:inline-block;transition:background .3s,box-shadow .3s}
+.gcards{display:grid;gap:14px}
+.gc{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:28px;transition:border-color .3s}
+.gc:hover{border-color:var(--line2)}
+.gc .k{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--dim);text-transform:uppercase;margin-bottom:16px;display:flex;justify-content:space-between}
+.gc h3{font-size:22px;margin-bottom:8px}.gc>p{color:var(--muted);font-size:15px;max-width:56ch}
+.leds{display:grid;gap:8px;margin-top:20px}
+.led{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:14px 16px;border-radius:10px;border:1px solid var(--line);background:#0D0D0D;cursor:pointer;transition:border-color .25s,background .25s;text-align:left;font-family:var(--sans);color:#fff;width:100%}
+.led:hover,.led.on{background:#161616;border-color:var(--line2)}
+.led .dot{width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px rgba(255,255,255,.04),0 0 14px var(--c)}
+.led.charging .dot{animation:ledPulse 1.6s ease-in-out infinite}
+.led b{font-weight:500;font-size:15px;display:block}.led span{color:var(--muted);font-size:13.5px}
+.led .when{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.wake{display:flex;gap:14px;align-items:center;margin-top:20px;flex-wrap:wrap}
+.wake .hint{font-family:var(--mono);font-size:12px;color:var(--dim)}.wake .hint b{color:var(--silver);font-weight:500}
+.steps3{margin-top:20px;border-top:1px solid var(--line)}
+.st{display:grid;grid-template-columns:28px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);align-items:start}
+.st .n{width:24px;height:24px;border-radius:50%;border:1px solid var(--line2);font-family:var(--mono);font-size:11px;display:grid;place-items:center;color:var(--muted);transition:all .3s}
+.st.active .n{background:#fff;color:#000;border-color:#fff}.st.done .n{border-color:var(--led-green);color:var(--led-green)}
+.st b{font-weight:500;display:block;font-size:15px}.st span{color:var(--muted);font-size:13.5px}
+.connect{display:grid;grid-template-columns:1fr 150px;gap:24px;align-items:start}
+.phone{width:150px;aspect-ratio:9/17;border-radius:22px;border:1px solid var(--line2);background:#0A0A0A;padding:10px;position:relative}
+.phone .bar{display:flex;justify-content:space-between;align-items:center;padding:4px 2px 8px;border-bottom:1px solid var(--line)}
+.phone .bar span{font-size:8px;font-weight:500;letter-spacing:.06em}
+.phone .podbtn{width:20px;height:20px;border-radius:6px;border:1px solid var(--line2);display:grid;place-items:center;font-size:10px;position:relative}
+.phone .podbtn::after{content:"";position:absolute;inset:-6px;border-radius:10px;border:1px solid #fff;opacity:0}
+.phone.hint .podbtn::after{opacity:1;animation:ring 1.2s ease-out infinite}
+@keyframes ring{0%{transform:scale(.8);opacity:.9}100%{transform:scale(1.5);opacity:0}}
+.phone .scr{padding:10px 2px;font-size:8.5px;color:var(--muted);line-height:1.5}
+.phone .scr .row2{display:flex;justify-content:space-between;padding:6px 8px;border:1px solid var(--line);border-radius:6px;margin-top:8px;transition:all .3s}
+.phone .scr .row2.found{border-color:rgba(255,255,255,.4);color:#fff}.phone .scr .row2.ok{border-color:var(--led-blue);color:#fff}.phone .scr .b{color:var(--led-blue);font-weight:500}
+.actions{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.sup{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.sup a{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:20px 22px;display:grid;gap:4px;transition:border-color .3s,transform .3s var(--ease)}
+.sup a:hover{border-color:var(--line2);transform:translateY(-2px)}
+.sup b{font-weight:500;font-size:15px}.sup span{font-size:13px;color:var(--muted)}.sup .mono{font-size:11px;color:var(--dim);letter-spacing:.06em;margin-top:6px}
+@media(max-width:960px){.guide-grid{grid-template-columns:1fr}.stage{position:static}.connect{grid-template-columns:1fr}.phone{margin:0 auto}}
+@media(max-width:600px){.sup{grid-template-columns:1fr}.led{grid-template-columns:auto 1fr}.led .when{display:none}}
+'''
+HASREP_JS='''
+(function(){
+  const $=id=>document.getElementById(id);
+  const pod=$('pod'),led=$('led'),sState=$('sState'),sLed=$('sLed'),sConn=$('sConn'),sBat=$('sBat'),phone=$('phone'),prow=$('prow'),steps=[...$('steps').children];
+  const C={blue:'#4DA3FF',red:'#FF5A5A',green:'#4FE08A',off:'#2A2A2E'};
+  const dev={awake:false,conn:false,charging:false,full:false};
+  let t=[];const later=(f,ms)=>t.push(setTimeout(f,ms));const clear=()=>{t.forEach(clearTimeout);t=[]};
+  const idle=()=>{prow.className='row2';prow.innerHTML='<span>Cihaz aranmadı</span><span></span>';steps.forEach(s=>s.className='st');phone.classList.remove('hint')};
+  function setLed(name,label,pulse){led.setAttribute('fill',C[name]);pod.classList.toggle('lit',name!=='off');pod.classList.toggle('pulse',!!pulse);pod.style.setProperty('--ledc',C[name]);sLed.innerHTML=`<i style="${name==='off'?'':'background:'+C[name]+';box-shadow:0 0 10px '+C[name]}"></i>${label}`;document.querySelectorAll('.led').forEach(b=>b.classList.toggle('on',b.dataset.led===name))}
+  function render(){
+    sState.innerHTML=`<i style="${dev.awake?'background:#fff':''}"></i>${dev.awake?'Uyanık':'Uyku modunda'}`;
+    sConn.textContent=dev.conn?'Uygulamaya bağlı':'Bağlı değil';
+    sBat.textContent=dev.full?'%100':dev.charging?'%72 · şarj oluyor':'%72';
+    if(dev.conn)setLed('blue','Mavi · bağlı');else if(dev.full)setLed('green','Yeşil · şarj dolu');else if(dev.charging)setLed('red','Kırmızı · şarjda',true);else setLed('off','Kapalı');
+  }
+  document.querySelectorAll('.led').forEach(b=>b.addEventListener('click',()=>{clear();const k=b.dataset.led;dev.awake=true;
+    if(k==='blue'){dev.conn=true;dev.charging=false;dev.full=false;steps.forEach(s=>s.className='st done');prow.className='row2 ok';prow.innerHTML='<span>Has Rep · A1F3</span><span class="b">Bağlı</span>'}
+    else{dev.conn=false;idle();dev.charging=k==='red';dev.full=k==='green'}
+    render()}));
+  $('shake').addEventListener('click',()=>{clear();pod.classList.remove('shake');void pod.offsetWidth;pod.classList.add('shake');$('wakeHint').innerHTML='Hareket algılandı — <b>uyanıyor</b>';
+    later(()=>{dev.awake=true;dev.charging=false;dev.full=false;render();setLed('blue','Uyanma sinyali');later(()=>{render();$('wakeHint').innerHTML='Cihaz <b>uyanık</b> · bağlantıya hazır'},450)},500)});
+  $('pair').addEventListener('click',()=>{clear();if(!dev.awake){$('wakeHint').innerHTML='Önce cihazı <b>sallayın</b>';pod.classList.remove('shake');void pod.offsetWidth;pod.classList.add('shake');dev.awake=true}
+    dev.conn=false;dev.charging=false;dev.full=false;render();idle();steps[0].className='st active';prow.innerHTML='<span>Uygulama açıldı</span><span></span>';
+    later(()=>{steps[0].className='st done';steps[1].className='st active';phone.classList.add('hint');prow.innerHTML='<span>Aranıyor…</span><span></span>'},900);
+    later(()=>{phone.classList.remove('hint');prow.className='row2 found';prow.innerHTML='<span>Has Rep · A1F3</span><span>Eşleştir</span>'},2100);
+    later(()=>{steps[1].className='st done';steps[2].className='st active'},2400);
+    later(()=>{steps[2].className='st done';dev.conn=true;render();prow.className='row2 ok';prow.innerHTML='<span>Has Rep · A1F3</span><span class="b">Bağlı</span>'},3300);
+  });
+  $('unpair').addEventListener('click',()=>{clear();dev.conn=false;idle();render()});
+  render();
+})();'''
+
+def hasrep_page():
+    body=f'''{nav('hasrep')}
+<header class="hero">
+  <div class="beam" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="index.html#projeler">Ekosistem</a><i>/</i><span style="color:#fff">Has Rep</span></div>
+    <h1><span class="line"><span data-kinetic data-delay=".15">Has Rep</span></span><span class="line thin"><span data-kinetic data-delay=".4" data-step="0.018">Ağırlık antrenmanlarını veriye dönüştürün</span></span></h1>
+    <p class="lede up" style="animation-delay:1s">Bara takılan VBT cihazı hareket hızını ölçer ve tekrarları sayar; uygulama form analizi yapar, yapay zekâ ile antrenman oluşturur ve analiz eder.</p>
+    <p class="sub up" style="animation-delay:1.1s">Sporcu ve antrenör için tek sistem: cihaz + iOS / Android uygulaması.</p>
+    <div class="cta-row up" style="animation-delay:1.2s"><a class="btn primary" href="#kilavuz">Kullanım kılavuzu</a><a class="btn" href="#vbt">VBT sistemi nedir?</a></div>
+    <div class="product up" style="animation-delay:1.35s"><img src="device-bar.jpg" width="1004" height="310" loading="eager" fetchpriority="high" decoding="async" alt="Olimpik bara manyetik klipsle takılı Has Rep VBT sensörü"></div>
+  </div>
+</header>
+<main>
+<section id="vbt" style="padding-top:40px" aria-labelledby="vbt-h"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">VBT sistemi</div><h2 id="vbt-h"><span class="line"><span>Hız temelli antrenman,</span></span><span class="line"><span>cihazdan uygulamaya.</span></span></h2></div><p>Hız temelli antrenman (VBT) yükü değil bar hızını yönetir. Has Rep bu hızı bara oturan kompakt sensörden okur; uygulama veriyi antrenmana çevirir.</p></div>
+  <div class="pillars rv">
+    <div class="pillar"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16a8 8 0 0 1 16 0"/><path d="M12 16l4-5"/><circle cx="12" cy="16" r="1.5"/></svg></div><h3>Hareket hızı ölçümü</h3><p>Her tekrarın kaldırış hızını okur. Aynı yükte bar yavaşladıysa yorgunluk başlamıştır; hızlandıysa formdasınız.</p></div>
+    <div class="pillar"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 18v-5M10 18V8M15 18v-8M20 18V5"/></svg></div><h3>Otomatik tekrar sayımı</h3><p>Tekrarları cihaz kendisi ayırır ve sayar. Yarım tekrarı ve yeniden konumlanmayı saymaz; telefon cebinizde kalabilir.</p></div>
+    <div class="pillar"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="2"/><path d="M12 7v6l-3 6M12 13l3 6M8 10l4-2 4 2"/></svg></div><h3>Uzamsal form analizi</h3><p>Bar yolunu ve hareket kalitesini üç boyutta izler; sapan tekrarı işaretler, antrenöre ham izi bırakır.</p></div>
+    <div class="pillar"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 4a3 3 0 0 0-3 3v1a3 3 0 0 0-2 3 3 3 0 0 0 2 3v1a3 3 0 0 0 3 3h1V4H9zM15 4a3 3 0 0 1 3 3v1a3 3 0 0 1 2 3 3 3 0 0 1-2 3v1a3 3 0 0 1-3 3h-1V4h1z"/></svg></div><h3>Yapay zekâ: oluştur &amp; analiz et</h3><p>Uygulama sizin verinizle antrenman programı oluşturur, her antrenmanı analiz eder ve gelişimi raporlar.</p></div>
+  </div>
+  <div class="flow rv">
+    <div class="fl"><div class="n">01</div><h3>Bara tak</h3><p>Manyetik klips saniyeler içinde oturur. Squat, bench, deadlift, olimpik kaldırışlar — bar olan her yerde.</p></div>
+    <div class="fl"><div class="n">02</div><h3>Antrenmanını yap</h3><p>Cihaz hızı ölçer, tekrarları sayar; uygulama form analizini ve seti canlı gösterir.</p></div>
+    <div class="fl"><div class="n">03</div><h3>Analizi oku</h3><p>Antrenman sonunda yapay zekâ analizi ve bir sonraki antrenman önerisi hazırdır.</p></div>
+  </div>
+</div></section>
+
+<section class="guide" id="kilavuz" aria-labelledby="kilavuz-h"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">Kullanım kılavuzu &amp; destek</div><h2 id="kilavuz-h"><span class="line"><span>Cihazınızı</span></span><span class="line"><span>iki dakikada tanıyın.</span></span></h2></div><p>LED ne söylüyor, cihaz nasıl uyanır, uygulamaya nasıl bağlanır. Kartlardaki düğmeler soldaki cihazı canlı olarak etkiler. Tam kılavuz: <a href="https://canhastech.com/hasrep" target="_blank" rel="noopener" style="color:#fff;border-bottom:1px solid var(--line2)">canhastech.com/hasrep</a></p></div>
+  <div class="guide-grid rv">
+    <aside class="stage" aria-label="Has Rep cihaz durumu">
+      <div class="pod" id="pod"><div class="halo"></div>
+        <svg viewBox="0 0 300 236" aria-hidden="true">
+          <defs><radialGradient id="podBody" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="#2B2B2E"/><stop offset=".7" stop-color="#121214"/><stop offset="1" stop-color="#050506"/></radialGradient>
+          <linearGradient id="podRim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E9096"/><stop offset=".5" stop-color="#2A2B2F"/><stop offset="1" stop-color="#6A6C72"/></linearGradient>
+          <filter id="ledGlow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <ellipse cx="150" cy="222" rx="110" ry="10" fill="#000" opacity=".8"/>
+          <rect x="12" y="12" width="276" height="200" rx="100" fill="url(#podRim)"/><rect x="20" y="20" width="260" height="184" rx="92" fill="url(#podBody)"/>
+          <rect x="40" y="38" width="220" height="148" rx="74" fill="#0A0A0B" stroke="rgba(255,255,255,.08)"/>
+          <g transform="translate(150 106)" fill="#D9DBDF"><g transform="skewX(-14) scale(.62)"><path d="M-46 -30h11v8h-11zM-46 -14h11v34h-11zM-35 -10h12v8h-12zM-23 -36h11v60h-11z"/><path d="M-6 -36h30c10 0 15 5 15 13 0 7-4 11-12 13l15 30H30L17-10H5v30H-6V-36zm11 9v10h17c3 0 5-2 5-5s-2-5-5-5H5z"/></g></g>
+          <text x="150" y="150" text-anchor="middle" font-family="Geist,Inter,sans-serif" font-weight="600" font-size="14" fill="#D9DBDF" letter-spacing="3" font-style="italic">HAS REP</text>
+          <circle id="led" cx="150" cy="54" r="4" fill="#2A2A2E" filter="url(#ledGlow)"/>
+        </svg>
+      </div>
+      <div class="status"><div><div class="k">Durum</div><div class="v" id="sState"><i></i>Uyku modunda</div></div><div><div class="k">LED</div><div class="v" id="sLed"><i></i>Kapalı</div></div><div><div class="k">Bağlantı</div><div class="v" id="sConn">Bağlı değil</div></div><div><div class="k">Şarj</div><div class="v" id="sBat">%72</div></div></div>
+    </aside>
+    <div class="gcards">
+      <article class="gc"><div class="k"><span>01 — LED durum göstergeleri</span><span>Tıklayın</span></div><h3>LED ne anlatıyor?</h3><p>Cihazın üstündeki tek LED üç durumu gösterir. Bir satıra tıklayarak cihazda görün.</p>
+        <div class="leds"><button type="button" class="led" data-led="blue" style="--c:var(--led-blue)"><span class="dot"></span><span><b>Mavi LED</b><span>Cihaz telefona / uygulamaya bağlıyken yanar.</span></span><span class="when">Bağlı</span></button><button type="button" class="led charging" data-led="red" style="--c:var(--led-red)"><span class="dot"></span><span><b>Kırmızı LED</b><span>Cihaz şarjdayken yanar.</span></span><span class="when">Şarjda</span></button><button type="button" class="led" data-led="green" style="--c:var(--led-green)"><span class="dot"></span><span><b>Yeşil LED</b><span>Cihazın şarjı tam doluyken yanar.</span></span><span class="when">Şarj full</span></button></div></article>
+      <article class="gc"><div class="k"><span>02 — Cihazı uyandırma</span><span>Shake</span></div><h3>Sallayın, uyanır.</h3><p>Has Rep kullanılmadığında pili korumak için uyku moduna geçer. Uyandırmak için düğmeye basmanız gerekmez: cihazı <b style="color:#fff;font-weight:500">hafifçe sallamak</b> yeterlidir. LED kısa bir kez yanıp söner ve cihaz bağlantıya hazır hale gelir.</p>
+        <div class="wake"><button type="button" class="btn" id="shake">Cihazı salla</button><span class="hint" id="wakeHint">Hareket sensörü <b>bekliyor</b></span></div></article>
+      <article class="gc"><div class="k"><span>03 — Bağlantı rehberi</span><span>iOS · Android</span></div><h3>Üç adımda eşleştirin.</h3><p>Cihazı telefona bağlamak için Has Rep mobil uygulamasını açın, sağ üst köşedeki pod bağlama kısmına tıklayın ve cihazınızı eşleştirin.</p>
+        <div class="connect"><div><div class="steps3" id="steps"><div class="st"><div class="n">1</div><div><b>Has Rep uygulamasını açın</b><span>Bluetooth’un açık ve cihazın uyanık olduğundan emin olun.</span></div></div><div class="st"><div class="n">2</div><div><b>Sağ üstteki pod bağlama simgesine dokunun</b><span>Uygulama yakındaki Has Rep cihazlarını tarar.</span></div></div><div class="st"><div class="n">3</div><div><b>Cihazınızı seçip eşleştirin</b><span>Bağlandığında cihazdaki LED maviye döner.</span></div></div></div>
+          <div class="actions"><button type="button" class="btn primary" id="pair">Eşleştirmeyi simüle et</button><button type="button" class="btn" id="unpair">Bağlantıyı kes</button></div></div>
+          <div class="phone" id="phone" aria-hidden="true"><div class="bar"><span>HAS REP</span><div class="podbtn">◎</div></div><div class="scr"><div>Cihazlar</div><div class="row2" id="prow"><span>Cihaz aranmadı</span><span></span></div></div></div></div></article>
+    </div>
+  </div>
+  <div class="sup rv"><a href="https://canhastech.com/hasrep" target="_blank" rel="noopener"><b>Tam kullanım kılavuzu</b><span>Kurulum, bakım, sık sorulanlar</span><span class="mono">canhastech.com/hasrep ↗</span></a><a href="mailto:destek@canhastech.com"><b>Destek ekibi</b><span>Cihaz veya uygulama sorunları için</span><span class="mono">destek@canhastech.com</span></a><a href="index.html#iletisim"><b>Kulüp &amp; toplu kullanım</b><span>Antrenör paneli ve çoklu cihaz kurulumu</span><span class="mono">İletişim formu →</span></a></div>
+  {pnav('hasrep')}
+</div></section>
+{band()}
+</main>'''
+    prod={"@context":"https://schema.org","@type":"Product","name":"Has Rep","brand":{"@type":"Brand","name":"CanhasTech"},"image":SITE+"device-bar.jpg","description":"Ağırlık antrenmanlarını veriye dönüştüren VBT cihazı ve uygulaması: hareket hızı ölçümü, otomatik tekrar sayımı, uzamsal form analizi, yapay zekâ ile antrenman oluşturma ve analiz.","url":SITE+"hasrep.html","category":"Spor teknolojisi"}
+    meta=seo_head('hasrep.html','Has Rep — VBT cihazı ve kullanım kılavuzu | CanhasTech','Has Rep: bara takılan VBT cihazı hareket hızını ölçer ve tekrarları sayar; uygulama form analizi yapar, yapay zekâ ile antrenman oluşturur. LED göstergeleri, cihazı uyandırma ve uygulamaya bağlanma rehberi.',[prod,crumbs('Has Rep','hasrep.html')],preload='device-bar.jpg')
+    return shell('Has Rep — VBT cihazı ve kullanım kılavuzu | CanhasTech',body,HASREP_CSS,HASREP_JS,meta=meta)
+
+# ---------------------------------------------------------------- OTHER PROJECT PAGES
+DETAIL={
+ 'citydiamond':dict(
+   h1='Shuttle Merkezi',lede='Rezervasyondan sefere, araçtan sürücüye: shuttle operasyonunun tamamı tek panelde.',
+   sub='Oteller, acenteler ve yolcular aynı altyapıyı kullanır; operasyon ekibi her seferi canlı görür.',
+   feats=[('Online rezervasyon','Yolcu ve acente için web rezervasyonu, anlık fiyatlandırma, kapasite kontrolü.','Web'),('Sefer & araç planlama','Araç, sürücü ve rota planlaması; doluluk ve boş koltuk takibi.','Panel'),('Acente & otel entegrasyonu','Partner girişleri, komisyon ve mutabakat raporları.','Entegrasyon')],
+   steps=[('Talep','Otel, acente veya yolcu rezervasyonu açar; sistem kapasiteyi kontrol eder.'),('Planlama','Operasyon ekibi seferi araca ve sürücüye atar; yolcuya bilgi gider.'),('Sefer','Sürücü uygulamadan listeyi görür; teslim ve tamamlanma kaydedilir.'),('Mutabakat','Günlük ve aylık raporlar; acente komisyonları otomatik hesaplanır.')],
+   metrics=[('7/24','rezervasyon alımı'),('1','panelden tüm filo'),('3','rol: yolcu · acente · operasyon'),('Web','+ sürücü uygulaması')]),
+ 'cagriaslanfit':dict(
+   h1='Fitness mobil uygulaması',lede='Kişiye özel programlar, ilerleme takibi ve koç-sporcu iletişimi tek uygulamada.',
+   sub='Koç programı yazar, sporcu uygular, gelişim her iki tarafta da görünür.',
+   feats=[('Kişiye özel program','Antrenman ve beslenme planları; haftalık düzenlenir, sporcuya bildirim gider.','Sporcu'),('İlerleme takibi','Ölçümler, fotoğraf karşılaştırma, tamamlanan antrenman geçmişi.','Takip'),('Koç paneli & mesajlaşma','Koç tüm sporcularını tek ekranda yönetir; sorular uygulama içinde cevaplanır.','Koç')],
+   steps=[('Kayıt','Sporcu hedefini ve seviyesini girer; koç profili inceler.'),('Program','Koç programı hazırlar; sporcu uygulamadan takip eder.'),('Uygulama','Antrenman tamamlanır, ölçümler girilir; koç anında görür.'),('Revizyon','Gelişime göre program güncellenir; döngü devam eder.')],
+   metrics=[('iOS','+ Android'),('1','koç paneli'),('Haftalık','program döngüsü'),('Anlık','mesajlaşma')]),
+ 'cemilhasmedikal':dict(
+   h1='Medikal yazılımı',lede='Ürün kataloğu, sipariş ve saha operasyonlarının dijital yönetimi.',
+   sub='Medikal ürün tedarikinde stok, sipariş ve saha ekibini tek sistemde toplar.',
+   feats=[('Ürün kataloğu & stok','Ürün, seri, son kullanma ve depo bazlı stok; kritik seviye uyarıları.','Yazılım'),('Sipariş & teslimat','Müşteri siparişi, hazırlama, sevkiyat ve teslim onayı tek akışta.','Operasyon'),('Saha ekibi uygulaması','Ziyaret planı, sipariş alma, teslimat onayı — sahadan mobil.','Mobil')],
+   steps=[('Katalog','Ürünler ve stoklar sisteme tanımlanır; fiyat listeleri yönetilir.'),('Sipariş','Müşteri veya saha ekibi sipariş açar; stok otomatik ayrılır.'),('Sevkiyat','Hazırlama ve sevkiyat takibi; teslimde mobil onay.'),('Raporlama','Satış, stok devir ve saha performans raporları.')],
+   metrics=[('1','merkezi katalog'),('Seri','ve SKT takibi'),('Mobil','saha uygulaması'),('Canlı','stok görünürlüğü')]),
+ 'tbiathletics':dict(
+   h1='Performans app’i',lede='Sporcu verileri, antrenman yükü ve gelişim — antrenör için tek ekran.',
+   sub='Atletizm ve takım sporlarında test sonuçlarını, yükü ve toparlanmayı birlikte okur.',
+   feats=[('Sporcu profilleri','Test sonuçları, ölçümler ve sakatlık geçmişi tek profilde.','Veri'),('Yük & toparlanma','Günlük antrenman yükü, RPE ve toparlanma göstergeleri; aşırı yük uyarısı.','Takip'),('Antrenör raporları','Sporcu, grup ve dönem bazlı raporlar; dışa aktarma.','Rapor')],
+   steps=[('Test','Dönem başı testleri girilir; referans değerler oluşur.'),('Yük','Her antrenman sonrası yük ve RPE kaydı; haftalık toplam izlenir.'),('Toparlanma','Uyku ve yorgunluk verisi; yeşil / sarı / kırmızı durum.'),('Rapor','Antrenör dönem raporunu tek tıkla alır.')],
+   metrics=[('Sporcu','+ antrenör görünümü'),('Haftalık','yük özeti'),('3','durum: yeşil · sarı · kırmızı'),('PDF','rapor çıktısı')]),
+ 'hascontract':dict(
+   h1='Kurumsal çözümler',lede='Sözleşme yaşam döngüsü, onay akışları ve arşiv — denetime hazır.',
+   sub='Şablondan imzaya, hatırlatmadan arşive: kurumsal sözleşme yönetimi tek platformda.',
+   feats=[('Şablon & oluşturma','Kurumsal şablonlar, değişken alanlar, sürüm takibi.','Platform'),('Onay akışları','Rol bazlı onay, hatırlatmalar, süre aşımı uyarıları.','Süreç'),('Arşiv & raporlama','Tam metin arama, süre dolumu takvimi, denetim izi.','Kayıt')],
+   steps=[('Oluştur','Şablondan sözleşme üretilir; alanlar doldurulur.'),('Onayla','Tanımlı akışla onaycılar sırayla imzalar; gecikmeler hatırlatılır.'),('Yürürlük','Sözleşme arşive girer; yenileme ve süre dolumu takvime işlenir.'),('Denetim','Her adım kayıt altındadır; raporlar tek tıkla alınır.')],
+   metrics=[('Rol','bazlı onay'),('Tam metin','arama'),('Otomatik','süre hatırlatma'),('Denetim','izi')]),
+}
+
+def project_page(p):
+    d=DETAIL[p['slug']]
+    feats=''.join(f'<article class="card glass"><div class="k"><span>{k}</span></div><h3>{t}</h3><p>{x}</p></article>' for t,x,k in d['feats'])
+    steps=''.join(f'<div class="row"><div class="n">0{i+1}</div><div><h3>{t}</h3><p>{x}</p></div></div>' for i,(t,x) in enumerate(d['steps']))
+    metrics=''.join(f'<div class="m"><div class="v">{v}</div><div class="l">{l}</div></div>' for v,l in d['metrics'])
+    body=f'''{nav(p['slug'])}
+<header class="hero">
+  <div class="beam" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="index.html#projeler">Ekosistem</a><i>/</i><span style="color:#fff">{p['name']}</span></div>
+    <h1><span class="line"><span data-kinetic data-delay=".15">{p['name']}</span></span><span class="line thin"><span data-kinetic data-delay=".4" data-step="0.02">{d['h1']}</span></span></h1>
+    <p class="lede up" style="animation-delay:1s">{d['lede']}</p>
+    <p class="sub up" style="animation-delay:1.1s">{d['sub']}</p>
+    <div class="cta-row up" style="animation-delay:1.2s"><a class="btn primary" href="index.html#iletisim">Benzer proje için görüşelim</a><a class="btn" href="#kapsam">Kapsam</a></div>
+  </div>
+</header>
+<main>
+<div class="metrics up" style="animation-delay:1.35s"><div class="wrap">{metrics}</div></div>
+<section id="kapsam" aria-labelledby="kapsam-h"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">{p['sector']} · {p['kind']}</div><h2 id="kapsam-h"><span class="line"><span>Ne yapıyor?</span></span></h2></div><p>{p['desc']}</p></div>
+  <div class="grid3 rv">{feats}</div>
+</div></section>
+<section style="padding-top:0"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">Nasıl çalışır</div><h2><span class="line"><span>Akış, adım adım.</span></span></h2></div></div>
+  <div class="rows rv">{steps}</div>
+  {pnav(p['slug'])}
+</div></section>
+{band()}
+</main>'''
+    title=f"{p['name']} — {d['h1']} | CanhasTech"
+    meta=seo_head(f"{p['slug']}.html",title,f"{p['name']}: {p['desc']}",[{"@context":"https://schema.org","@type":"WebPage","name":title,"url":SITE+p['slug']+'.html',"description":p['desc'],"isPartOf":{"@type":"WebSite","name":"CanhasTech","url":SITE}},crumbs(p['name'],p['slug']+'.html')])
+    return shell(title,body,meta=meta)
+
+# ---------------------------------------------------------------- write
+open(os.path.join(OUT,'index.html'),'w').write(index_page())
+open(os.path.join(OUT,'hasrep.html'),'w').write(hasrep_page())
+for p in PROJECTS[1:]:
+    open(os.path.join(OUT,f"{p['slug']}.html"),'w').write(project_page(p))
+pages=['index.html']+[f"{p['slug']}.html" for p in PROJECTS]
+open(os.path.join(OUT,'sitemap.xml'),'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{SITE}{"" if pg=="index.html" else pg}</loc><changefreq>monthly</changefreq><priority>{"1.0" if pg=="index.html" else "0.8" if pg=="hasrep.html" else "0.6"}</priority></url>\n' for pg in pages)+'</urlset>\n')
+open(os.path.join(OUT,'robots.txt'),'w').write(f'User-agent: *\nAllow: /\nSitemap: {SITE}sitemap.xml\n')
+print('built:',sorted(f for f in os.listdir(OUT) if f.endswith('.html')))

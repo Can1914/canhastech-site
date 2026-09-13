@@ -20,7 +20,7 @@ def seo_head(page,title,desc,jsonld=None,preload=None,image='og-canhastech.jpg')
     if preload:m+=f'\n<link rel="preload" as="image" href="{preload}" fetchpriority="high">'
     if jsonld:m+='\n<script type="application/ld+json">'+json.dumps(jsonld,ensure_ascii=False)+'</script>'
     return m
-ORG={"@context":"https://schema.org","@type":"Organization","name":"CanhasTech","alternateName":"Can Has Tech","url":SITE,"logo":SITE+"canhastech-logo.png","email":"info@canhastech.com","address":{"@type":"PostalAddress","addressLocality":"İstanbul","addressCountry":"TR"},"description":"İhtiyaca göre özel web siteleri ve mobil uygulamalar geliştiren yazılım, donanım ve yapay zekâ stüdyosu."}
+ORG={"@context":"https://schema.org","@type":"Organization","name":"CanhasTech","alternateName":"Can Has Tech","url":SITE,"logo":SITE+"canhastech-logo.png","email":"info@canhastech.com","address":{"@type":"PostalAddress","addressLocality":"İstanbul","addressCountry":"TR"},"description":"İhtiyaca göre özel web siteleri ve mobil uygulamalar geliştiren yazılım, donanım ve yapay zekâ stüdyosu.","parentOrganization":{"@type":"Organization","name":"HAS Software Technologies","url":"https://hassoftware.com.tr"}}
 def crumbs(name,page):
     return {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"CanhasTech","item":SITE},{"@type":"ListItem","position":2,"name":"Ekosistem","item":SITE+"#projeler"},{"@type":"ListItem","position":3,"name":name,"item":SITE+page}]}
 
@@ -40,16 +40,16 @@ PROJECTS=[
  dict(slug='hasrep',name='Has Rep',mark='HR',sector='Spor teknolojisi',kind='Donanım + App',
       short='Akıllı VBT fitness cihazı & app',
       desc='Ağırlık antrenmanlarını veriye dönüştüren akıllı spor teknolojisi: bara takılan VBT cihazı hareket hızını ölçer, tekrarları sayar; uygulama uzamsal form analizi yapar, yapay zekâ ile antrenman oluşturur ve analiz eder.'),
- dict(slug='citydiamond',name='City Diamond Turizm',mark='CD',sector='Turizm',kind='Web + Panel',
+ dict(slug='citydiamond',name='City Diamond Turizm',mark='CD',sector='Turizm',kind='Web + Panel',logo='logo-citydiamond.jpg',site='https://citydiamondturizm.com.tr',
       short='Shuttle Merkezi',
       desc='Turizm shuttle merkezi çözümü ve dijital altyapısı: online rezervasyon, sefer ve araç planlama, sürücü yönetimi, acente ve otel entegrasyonları.'),
- dict(slug='cagriaslanfit',name='Cagriaslanfit',mark='CA',sector='Fitness',kind='Mobil App',
+ dict(slug='cagriaslanfit',name='Cagriaslanfit',mark='CA',sector='Fitness',kind='Mobil App',logo='logo-prive.png',
       short='Fitness mobil uygulaması',
       desc='Fitness ve sporcu odaklı özel mobil uygulama: kişiye özel programlar, ilerleme takibi ve koç-sporcu iletişimi tek yerde.'),
- dict(slug='cemilhasmedikal',name='Cemil Has Medikal',mark='CH',sector='Medikal',kind='Yazılım + App',
+ dict(slug='cemilhasmedikal',name='Cemil Has Medikal',mark='CH',sector='Medikal',kind='Yazılım + App',logo='logo-hasmedical.png',pill=True,
       short='Medikal yazılımı',
       desc='Medikal sektör için geliştirilmiş özel yazılım ve uygulama: ürün kataloğu, sipariş ve teslimat takibi, saha ekibi mobil uygulaması.'),
- dict(slug='tbiathletics',name='TBI Athletics',mark='TBI',sector='Atletizm',kind='Performans App',
+ dict(slug='tbiathletics',name='TBI Athletics',mark='TBI',sector='Atletizm',kind='Performans App',logo='logo-tbi.jpg',
       short='Performans app’i',
       desc='Spor ve atletizm odaklı performans yazılımı: sporcu profilleri, antrenman yükü ve toparlanma takibi, antrenör raporları.'),
  dict(slug='hascontract',name='Has Contract',mark='HC',sector='Kurumsal',kind='Web Platform',
@@ -78,7 +78,8 @@ def footer():
   <a class="logo" href="index.html" aria-label="Can Has Tech"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
   <ul>{links}</ul>
   <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İSTANBUL · <a href="kvkk.html">KVKK</a></span>
-</div></footer>'''
+</div>
+<div class="wrap umbrella"><a href="https://hassoftware.com.tr" target="_blank" rel="noopener" class="hs"><img src="logo-hassoftware.png" alt="HAS Software Technologies" loading="lazy" decoding="async"></a><span>CanhasTech, <b>HAS Software Technologies</b> bünyesinde bir markadır. Faturalandırma, sözleşme ve resmi işlemler HAS Software Technologies adına yürütülür.</span></div></footer>'''
 
 WA=f'<a class="wa" href="https://wa.me/{WHATSAPP}?text=Merhaba%2C%20CanhasTech%20ile%20bir%20proje%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp ile yazın"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1.1 2.7 11.5 11.5 0 0 0 4.4 3.9c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2 2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg><span>WhatsApp</span><i class="dot"></i></a>'
 SMOKE='<div class="smoke" aria-hidden="true"><i class="s1"></i><i class="s2"></i><i class="s3"></i></div>'
@@ -128,11 +129,20 @@ INDEX_CSS='''
 .svc li span{color:var(--muted);font-family:var(--mono);font-size:12px;white-space:nowrap}
 @media(max-width:820px){.services{grid-template-columns:1fr}.svc{padding:28px}}
 
+.refs{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.ref{border-radius:var(--r);border:1px solid var(--line);background:var(--card);height:120px;display:grid;place-items:center;padding:18px;transition:border-color .3s,transform .4s var(--ease);filter:grayscale(1);opacity:.85}
+.ref:hover{border-color:var(--line2);transform:translateY(-3px);filter:none;opacity:1}
+.ref img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
+.ref.pill img{background:#fff;padding:8px 12px;border-radius:10px;max-height:64px}
+@media(max-width:900px){.refs{grid-template-columns:repeat(3,1fr)}}@media(max-width:520px){.refs{grid-template-columns:1fr 1fr}}
 .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .pj{display:flex;flex-direction:column;min-height:360px;padding:0;cursor:pointer}
 .pj .visual{height:160px;position:relative;overflow:hidden;background:var(--card2);border-bottom:1px solid var(--line);display:grid;place-items:center}
 .pj .visual img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);transition:transform .8s var(--ease),filter .5s}
 .pj:hover .visual img{transform:scale(1.04);filter:grayscale(.2)}
+.pj .visual img.plogo{width:auto;height:96px;object-fit:contain;filter:none;position:relative;border-radius:14px;transition:transform .6s var(--ease)}
+.pj .visual img.plogo.pill{background:#fff;padding:10px 16px;height:64px}
+.pj:hover .visual img.plogo{transform:scale(1.05)}
 .pj .mark{font-size:44px;font-weight:300;letter-spacing:-.04em;color:var(--silver);position:relative;transition:transform .6s var(--ease)}
 .pj:hover .mark{transform:scale(1.06)}
 .pj .visual .g{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:28px 28px;mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,#000,transparent);-webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,#000,transparent)}
@@ -175,7 +185,9 @@ def index_page():
     hub=f'<a class="node hub" href="#projeler" style="left:50%;top:53%;animation-delay:1.25s"><span class="pill"><img src="canhastech-mark.png" width="52" height="53" alt="CanhasTech"></span><small>CanhasTech Hub</small></a>'
     cards=''
     for i,p in enumerate(PROJECTS):
-        vis=f'<img src="device-bar.jpg" width="1004" height="310" loading="lazy" decoding="async" alt="Olimpik bara takılı Has Rep VBT sensörü">' if p['slug']=='hasrep' else f'<div class="g"></div><div class="mark">{p["mark"]}</div>'
+        if p['slug']=='hasrep': vis='<img src="device-bar.jpg" width="1004" height="310" loading="lazy" decoding="async" alt="Olimpik bara takılı Has Rep VBT sensörü">'
+        elif p.get('logo'): vis=f'<div class="g"></div><img class="plogo{" pill" if p.get("pill") else ""}" src="{p["logo"]}" loading="lazy" decoding="async" alt="{p["name"]} logosu">'
+        else: vis=f'<div class="g"></div><div class="mark">{p["mark"]}</div>'
         cards+=f'''<a class="card glass pj{' feature' if p['slug']=='hasrep' else ''}" href="{p['slug']}.html"><div class="visual">{vis}</div><div class="body"><div class="tag"><span>{p['sector']}</span><span>{p['kind']}</span></div><h3>{p['name']}</h3><p>{p['desc']}</p><div class="more">{p['name']} sayfasına git</div></div></a>'''
     body=f'''{nav('index')}
 <header class="hero" id="top">
@@ -205,6 +217,18 @@ def index_page():
   <div class="services rv">
     <article class="svc"><div class="k"><span>01 — Web</span><span>Kurumsal · Panel · E-ticaret</span></div><h3>Web sitesi geliştirme</h3><p>Hızlı açılan, arama motorlarında görünen ve yönetmesi kolay siteler. Kurumsal vitrinden yönetim paneline kadar.</p><ul><li>Kurumsal web sitesi<span>tasarım + kod</span></li><li>Rezervasyon ve operasyon panelleri<span>web app</span></li><li>Yönetim ve raporlama arayüzleri<span>dashboard</span></li><li>Performans, SEO, erişilebilirlik<span>standart</span></li></ul></article>
     <article class="svc"><div class="k"><span>02 — Mobil</span><span>iOS · Android</span></div><h3>Mobil uygulama geliştirme</h3><p>iOS ve Android’de aynı kalitede çalışan, mağazaya biz çıkaran, cihaz ve sensörlerle konuşabilen uygulamalar.</p><ul><li>iOS &amp; Android uygulamalar<span>native / cross</span></li><li>Donanım ve sensör entegrasyonu<span>BLE · IoT</span></li><li>Yapay zekâ destekli özellikler<span>on-device · bulut</span></li><li>Mağaza yayını ve sürüm yönetimi<span>App Store · Play</span></li></ul></article>
+  </div>
+</div></section>
+
+<section id="referanslar" style="padding-top:0"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">Referanslar &amp; markalar</div><h2><span class="line"><span>Birlikte çalıştıklarımız.</span></span></h2></div><p>Ekosistemimizdeki markalar ve çözüm geliştirdiğimiz kurumlar. CanhasTech, resmi işlemlerde HAS Software Technologies çatısı altında faaliyet gösterir.</p></div>
+  <div class="refs rv">
+    <a class="ref" href="citydiamond.html" title="City Diamond Turizm"><img src="logo-citydiamond.jpg" alt="City Diamond Turizm" loading="lazy" decoding="async"></a>
+    <a class="ref pill" href="citydiamond.html" title="Shuttle Merkezi"><img src="logo-shuttlemerkezi.png" alt="Shuttle Merkezi" loading="lazy" decoding="async"></a>
+    <a class="ref" href="cagriaslanfit.html" title="Privé — Cagriaslanfit"><img src="logo-prive.png" alt="Privé Elite Athlete Development" loading="lazy" decoding="async"></a>
+    <a class="ref pill" href="cemilhasmedikal.html" title="HAS Medical Equipments"><img src="logo-hasmedical.png" alt="HAS Medical Equipments" loading="lazy" decoding="async"></a>
+    <a class="ref" href="tbiathletics.html" title="TBI Athletics"><img src="logo-tbi.jpg" alt="TBI Athletics" loading="lazy" decoding="async"></a>
+    <a class="ref pill" href="https://hassoftware.com.tr" target="_blank" rel="noopener" title="HAS Software Technologies"><img src="logo-hassoftware.png" alt="HAS Software Technologies" loading="lazy" decoding="async"></a>
   </div>
 </div></section>
 
@@ -566,10 +590,11 @@ def project_page(p):
   <div class="beam" aria-hidden="true"></div>
   <div class="wrap">
     <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="index.html#projeler">Ekosistem</a><i>/</i><span style="color:#fff">{p['name']}</span></div>
+    {f'<img class="plogo-hero{" pill" if p.get("pill") else ""} up" src="{p["logo"]}" alt="{p["name"]} logosu" style="animation-delay:.1s" decoding="async">' if p.get('logo') else ''}
     <h1><span class="line"><span data-kinetic data-delay=".15">{p['name']}</span></span><span class="line thin"><span data-kinetic data-delay=".4" data-step="0.02">{d['h1']}</span></span></h1>
     <p class="lede up" style="animation-delay:1s">{d['lede']}</p>
     <p class="sub up" style="animation-delay:1.1s">{d['sub']}</p>
-    <div class="cta-row up" style="animation-delay:1.2s"><a class="btn primary" href="index.html#iletisim">Benzer proje için görüşelim</a><a class="btn" href="#kapsam">Kapsam</a></div>
+    <div class="cta-row up" style="animation-delay:1.2s"><a class="btn primary" href="index.html#iletisim">Benzer proje için görüşelim</a>{f'<a class="btn" href="{p["site"]}" target="_blank" rel="noopener">Canlı site ↗</a>' if p.get('site') else ''}<a class="btn" href="#kapsam">Kapsam</a></div>
   </div>
 </header>
 <main>
@@ -587,7 +612,7 @@ def project_page(p):
 </main>'''
     title=f"{p['name']} — {d['h1']} | CanhasTech"
     meta=seo_head(f"{p['slug']}.html",title,f"{p['name']}: {p['desc']}",[{"@context":"https://schema.org","@type":"WebPage","name":title,"url":SITE+p['slug']+'.html',"description":p['desc'],"isPartOf":{"@type":"WebSite","name":"CanhasTech","url":SITE}},crumbs(p['name'],p['slug']+'.html')])
-    return shell(title,body,meta=meta)
+    return shell(title,body,'.plogo-hero{display:block;margin:22px auto 0;height:110px;width:auto;border-radius:16px}.plogo-hero.pill{background:#fff;padding:12px 18px;height:76px}',meta=meta)
 
 # ---------------------------------------------------------------- 404
 def notfound_page():
@@ -610,7 +635,7 @@ def kvkk_page():
   <p class="lede up" style="animation-delay:.8s">6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında bilgilendirme</p>
 </div></header>
 <main><section style="padding-top:24px"><div class="wrap"><div class="legal rv">
-<p class="meta">Veri sorumlusu: <b>CanhasTech</b> · İstanbul · <a href="mailto:info@canhastech.com">info@canhastech.com</a> · Son güncelleme: 13 Eylül 2026</p>
+<p class="meta">Veri sorumlusu: <b>HAS Software Technologies</b> (CanhasTech markası) · İstanbul · <a href="mailto:info@canhastech.com">info@canhastech.com</a> · Son güncelleme: 13 Eylül 2026</p>
 <h2>1. Hangi verileri işliyoruz?</h2>
 <p>Web sitemizdeki iletişim formu üzerinden paylaştığınız <b>ad-soyad, e-posta adresi, proje türü ve mesaj içeriği</b>; WhatsApp üzerinden yazmanız hâlinde telefon numaranız ve mesajınız. Sitemiz çerez kullanmaz ve ziyaretçi takibi yapmaz.</p>
 <h2>2. Hangi amaçla?</h2>

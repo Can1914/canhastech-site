@@ -52,7 +52,7 @@ PROJECTS=[
  dict(slug='tbiathletics',name='TBI Athletics',mark='TBI',sector='Atletizm',kind='Performans App',logo='logo-tbi.jpg',
       short='Performans app’i',
       desc='Spor ve atletizm odaklı performans yazılımı: sporcu profilleri, antrenman yükü ve toparlanma takibi, antrenör raporları.'),
- dict(slug='hascontract',name='Has Contract',mark='HC',sector='Kurumsal · Yapay zekâ',kind='Mobil + Web App',soon=True,
+ dict(slug='hascontract',name='Has Contract',mark='HC',sector='Kurumsal · Yapay zekâ',kind='Mobil + Web App',soon=True,logo='logo-hascontract.png',
       short='AI sözleşme analizi & oluşturma',
       desc='Yapay zekâ ile sözleşme analizi ve sıfırdan sözleşme oluşturma uygulaması: yüklediğiniz sözleşmenin riskli maddelerini işaretler, sade Türkçeyle özetler; birkaç soruyla sıfırdan sözleşme taslağı üretir.'),
  dict(slug='hasvocab',name='HasVocab',mark='HV',sector='Eğitim',kind='Mobil App',soon=True,nopage=True,logo='logo-hasvocab.png',pill=True,
@@ -132,12 +132,13 @@ INDEX_CSS='''
 .svc li span{color:var(--muted);font-family:var(--mono);font-size:12px;white-space:nowrap}
 @media(max-width:820px){.services{grid-template-columns:1fr}.svc{padding:28px}}
 
-.refs{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.refs{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
+.ref.hs img{max-height:56px;opacity:.7}
 .ref{border-radius:var(--r);border:1px solid var(--line);background:var(--card);height:120px;display:grid;place-items:center;padding:18px;transition:border-color .3s,transform .4s var(--ease);filter:grayscale(1);opacity:.85}
 .ref:hover{border-color:var(--line2);transform:translateY(-3px);filter:none;opacity:1}
 .ref img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
 .ref.pill img{background:#fff;padding:8px 12px;border-radius:10px;max-height:64px}
-@media(max-width:900px){.refs{grid-template-columns:repeat(3,1fr)}}@media(max-width:520px){.refs{grid-template-columns:1fr 1fr}}
+@media(max-width:1000px){.refs{grid-template-columns:repeat(4,1fr)}}@media(max-width:600px){.refs{grid-template-columns:repeat(2,1fr)}}
 .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .pj{display:flex;flex-direction:column;min-height:360px;padding:0;cursor:pointer}
 .pj .visual{height:160px;position:relative;overflow:hidden;background:var(--card2);border-bottom:1px solid var(--line);display:grid;place-items:center}
@@ -235,7 +236,8 @@ def index_page():
     <a class="ref" href="cagriaslanfit.html" title="Privé — Cagriaslanfit"><img src="logo-prive.png" alt="Privé Elite Athlete Development" loading="lazy" decoding="async"></a>
     <a class="ref pill" href="cemilhasmedikal.html" title="HAS Medical Equipments"><img src="logo-hasmedical.png" alt="HAS Medical Equipments" loading="lazy" decoding="async"></a>
     <a class="ref" href="tbiathletics.html" title="TBI Athletics"><img src="logo-tbi.jpg" alt="TBI Athletics" loading="lazy" decoding="async"></a>
-    <a class="ref" href="https://hassoftware.com.tr" target="_blank" rel="noopener" title="HAS Software Technologies"><img src="logo-hassoftware.png" alt="HAS Software Technologies" loading="lazy" decoding="async"></a>
+    <a class="ref" href="hascontract.html" title="Has Contract"><img src="logo-hascontract.png" alt="Has Contract" loading="lazy" decoding="async" style="max-height:72px"></a>
+    <a class="ref hs" href="https://hassoftware.com.tr" target="_blank" rel="noopener" title="HAS Software Technologies"><img src="logo-hassoftware.png" alt="HAS Software Technologies" loading="lazy" decoding="async"></a>
   </div>
 </div></section>
 

@@ -763,7 +763,7 @@ def make_en(tr,page):
     url_tr=SITE+('' if page=='index.html' else page); url_en=SITE+'en/'+('' if page=='index.html' else page)
     h=h.replace(f'<link rel="canonical" href="{url_tr}">',f'<link rel="canonical" href="{url_en}">').replace(f'property="og:url" content="{url_tr}"',f'property="og:url" content="{url_en}"')
     h=_re.sub(r'\b(href|src|srcset)="((?!https?:|\.\./|#|mailto:|tel:)[^"]*\.(?:css|js|webp|jpg|png|ico|json|woff2))"',lambda m:f'{m.group(1)}="../{m.group(2)}"',h)
-    h=h.replace('<a class="lang" href="en/__PAGE__" hreflang="en" lang="en" title="English">EN</a>',f'<a class="lang" href="../{"" if page=="index.html" else page}" hreflang="tr" lang="tr" title="Türkçe">TR</a>')
+    h=_re.sub(r'<a class="lang" href="en/[^"]*" hreflang="en" lang="en" title="English">EN</a>',f'<a class="lang" href="../{"" if page=="index.html" else page}" hreflang="tr" lang="tr" title="Türkçe">TR</a>',h)
     h=h.replace('href="https://wa.me/'+WHATSAPP+'?text=Merhaba%2C%20CanhasTech%20ile%20bir%20proje%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum.','href="https://wa.me/'+WHATSAPP+'?text=Hello%2C%20I%27d%20like%20to%20talk%20about%20a%20project%20with%20CanhasTech.')
     return h
 os.makedirs(os.path.join(OUT,'en'),exist_ok=True)

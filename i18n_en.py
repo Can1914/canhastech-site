@@ -1,7 +1,7 @@
 # Turkish → English dictionary for the /en/ build. Keys are exact text nodes / attribute values.
 D = {
 # nav / footer / global
-"Ana sayfa":"Home","Hizmetler":"Services","Ekosistem":"Ecosystem","İletişim":"Contact","Proje başlat":"Start a project","Projeler":"Projects",
+"Ana sayfa":"Home","Blog":"Blog","Hizmetler":"Services","Ekosistem":"Ecosystem","İletişim":"Contact","Proje başlat":"Start a project","Projeler":"Projects",
 "City Diamond Turizm":"City Diamond Tourism","Shuttle Merkezi":"Shuttle Merkezi","Cemil Has Medikal":"Cemil Has Medical",
 "© 2026 CANHASTECH · İZMİR ·":"© 2026 CANHASTECH · İZMİR, TÜRKİYE ·","KVKK":"PRIVACY","HAS REP KILAVUZ":"HAS REP MANUAL",
 "bünyesinde bir markadır. Faturalandırma, sözleşme ve resmi işlemler HAS Software Technologies adına yürütülür.":"is a brand of HAS Software Technologies. Invoicing, contracts and all official matters are handled by HAS Software Technologies.",

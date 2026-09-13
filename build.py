@@ -17,7 +17,7 @@ def seo_head(page,title,desc,jsonld=None,preload=None,image='og-canhastech.jpg')
 <meta property="og:type" content="website"><meta property="og:site_name" content="CanhasTech"><meta property="og:locale" content="tr_TR">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE}{image}">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{SITE}{image}">'''
-    m+=f'\n<link rel="alternate" hreflang="tr" href="{url}"><link rel="alternate" hreflang="en" href="{SITE}en/{"" if page=="index.html" else page}"><link rel="alternate" hreflang="x-default" href="{url}">'
+    if not page.startswith('blog/'): m+=f'\n<link rel="alternate" hreflang="tr" href="{url}"><link rel="alternate" hreflang="en" href="{SITE}en/{"" if page=="index.html" else page}"><link rel="alternate" hreflang="x-default" href="{url}">'
     if preload:m+=f'\n<link rel="preload" as="image" href="{os.path.splitext(preload)[0]}.webp" type="image/webp" fetchpriority="high">'
     if jsonld:m+='\n<script type="application/ld+json">'+json.dumps(jsonld,ensure_ascii=False)+'</script>'
     return m
@@ -65,7 +65,7 @@ PROJECTS=[
 ]
 
 def nav(active):
-    items=[('index.html','Ana sayfa'),('index.html#hizmetler','Hizmetler'),('index.html#projeler','Ekosistem'),('hasrep.html','Has Rep'),('index.html#iletisim','İletişim')]
+    items=[('index.html','Ana sayfa'),('index.html#hizmetler','Hizmetler'),('index.html#projeler','Ekosistem'),('hasrep.html','Has Rep'),('blog/index.html','Blog'),('index.html#iletisim','İletişim')]
     li=''.join(f'<li><a href="{h}" data-kinetic data-delay="{.15+i*.08:.2f}" data-step="0.02">{t}</a></li>' for i,(h,t) in enumerate(items))
     return f'''<nav aria-label="Ana menü"><div class="wrap">
   <a class="logo" href="index.html" aria-label="Can Has Tech"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
@@ -75,7 +75,7 @@ def nav(active):
   <button class="burger" type="button" aria-label="Menü" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
 </div></nav>
 <div class="mnav" id="mnav">
-  <a href="index.html">Ana sayfa</a><a href="index.html#hizmetler">Hizmetler</a><a href="index.html#projeler">Ekosistem</a><a href="hasrep.html">Has Rep</a><a href="index.html#iletisim">İletişim</a>
+  <a href="index.html">Ana sayfa</a><a href="index.html#hizmetler">Hizmetler</a><a href="index.html#projeler">Ekosistem</a><a href="hasrep.html">Has Rep</a><a href="blog/index.html">Blog</a><a href="index.html#iletisim">İletişim</a>
   <div class="k">Projeler</div>{''.join(f'<a class="sub" href="{p["slug"]}.html">{p["name"]}</a>' for p in PROJECTS if not p.get('nopage'))}
   <a class="btn primary" href="index.html#iletisim">Proje başlat</a>
 </div>'''
@@ -760,6 +760,7 @@ def make_en(tr,page):
     for k,v in _JS.items(): h=h.replace(k,v)
     for p in PROJECTS:
         h=h.replace(f'{p["name"]}: {p["desc"]}', f'{_D.get(p["name"],p["name"])}: {_D.get(p["desc"],p["desc"])}')
+    h=h.replace('href="blog/','href="../blog/')
     h=h.replace('<html lang="tr">','<html lang="en">').replace('content="tr_TR"','content="en_US"')
     url_tr=SITE+('' if page=='index.html' else page); url_en=SITE+'en/'+('' if page=='index.html' else page)
     h=h.replace(f'<link rel="canonical" href="{url_tr}">',f'<link rel="canonical" href="{url_en}">').replace(f'property="og:url" content="{url_tr}"',f'property="og:url" content="{url_en}"')
@@ -768,12 +769,76 @@ def make_en(tr,page):
     h=h.replace('href="https://wa.me/'+WHATSAPP+'?text=Merhaba%2C%20CanhasTech%20ile%20bir%20proje%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum.','href="https://wa.me/'+WHATSAPP+'?text=Hello%2C%20I%27d%20like%20to%20talk%20about%20a%20project%20with%20CanhasTech.')
     return h
 os.makedirs(os.path.join(OUT,'en'),exist_ok=True)
+_TRUP={'i':'İ','ı':'I','ğ':'Ğ','ü':'Ü','ş':'Ş','ö':'Ö','ç':'Ç'}
+def _tc(s):
+    out=[]
+    for w in s.split(' '):
+        m=_re.search(r'[^\W\d_]',w)
+        if m: i=m.start(); ch=w[i]; w=w[:i]+_TRUP.get(ch,ch.upper())+w[i+1:]
+        out.append(w)
+    return ' '.join(out)
+def _titlecase_headings(h):
+    # plain-text heading lines: <h1|h2 ...><span class="line"><span>TEXT</span>
+    def fix(m):
+        return _re.sub(r'(<span class="line[^"]*"><span(?![^>]*data-kinetic)[^>]*>)([^<]+)(</span>)',lambda x:x.group(1)+_tc(x.group(2))+x.group(3),m.group(0))
+    return _re.sub(r'<h[12][^>]*>.*?</h[12]>',fix,h,flags=_re.S)
 def write_page(fn,html):
     html=html.replace('en/__PAGE__','en/'+('' if fn=='index.html' else fn))
-    open(os.path.join(OUT,fn),'w').write(html)
-    open(os.path.join(OUT,'en',fn),'w').write(make_en(html,fn))
+    open(os.path.join(OUT,fn),'w').write(_titlecase_headings(html))
+    open(os.path.join(OUT,'en',fn),'w').write(_titlecase_headings(make_en(html,fn)))
+
+# ---------------------------------------------------------------- BLOG
+from blog_posts import POSTS
+BLOG_CSS='''.posts{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.post-card{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:28px;display:flex;flex-direction:column;gap:12px;transition:border-color .3s,transform .4s var(--ease)}.post-card:hover{border-color:var(--line2);transform:translateY(-3px)}.post-card .meta{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);display:flex;gap:14px;flex-wrap:wrap}.post-card h3{font-size:22px;letter-spacing:-.025em}.post-card p{color:var(--muted);font-size:15px;flex:1}.post-card .more{font-size:13px;color:var(--silver)}.post-card .more::after{content:" →"}
+.tags{display:flex;gap:6px;flex-wrap:wrap}.tag-pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 9px}
+.article{max-width:70ch;margin:0 auto}.article .meta{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);display:flex;gap:16px;flex-wrap:wrap;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.article .body{color:var(--muted);font-size:17px;line-height:1.75}.article .body p{margin:0 0 18px}.article .body h2{font-size:24px;color:#fff;margin:38px 0 12px}.article .body ul,.article .body ol{margin:0 0 18px;padding-left:22px}.article .body li{margin-bottom:8px}.article .body strong{color:#fff;font-weight:500}.article .body em{color:#ddd}.article .body a{color:#fff;border-bottom:1px solid var(--line2)}
+.article .body table{width:100%;border-collapse:collapse;margin:8px 0 22px;font-size:15px}.article .body th,.article .body td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}.article .body th{color:#fff;font-weight:500;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.article-cta{margin-top:40px;border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:26px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}.article-cta b{font-weight:500;font-size:17px;display:block}.article-cta span{color:var(--muted);font-size:14px}
+@media(max-width:700px){.posts{grid-template-columns:1fr}}'''
+def _rebase(h):
+    h=_re.sub(r'\b(href|src|srcset)="((?!https?:|\.\./|#|mailto:|tel:|@blog/)[^"]+)"',lambda m:f'{m.group(1)}="../{m.group(2)}"',h)
+    return h.replace('href="@blog/','href="')
+def _blog_shell(title,body,meta):
+    doc=shell(title,body,BLOG_CSS,meta=meta)
+    doc=_re.sub(r'<a class="lang"[^>]*>EN</a>','',doc)
+    return _titlecase_headings(_rebase(doc))
+def blog_index():
+    cards=''.join(f'''<a class="post-card" href="@blog/{p['slug']}.html"><div class="meta"><span>{p['date']}</span><span>{p['minutes']} dk okuma</span></div><h3>{p['title']}</h3><p>{p['summary']}</p><div class="tags">{''.join(f'<span class="tag-pill">{t}</span>' for t in p['tags'])}</div><span class="more">Yazıyı oku</span></a>''' for p in sorted(POSTS,key=lambda x:x['date'],reverse=True))
+    body=f'''{nav('blog')}
+<header class="hero" style="padding-bottom:24px"><div class="wrap">
+  <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><span style="color:#fff">Blog</span></div>
+  <h1><span class="line"><span data-kinetic data-delay=".15" data-step="0.02">Blog</span></span></h1>
+  <p class="lede up" style="animation-delay:.8s">Hız temelli antrenman, sensör teknolojisi ve ürün tasarımı üzerine kısa, uygulanabilir yazılar.</p>
+</div></header>
+<main><section style="padding-top:32px"><div class="wrap"><div class="posts rv">{cards}</div></div></section>
+<section class="band rv"><div class="wrap"><div class="eyebrow" style="justify-content:center">Has Rep</div><h2><span class="line"><span>Okuduklarınızı ölçün.</span></span></h2><p>Bar hızı, hız kaybı ve tahmini 1RM — bara takılan sensör ve iOS uygulamasıyla.</p><a class="btn primary" href="hasrep.html">Has Rep’i keşfedin</a></div></section></main>'''
+    meta=seo_head('blog/index.html','Blog — VBT ve antrenman teknolojisi | CanhasTech','Hız temelli antrenman (VBT), hız kaybı eşiği, tahmini 1RM ve sensör tabanlı tekrar sayımı üzerine CanhasTech blog yazıları.',image='og-hasrep.jpg')
+    return _blog_shell('Blog — VBT ve antrenman teknolojisi | CanhasTech',body,meta)
+def blog_post(p,i,ordered):
+    prev=ordered[i-1] if i>0 else None; nxt=ordered[i+1] if i+1<len(ordered) else None
+    pn=''.join(x for x in [f'<a href="@blog/{prev["slug"]}.html"><span class="k">← Önceki yazı</span><b>{prev["title"]}</b></a>' if prev else '<span></span>', f'<a class="next" href="@blog/{nxt["slug"]}.html"><span class="k">Sonraki yazı →</span><b>{nxt["title"]}</b></a>' if nxt else '<span></span>'])
+    body=f'''{nav('blog')}
+<header class="hero" style="padding-bottom:8px"><div class="wrap">
+  <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="@blog/index.html">Blog</a></div>
+  <h1 style="font-size:clamp(30px,4.6vw,54px)"><span class="line"><span data-kinetic data-delay=".15" data-step="0.012">{p['title']}</span></span></h1>
+  <p class="lede up" style="animation-delay:.8s;font-size:18px;max-width:60ch">{p['summary']}</p>
+</div></header>
+<main><section style="padding-top:24px"><div class="wrap"><article class="article rv">
+  <div class="meta"><span>{p['date']}</span><span>{p['minutes']} dk okuma</span><span>CanhasTech</span>{''.join(f'<span>#{t}</span>' for t in p['tags'])}</div>
+  <div class="body">{p['body']}</div>
+  <div class="article-cta"><div><b>Has Rep ile ölçün</b><span>Bar hızı, hız kaybı, tahmini 1RM — bara takılan sensör + iOS uygulaması.</span></div><a class="btn primary" href="hasrep.html#demo">Demo talep et</a></div>
+  <div class="pnav" style="margin-top:14px">{pn}</div>
+</article></div></section></main>'''
+    ld={"@context":"https://schema.org","@type":"BlogPosting","headline":p['title'],"description":p['summary'],"datePublished":p['date'],"dateModified":p['date'],"inLanguage":"tr","author":{"@type":"Organization","name":"CanhasTech"},"publisher":{"@type":"Organization","name":"CanhasTech","logo":{"@type":"ImageObject","url":SITE+"canhastech-logo.png"}},"mainEntityOfPage":SITE+"blog/"+p['slug']+".html","image":SITE+"og-hasrep.jpg","keywords":", ".join(p['tags'])}
+    meta=seo_head(f"blog/{p['slug']}.html",p['title']+' | CanhasTech Blog',p['summary'],ld,image='og-hasrep.jpg')
+    return _blog_shell(p['title']+' | CanhasTech Blog',body,meta)
 
 # ---------------------------------------------------------------- write
+os.makedirs(os.path.join(OUT,'blog'),exist_ok=True)
+open(os.path.join(OUT,'blog','index.html'),'w').write(blog_index())
+_ordered=sorted(POSTS,key=lambda x:x['date'])
+for _i,_p in enumerate(_ordered): open(os.path.join(OUT,'blog',_p['slug']+'.html'),'w').write(blog_post(_p,_i,_ordered))
 write_page('hasrepkk.html',hasrepkk_page())
 write_page('kvkk.html',kvkk_page())
 open(os.path.join(OUT,'CNAME'),'w').write('canhastech.com\n')
@@ -784,6 +849,6 @@ for p in PROJECTS[1:]:
     if p.get('nopage'): continue
     write_page(f"{p['slug']}.html",project_page(p))
 pages=['index.html']+[f"{p['slug']}.html" for p in PROJECTS if not p.get('nopage')]+['kvkk.html','hasrepkk.html']
-open(os.path.join(OUT,'sitemap.xml'),'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{SITE}{pre}{"" if pg=="index.html" else pg}</loc><changefreq>monthly</changefreq><priority>{"1.0" if pg=="index.html" else "0.8" if pg=="hasrep.html" else "0.6"}</priority></url>\n' for pre in ['','en/'] for pg in pages)+'</urlset>\n')
+open(os.path.join(OUT,'sitemap.xml'),'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{SITE}{pre}{"" if pg=="index.html" else pg}</loc><changefreq>monthly</changefreq><priority>{"1.0" if pg=="index.html" else "0.8" if pg=="hasrep.html" else "0.6"}</priority></url>\n' for pre in ['','en/'] for pg in pages)+''.join(f'  <url><loc>{SITE}blog/{"" if s=="index" else s+".html"}</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>\n' for s in ['index']+[p['slug'] for p in POSTS])+'</urlset>\n')
 open(os.path.join(OUT,'robots.txt'),'w').write(f'User-agent: *\nAllow: /\nSitemap: {SITE}sitemap.xml\n')
 print('built:',sorted(f for f in os.listdir(OUT) if f.endswith('.html')))

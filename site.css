@@ -195,3 +195,11 @@ footer .hs:hover img{opacity:1}
 nav .lang{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--muted);border:1px solid var(--line2);border-radius:6px;padding:6px 9px;margin-left:auto;margin-right:12px;transition:color .2s,border-color .2s}
 nav .lang:hover{color:#fff;border-color:#fff}
 @media(max-width:820px){nav .lang{margin-right:10px}}
+
+/* consent bar */
+.consent-bar{position:fixed;left:16px;right:16px;bottom:16px;z-index:60;max-width:760px;margin:0 auto;background:#111;border:1px solid var(--line2);border-radius:14px;padding:16px 18px;display:flex;gap:18px;align-items:center;justify-content:space-between;box-shadow:0 20px 60px -20px rgba(0,0,0,1);animation:up .6s var(--ease)}
+.consent-bar .cb-text{display:grid;gap:3px;font-size:13.5px;color:var(--muted)}
+.consent-bar .cb-text b{color:#fff;font-weight:500;font-size:14px}
+.consent-bar .cb-text a{color:#fff;border-bottom:1px solid var(--line2)}
+.consent-bar .cb-actions{display:flex;gap:8px;flex:none}
+@media(max-width:600px){.consent-bar{flex-direction:column;align-items:stretch;bottom:84px}.consent-bar .cb-actions{justify-content:flex-end}}

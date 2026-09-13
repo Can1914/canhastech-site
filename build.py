@@ -103,7 +103,7 @@ def _pictures(html):
 def shell(title,body,extra_css='',extra_js='',main=False,meta=''):
     body=_pictures(body)
     head=f'<title>{title}</title>\n{meta}\n{FONTS}\n<link rel="stylesheet" href="site.css">\n<style>{extra_css}</style>'
-    doc=f'{head}\n{MARK}\n{SMOKE}\n<div class="page">\n{body}\n</div>\n{footer()}\n{WA}\n<script src="site.js" defer></script>\n<script defer>{extra_js}</script>'
+    doc=f'{head}\n{MARK}\n{SMOKE}\n<div class="page">\n{body}\n</div>\n{footer()}\n{WA}\n<script src="site.js" defer></script><script src="analytics.js" defer></script>\n<script defer>{extra_js}</script>'
     if main: return doc   # the Artifact tool wraps the main page in its own skeleton
     return f'<!doctype html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">\n{doc[:doc.index("<svg")]}</head><body>\n{doc[doc.index("<svg"):]}\n</body></html>'
 
@@ -679,12 +679,13 @@ def kvkk_page():
 <p class="meta">Veri sorumlusu: <b>HAS Software Technologies</b> (CanhasTech markası) · İzmir · <a href="mailto:info@canhastech.com">info@canhastech.com</a> · Son güncelleme: 13 Eylül 2026</p>
 <h2>1. Hangi verileri işliyoruz?</h2>
 <p>Web sitemizdeki iletişim formu üzerinden paylaştığınız <b>ad-soyad, e-posta adresi, proje türü ve mesaj içeriği</b>; WhatsApp üzerinden yazmanız hâlinde telefon numaranız ve mesajınız. Sitemiz çerez kullanmaz ve ziyaretçi takibi yapmaz.</p>
+<p><b>Analitik:</b> Onay vermeniz hâlinde Google Analytics 4 ve Microsoft Clarity aracılığıyla sayfa görüntüleme, ziyaret kaynağı, yaklaşık konum (şehir), cihaz bilgisi ve sayfa içi etkileşimler (kaydırma, tıklama) anonimleştirilmiş IP ile toplanır. Onay vermezseniz bu araçlar yüklenmez; tercihinizi tarayıcı deposundan (localStorage) silerek değiştirebilirsiniz.</p>
 <h2>2. Hangi amaçla?</h2>
 <p>Talebinize yanıt vermek, teklif ve proje kapsamı hazırlamak, sizinle iletişim kurmak. Verileriniz pazarlama listelerine eklenmez, üçüncü kişilere satılmaz.</p>
 <h2>3. Hukuki dayanak</h2>
 <p>KVKK m. 5/2-c (sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması) ve m. 5/2-f (meşru menfaat); formu göndererek verdiğiniz açık rıza.</p>
 <h2>4. Kimlere aktarılıyor?</h2>
-<p>Form gönderimleri, e-posta iletimi için <b>Web3Forms</b> (form işleme hizmeti) ve e-posta sağlayıcımız üzerinden tarafımıza ulaşır; site <b>GitHub Pages</b> altyapısında barındırılır. Bu hizmet sağlayıcıları yalnızca iletim amacıyla veri işler.</p>
+<p>Form gönderimleri, e-posta iletimi için <b>Web3Forms</b> (form işleme hizmeti) ve e-posta sağlayıcımız üzerinden tarafımıza ulaşır; analitik verileri onayınızla <b>Google</b> (Analytics) ve <b>Microsoft</b> (Clarity) tarafından işlenir. Bu hizmet sağlayıcıları verileri yalnızca ilgili hizmet amacıyla işler.</p>
 <h2>5. Ne kadar süre saklıyoruz?</h2>
 <p>Talebiniz sonuçlanana kadar; iş ilişkisi kurulmazsa en geç 1 yıl içinde silinir. İş ilişkisi kurulursa ilgili mevzuattaki saklama süreleri uygulanır.</p>
 <h2>6. Haklarınız</h2>

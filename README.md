@@ -37,3 +37,10 @@ Repo → Settings → Pages → Source: `main` / root. Site `https://<kullanıc�
 - `WEB3FORMS_KEY` — https://web3forms.com adresinde e-posta girip alınan access key; iletişim formu bu anahtarla `info@canhastech.com`'a düşer.
 - `WHATSAPP` — sağ alttaki WhatsApp düğmesinin numarası (ülke koduyla, örn. `905321234567`).
 Değiştirdikten sonra `python3 build.py` çalıştırın.
+
+## Analitik
+`analytics.js` — Google Analytics 4 (`G-2STNGSKBXE`) ve Microsoft Clarity (`yhtj5b2zsf`), yalnızca çerez onayından sonra yüklenir (KVKK). Onay `localStorage` içinde `ct_consent` anahtarında tutulur.
+GA4 olayları: `demo_request`, `contact_request`, `whatsapp_click`, `demo_cta_click`, `app_tour_scroll`, `language_switch`, `scroll_depth` (Has Rep sayfası).
+
+Kampanya linki şablonu (influencer başına `utm_campaign` değiştirin):
+`https://canhastech.com/hasrep.html?utm_source=instagram&utm_medium=influencer&utm_campaign=ISIM`

@@ -1,17 +1,146 @@
 <!doctype html>
 <html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Has Rep Gizlilik Politikası | CanhasTech</title>
-<meta name="description" content="Has Rep iOS uygulaması ve sensör cihazı için gizlilik politikası: toplanan veriler, kullanım amaçları, Apple Sağlık entegrasyonu, hesap silme ve KVKK hakları.">
+<title>Has Rep Kullanım Kılavuzu | CanhasTech</title>
+<meta name="description" content="Has Rep kullanım kılavuzu: hızlı başlangıç, LED durum göstergeleri (mavi bağlı, kırmızı şarjda, yeşil dolu), cihazı sallayarak uyandırma, uygulamaya bağlanma ve sorun giderme.">
 <link rel="canonical" href="https://canhastech.com/hasrepkk.html">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="manifest" href="manifest.json">
 <meta property="og:type" content="website"><meta property="og:site_name" content="CanhasTech"><meta property="og:locale" content="tr_TR">
-<meta property="og:title" content="Has Rep Gizlilik Politikası | CanhasTech"><meta property="og:description" content="Has Rep iOS uygulaması ve sensör cihazı için gizlilik politikası: toplanan veriler, kullanım amaçları, Apple Sağlık entegrasyonu, hesap silme ve KVKK hakları."><meta property="og:url" content="https://canhastech.com/hasrepkk.html"><meta property="og:image" content="https://canhastech.com/og-hasrep.jpg">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Has Rep Gizlilik Politikası | CanhasTech"><meta name="twitter:description" content="Has Rep iOS uygulaması ve sensör cihazı için gizlilik politikası: toplanan veriler, kullanım amaçları, Apple Sağlık entegrasyonu, hesap silme ve KVKK hakları."><meta name="twitter:image" content="https://canhastech.com/og-hasrep.jpg">
+<meta property="og:title" content="Has Rep Kullanım Kılavuzu | CanhasTech"><meta property="og:description" content="Has Rep kullanım kılavuzu: hızlı başlangıç, LED durum göstergeleri (mavi bağlı, kırmızı şarjda, yeşil dolu), cihazı sallayarak uyandırma, uygulamaya bağlanma ve sorun giderme."><meta property="og:url" content="https://canhastech.com/hasrepkk.html"><meta property="og:image" content="https://canhastech.com/og-hasrep.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Has Rep Kullanım Kılavuzu | CanhasTech"><meta name="twitter:description" content="Has Rep kullanım kılavuzu: hızlı başlangıç, LED durum göstergeleri (mavi bağlı, kırmızı şarjda, yeşil dolu), cihazı sallayarak uyandırma, uygulamaya bağlanma ve sorun giderme."><meta name="twitter:image" content="https://canhastech.com/og-hasrep.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="site.css">
-<style>.legal{max-width:68ch;color:var(--muted);font-size:16px}.legal h2{font-size:20px;color:#fff;margin:34px 0 10px}.legal p,.legal ul{margin-bottom:12px}.legal li{margin-bottom:6px}.legal b{color:#fff;font-weight:500}.legal a{color:#fff;border-bottom:1px solid var(--line2)}.legal .meta{font-family:var(--mono);font-size:12.5px;padding-bottom:18px;border-bottom:1px solid var(--line)}</style>
+<style>
+.hero .brand{display:block;width:min(260px,60vw);height:auto;margin:22px auto -6px;-webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,#000 55%,transparent 100%)}
+.hero .product{margin:56px auto 0;max-width:820px;position:relative}
+.gallery{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-top:14px}
+.gallery figure{margin:0;border-radius:var(--r);border:1px solid var(--line);background:var(--card);overflow:hidden;position:relative}
+.gallery img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;transition:transform .9s var(--ease)}
+.gallery figure:hover img{transform:scale(1.03)}
+.gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:14px 18px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.75),transparent)}
+@media(max-width:700px){.gallery{grid-template-columns:1fr}}
+.hero .product img{display:block;width:100%;height:auto;border-radius:16px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(180deg,#000 70%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(180deg,#000 70%,transparent);mask-composite:intersect}
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.pillar{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:26px;min-height:220px;display:flex;flex-direction:column}
+.pillar .ic{width:38px;height:38px;border-radius:9px;border:1px solid var(--line2);background:#000;display:grid;place-items:center;margin-bottom:20px;color:var(--silver)}
+.pillar .ic svg{width:18px;height:18px}
+.pillar h3{font-size:18px;margin-bottom:8px}.pillar p{color:var(--muted);font-size:14.5px;flex:1}
+@media(max-width:900px){.pillars{grid-template-columns:1fr 1fr}}@media(max-width:560px){.pillars{grid-template-columns:1fr}}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);margin-top:14px}
+.fl{padding:30px 28px 30px 0;border-right:1px solid var(--line)}.fl+.fl{padding-left:28px}.fl:last-child{border-right:0}
+.fl .n{font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:12px}.fl h3{font-size:17px;margin-bottom:8px}.fl p{color:var(--muted);font-size:14px}
+@media(max-width:820px){.flow{grid-template-columns:1fr}.fl{border-right:0;border-bottom:1px solid var(--line);padding-left:0}.fl+.fl{padding-left:0}}
+
+/* guide */
+.guide{border-top:1px solid var(--line)}
+.guide-grid{display:grid;grid-template-columns:400px 1fr;gap:14px;align-items:start}
+.stage{position:sticky;top:84px;border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:28px;display:grid;gap:22px}
+.stage .pod{width:100%;aspect-ratio:1.28;display:grid;place-items:center;position:relative}
+.stage .pod svg{width:78%;height:auto;overflow:visible}
+.stage .pod.shake svg{animation:shake .7s cubic-bezier(.36,.07,.19,.97) both}
+@keyframes shake{10%,90%{transform:translate3d(-2px,0,0) rotate(-1deg)}20%,80%{transform:translate3d(4px,0,0) rotate(1.5deg)}30%,50%,70%{transform:translate3d(-7px,0,0) rotate(-2.5deg)}40%,60%{transform:translate3d(7px,0,0) rotate(2.5deg)}}
+.stage .halo{position:absolute;inset:10%;border-radius:50%;background:radial-gradient(circle,var(--ledc,transparent) 0%,transparent 60%);opacity:0;transition:opacity .5s,background .5s;filter:blur(30px);pointer-events:none}
+.stage .pod.lit .halo{opacity:.35}
+#led{transition:fill .35s}
+.stage .pod.pulse #led{animation:ledPulse 1.6s ease-in-out infinite}
+@keyframes ledPulse{0%,100%{opacity:1}50%{opacity:.25}}
+.status{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.status div{background:#0D0D0D;padding:12px 14px}
+.status .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.status .v{font-size:14px;font-weight:500;margin-top:2px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.status .v i{width:8px;height:8px;border-radius:50%;background:var(--dim);display:inline-block;transition:background .3s,box-shadow .3s}
+.gcards{display:grid;gap:14px}
+.gc{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:28px;transition:border-color .3s}
+.gc:hover{border-color:var(--line2)}
+.gc .k{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--dim);text-transform:uppercase;margin-bottom:16px;display:flex;justify-content:space-between}
+.gc h3{font-size:22px;margin-bottom:8px}.gc>p{color:var(--muted);font-size:15px;max-width:56ch}
+.leds{display:grid;gap:8px;margin-top:20px}
+.led{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:14px 16px;border-radius:10px;border:1px solid var(--line);background:#0D0D0D;cursor:pointer;transition:border-color .25s,background .25s;text-align:left;font-family:var(--sans);color:#fff;width:100%}
+.led:hover,.led.on{background:#161616;border-color:var(--line2)}
+.led .dot{width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px rgba(255,255,255,.04),0 0 14px var(--c)}
+.led.charging .dot{animation:ledPulse 1.6s ease-in-out infinite}
+.led b{font-weight:500;font-size:15px;display:block}.led span{color:var(--muted);font-size:13.5px}
+.led .when{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.wake{display:flex;gap:14px;align-items:center;margin-top:20px;flex-wrap:wrap}
+.wake .hint{font-family:var(--mono);font-size:12px;color:var(--dim)}.wake .hint b{color:var(--silver);font-weight:500}
+.steps3{margin-top:20px;border-top:1px solid var(--line)}
+.st{display:grid;grid-template-columns:28px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);align-items:start}
+.st .n{width:24px;height:24px;border-radius:50%;border:1px solid var(--line2);font-family:var(--mono);font-size:11px;display:grid;place-items:center;color:var(--muted);transition:all .3s}
+.st.active .n{background:#fff;color:#000;border-color:#fff}.st.done .n{border-color:var(--led-green);color:var(--led-green)}
+.st b{font-weight:500;display:block;font-size:15px}.st span{color:var(--muted);font-size:13.5px}
+.connect{display:grid;grid-template-columns:1fr 150px;gap:24px;align-items:start}
+.phone{width:150px;aspect-ratio:9/17;border-radius:22px;border:1px solid var(--line2);background:#0A0A0A;padding:10px;position:relative}
+.phone .bar{display:flex;justify-content:space-between;align-items:center;padding:4px 2px 8px;border-bottom:1px solid var(--line)}
+.phone .bar span{font-size:8px;font-weight:500;letter-spacing:.06em}
+.phone .podbtn{width:20px;height:20px;border-radius:6px;border:1px solid var(--line2);display:grid;place-items:center;font-size:10px;position:relative}
+.phone .podbtn::after{content:"";position:absolute;inset:-6px;border-radius:10px;border:1px solid #fff;opacity:0}
+.phone.hint .podbtn::after{opacity:1;animation:ring 1.2s ease-out infinite}
+@keyframes ring{0%{transform:scale(.8);opacity:.9}100%{transform:scale(1.5);opacity:0}}
+.phone .scr{padding:10px 2px;font-size:8.5px;color:var(--muted);line-height:1.5}
+.phone .scr .row2{display:flex;justify-content:space-between;padding:6px 8px;border:1px solid var(--line);border-radius:6px;margin-top:8px;transition:all .3s}
+.phone .scr .row2.found{border-color:rgba(255,255,255,.4);color:#fff}.phone .scr .row2.ok{border-color:var(--led-blue);color:#fff}.phone .scr .b{color:var(--led-blue);font-weight:500}
+.actions{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.sup{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.sup a{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:20px 22px;display:grid;gap:4px;transition:border-color .3s,transform .3s var(--ease)}
+.sup a:hover{border-color:var(--line2);transform:translateY(-2px)}
+.sup b{font-weight:500;font-size:15px}.sup span{font-size:13px;color:var(--muted)}.sup .mono{font-size:11px;color:var(--dim);letter-spacing:.06em;margin-top:6px}
+/* app tour */
+.tour{position:relative;margin:0 -24px;padding:0 24px}
+.tour .track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 0 22px;scrollbar-width:none}
+.tour .track::-webkit-scrollbar{display:none}
+.shot{flex:0 0 250px;scroll-snap-align:start}
+.shot .frame{border-radius:34px;border:1px solid var(--line2);background:#000;padding:8px;box-shadow:0 30px 60px -40px rgba(0,0,0,1),inset 0 0 0 1px rgba(255,255,255,.04);transition:transform .5s var(--ease),border-color .3s}
+.shot:hover .frame{transform:translateY(-6px);border-color:rgba(255,255,255,.4)}
+.shot img{display:block;width:100%;height:auto;border-radius:27px}
+.shot .cap{margin-top:14px}
+.shot .cap b{display:block;font-weight:500;font-size:15px}
+.shot .cap span{font-size:13px;color:var(--muted);line-height:1.5;display:block;margin-top:3px}
+.tour .fade{position:absolute;top:0;bottom:0;width:60px;pointer-events:none;z-index:1}
+.tour .fade.l{left:0;background:linear-gradient(90deg,#000,transparent)}.tour .fade.r{right:0;background:linear-gradient(270deg,#000,transparent)}
+.tour-nav{display:flex;gap:8px;justify-content:flex-end;margin-top:-6px}
+.tour-nav button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:transparent;color:#fff;cursor:pointer;font-size:16px;transition:all .2s}
+.tour-nav button:hover{background:#fff;color:#000}
+/* signature flow */
+.sig{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:stretch}
+.sig .big{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:36px;display:flex;flex-direction:column;justify-content:space-between;gap:26px}
+.sig .big h3{font-size:clamp(26px,3vw,36px);letter-spacing:-.035em}
+.sig .big p{color:var(--muted);font-size:16px;max-width:44ch}
+.sig .steps{display:grid;gap:14px}
+.sig .s{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:22px 24px;display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start}
+.sig .s .n{width:36px;height:36px;border-radius:10px;border:1px solid var(--line2);display:grid;place-items:center;font-family:var(--mono);font-size:12px;color:var(--silver)}
+.sig .s b{display:block;font-weight:500;font-size:16px;margin-bottom:4px}.sig .s span{color:var(--muted);font-size:14px}
+@media(max-width:820px){.sig{grid-template-columns:1fr}}
+/* faq */
+.faq{display:grid;gap:8px;max-width:820px}
+.faq details{border-radius:12px;border:1px solid var(--line);background:var(--card);transition:border-color .3s}
+.faq details[open]{border-color:var(--line2)}
+.faq summary{list-style:none;cursor:pointer;padding:18px 22px;font-weight:500;font-size:16px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:20px;color:var(--muted);transition:transform .3s;flex:none}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .a{padding:0 22px 20px;color:var(--muted);font-size:15px;max-width:66ch}
+/* demo form */
+.demo{border-top:1px solid var(--line)}
+.demo .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.demo h2{font-size:clamp(32px,4.4vw,52px);margin:18px 0 16px}
+.demo .lead{color:var(--muted);font-size:17px;max-width:44ch;margin-bottom:26px}
+.demo ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;color:var(--muted);font-size:14.5px}
+.demo li{display:flex;gap:10px}.demo li::before{content:"—";color:var(--dim)}
+form.card{display:grid;gap:14px}
+.f{display:grid;gap:6px}.f label{font-size:12.5px;color:var(--muted)}
+.f input,.f textarea{background:#000;border:1px solid var(--line2);border-radius:8px;color:#fff;padding:11px 13px;font-family:var(--sans);font-size:14px;width:100%;transition:border-color .2s}
+.f input:focus,.f textarea:focus{outline:none;border-color:rgba(255,255,255,.5)}.f textarea{min-height:96px;resize:vertical}
+.f input::placeholder,.f textarea::placeholder{color:var(--dim)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:13px;padding:7px 12px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);cursor:pointer;background:transparent;font-family:var(--sans);transition:all .2s}
+.chip.on{background:#fff;color:#000;border-color:#fff}
+.done{font-family:var(--mono);font-size:12px;color:var(--silver);min-height:18px}
+@media(max-width:820px){.demo .wrap{grid-template-columns:1fr}.f2{grid-template-columns:1fr}}
+@media(max-width:960px){.guide-grid{grid-template-columns:1fr}.stage{position:static}.connect{grid-template-columns:1fr}.phone{margin:0 auto}}
+@media(max-width:600px){.sup{grid-template-columns:1fr}.led{grid-template-columns:auto 1fr}.led .when{display:none}}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.q{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:24px;display:grid;gap:8px;align-content:start}.q .n{width:32px;height:32px;border-radius:10px;background:#fff;color:#000;display:grid;place-items:center;font-family:var(--mono);font-size:12px;margin-bottom:6px}.q b{font-weight:500;font-size:16px}.q span{color:var(--muted);font-size:14px}@media(max-width:900px){.quick{grid-template-columns:1fr 1fr}}@media(max-width:520px){.quick{grid-template-columns:1fr}}</style>
 </head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <linearGradient id="silverG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#C8CBD0"/><stop offset="1" stop-color="#6E7076"/></linearGradient>
@@ -34,42 +163,116 @@
 </div></nav>
 <div class="mnav" id="mnav">
   <a href="index.html">Ana sayfa</a><a href="index.html#hizmetler">Hizmetler</a><a href="index.html#projeler">Ekosistem</a><a href="hasrep.html">Has Rep</a><a href="index.html#iletisim">İletişim</a>
-  <div class="k">Projeler</div><a class="sub" href="hasrep.html">Has Rep</a><a class="sub" href="citydiamond.html">City Diamond Turizm</a><a class="sub" href="cagriaslanfit.html">Cagriaslanfit</a><a class="sub" href="cemilhasmedikal.html">Cemil Has Medikal</a><a class="sub" href="tbiathletics.html">TBI Athletics</a><a class="sub" href="hascontract.html">Has Contract</a>
+  <div class="k">Projeler</div><a class="sub" href="hasrep.html">Has Rep</a><a class="sub" href="citydiamond.html">City Diamond Turizm</a><a class="sub" href="shuttlemerkezi.html">Shuttle Merkezi</a><a class="sub" href="cagriaslanfit.html">Cagriaslanfit</a><a class="sub" href="cemilhasmedikal.html">Cemil Has Medikal</a><a class="sub" href="tbiathletics.html">TBI Athletics</a><a class="sub" href="hascontract.html">Has Contract</a>
   <a class="btn primary" href="index.html#iletisim">Proje başlat</a>
 </div>
-<header class="hero" style="padding-bottom:24px"><div class="wrap">
-  <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="hasrep.html">Has Rep</a><i>/</i><span style="color:#fff">Gizlilik</span></div>
-  <h1><span class="line"><span data-kinetic data-delay=".15" data-step="0.02">Has Rep Gizlilik Politikası</span></span></h1>
-  <p class="lede up" style="animation-delay:.8s">Has Rep mobil uygulaması ve sensör cihazı için kişisel verilerin korunması bildirimi</p>
+<header class="hero" style="padding-bottom:16px"><div class="wrap">
+  <img class="brand up" src="hasrep-logo.jpg" width="900" height="609" alt="Has Rep logosu" style="animation-delay:.05s" decoding="async">
+  <h1><span class="line"><span data-kinetic data-delay=".15" data-step="0.02">Kullanım Kılavuzu</span></span></h1>
+  <p class="lede up" style="animation-delay:.8s">Has Rep’e hoş geldiniz. Bu sayfa cihazın arkasındaki QR koddan açılır; kurulumdan LED anlamlarına her şey burada.</p>
+  <div class="cta-row up" style="animation-delay:.95s"><a class="btn primary" href="#hizli">Hızlı başlangıç</a><a class="btn" href="#kilavuz">LED &amp; bağlantı</a><a class="btn" href="#yardim">Yardım</a></div>
 </div></header>
-<main><section style="padding-top:24px"><div class="wrap"><div class="legal rv">
-<p class="meta">Uygulama: <b>Has Rep</b> (iOS) · Geliştirici: <b>HAS Software Technologies</b> (CanhasTech markası) · İletişim: <a href="mailto:hasrep.app@gmail.com">hasrep.app@gmail.com</a> · Son güncelleme: 13 Eylül 2026</p>
-<h2>1. Toplanan veriler</h2>
-<p>Has Rep aşağıdaki verileri toplar:</p>
-<ul><li><b>Hesap bilgileri:</b> e-posta adresi (kayıt ve giriş için) ve isteğe bağlı ad.</li><li><b>Antrenman verileri:</b> set, tekrar, ağırlık, bar hızı, form metrikleri ve antrenman süresi.</li><li><b>Cihaz verileri:</b> Has Rep sensör cihazının Bluetooth (BLE) bağlantı ve tanımlama bilgileri; cihazdan aktarılan ham hareket sensörü verisi.</li><li><b>Sağlık verileri:</b> Apple Sağlık'a kaydedilen antrenman bilgileri — yalnızca kullanıcı izniyle.</li></ul>
-<h2>2. Verilerin kullanımı</h2>
-<p>Toplanan veriler yalnızca şu amaçlarla kullanılır: antrenman takibi ve analizi; kişisel rekor ve ilerleme takibi; yapay zekâ ile antrenman planı oluşturma ve analiz; sıralama ve sosyal özellikler; uygulama performansını ve doğruluğunu iyileştirmek.</p>
-<h2>3. Veri paylaşımı</h2>
-<p>Kişisel verileriniz üçüncü taraflara <b>satılmaz ve pazarlama amacıyla paylaşılmaz</b>. Veriler Firebase (Google) altyapısında güvenli biçimde saklanır. Yapay zekâ özellikleri için antrenman verileriniz kimliğinizden ayrıştırılmış olarak işlenebilir.</p>
-<h2>4. Veri güvenliği</h2>
-<p>Verileriniz Firebase Authentication ve Firestore güvenlik kurallarıyla korunur; yalnızca hesap sahibi kendi verilerine erişebilir. Aktarım TLS ile şifrelenir.</p>
-<h2>5. Apple Sağlık entegrasyonu</h2>
-<p>Has Rep, antrenman verilerini Apple Sağlık'a kaydedebilir. Bu özellik tamamen isteğe bağlıdır ve kullanıcı izni gerektirir. Apple Sağlık verileri cihazda kalır, sunucularımıza gönderilmez.</p>
-<h2>6. Saklama süresi ve hesap silme</h2>
-<p>Verileriniz hesabınız açık olduğu sürece saklanır. Hesabınızı ve tüm verilerinizi silmek için uygulama içinde <b>Profil → Ayarlar → Hesabı Sil</b> seçeneğini kullanabilirsiniz; silme işlemi geri alınamaz ve en geç 30 gün içinde tamamlanır.</p>
-<h2>7. Haklarınız</h2>
-<p>6698 sayılı KVKK m. 11 kapsamında verilerinize erişme, düzeltme, silme ve itiraz haklarınız vardır. Taleplerinizi <a href="mailto:hasrep.app@gmail.com">hasrep.app@gmail.com</a> adresine iletebilirsiniz; en geç 30 gün içinde yanıtlanır.</p>
-<h2>8. Değişiklikler</h2>
-<p>Bu politika güncellenebilir; güncel sürüm her zaman bu sayfada yayımlanır.</p>
-</div></div></section></main>
+<main>
+<section id="hizli" style="padding-top:40px" aria-labelledby="hizli-h"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">Hızlı başlangıç</div><h2 id="hizli-h"><span class="line"><span>Dört adımda hazır.</span></span></h2></div><p>İlk kullanımda cihazı tam şarj edin (LED yeşil yanana kadar). Sonrası bir dakika.</p></div>
+  <div class="quick rv">
+    <div class="q"><div class="n">1</div><b>Şarj edin</b><span>USB-C ile şarja takın. Şarj olurken LED kırmızı, dolunca yeşil yanar.</span></div>
+    <div class="q"><div class="n">2</div><b>Uygulamayı indirin</b><span>App Store’dan Has Rep uygulamasını kurun ve e-postanızla kayıt olun.</span></div>
+    <div class="q"><div class="n">3</div><b>Sallayıp eşleştirin</b><span>Cihazı hafifçe sallayın; uygulamada sağ üstteki pod simgesine dokunup cihazınızı seçin. LED maviye döner.</span></div>
+    <div class="q"><div class="n">4</div><b>Bara takın, başlayın</b><span>Manyetik klipsle bara oturtun, “Antrenmanı Başlat”a basın, telefonu bırakın. Bitince senkronize edip tekrarları onaylayın.</span></div>
+  </div>
+</div></section>
+<section class="guide" id="kilavuz" aria-labelledby="kilavuz-h" style="padding-top:0;border-top:0"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">Kullanım kılavuzu &amp; destek</div><h2 id="kilavuz-h"><span class="line"><span>Cihazınızı</span></span><span class="line"><span>iki dakikada tanıyın.</span></span></h2></div><p>LED ne söylüyor, cihaz nasıl uyanır, uygulamaya nasıl bağlanır. Kartlardaki düğmeler soldaki cihazı canlı olarak etkiler.</p></div>
+  <div class="guide-grid rv">
+    <aside class="stage" aria-label="Has Rep cihaz durumu">
+      <div class="pod" id="pod"><div class="halo"></div>
+        <svg viewBox="0 0 300 236" aria-hidden="true">
+          <defs><radialGradient id="podBody" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="#2B2B2E"/><stop offset=".7" stop-color="#121214"/><stop offset="1" stop-color="#050506"/></radialGradient>
+          <linearGradient id="podRim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E9096"/><stop offset=".5" stop-color="#2A2B2F"/><stop offset="1" stop-color="#6A6C72"/></linearGradient>
+          <filter id="ledGlow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <ellipse cx="150" cy="222" rx="110" ry="10" fill="#000" opacity=".8"/>
+          <rect x="12" y="12" width="276" height="200" rx="100" fill="url(#podRim)"/><rect x="20" y="20" width="260" height="184" rx="92" fill="url(#podBody)"/>
+          <rect x="40" y="38" width="220" height="148" rx="74" fill="#0A0A0B" stroke="rgba(255,255,255,.08)"/>
+          <g transform="translate(150 106)" fill="#D9DBDF"><g transform="skewX(-14) scale(.62)"><path d="M-46 -30h11v8h-11zM-46 -14h11v34h-11zM-35 -10h12v8h-12zM-23 -36h11v60h-11z"/><path d="M-6 -36h30c10 0 15 5 15 13 0 7-4 11-12 13l15 30H30L17-10H5v30H-6V-36zm11 9v10h17c3 0 5-2 5-5s-2-5-5-5H5z"/></g></g>
+          <text x="150" y="150" text-anchor="middle" font-family="Geist,Inter,sans-serif" font-weight="600" font-size="14" fill="#D9DBDF" letter-spacing="3" font-style="italic">HAS REP</text>
+          <circle id="led" cx="150" cy="54" r="4" fill="#2A2A2E" filter="url(#ledGlow)"/>
+        </svg>
+      </div>
+      <div class="status"><div><div class="k">Durum</div><div class="v" id="sState"><i></i>Uyku modunda</div></div><div><div class="k">LED</div><div class="v" id="sLed"><i></i>Kapalı</div></div><div><div class="k">Bağlantı</div><div class="v" id="sConn">Bağlı değil</div></div><div><div class="k">Şarj</div><div class="v" id="sBat">%72</div></div></div>
+    </aside>
+    <div class="gcards">
+      <article class="gc"><div class="k"><span>01 — LED durum göstergeleri</span><span>Tıklayın</span></div><h3>LED ne anlatıyor?</h3><p>Cihazın üstündeki tek LED üç durumu gösterir. Bir satıra tıklayarak cihazda görün.</p>
+        <div class="leds"><button type="button" class="led" data-led="blue" style="--c:var(--led-blue)"><span class="dot"></span><span><b>Mavi LED</b><span>Cihaz telefona / uygulamaya bağlıyken yanar.</span></span><span class="when">Bağlı</span></button><button type="button" class="led charging" data-led="red" style="--c:var(--led-red)"><span class="dot"></span><span><b>Kırmızı LED</b><span>Cihaz şarjdayken yanar.</span></span><span class="when">Şarjda</span></button><button type="button" class="led" data-led="green" style="--c:var(--led-green)"><span class="dot"></span><span><b>Yeşil LED</b><span>Cihazın şarjı tam doluyken yanar.</span></span><span class="when">Şarj full</span></button></div></article>
+      <article class="gc"><div class="k"><span>02 — Cihazı uyandırma</span><span>Shake</span></div><h3>Sallayın, uyanır.</h3><p>Has Rep kullanılmadığında pili korumak için uyku moduna geçer. Uyandırmak için düğmeye basmanız gerekmez: cihazı <b style="color:#fff;font-weight:500">hafifçe sallamak</b> yeterlidir. LED kısa bir kez yanıp söner ve cihaz bağlantıya hazır hale gelir.</p>
+        <div class="wake"><button type="button" class="btn" id="shake">Cihazı salla</button><span class="hint" id="wakeHint">Hareket sensörü <b>bekliyor</b></span></div></article>
+      <article class="gc"><div class="k"><span>03 — Bağlantı rehberi</span><span>iOS</span></div><h3>Üç adımda eşleştirin.</h3><p>Cihazı telefona bağlamak için Has Rep mobil uygulamasını açın, sağ üst köşedeki pod bağlama kısmına tıklayın ve cihazınızı eşleştirin.</p>
+        <div class="connect"><div><div class="steps3" id="steps"><div class="st"><div class="n">1</div><div><b>Has Rep uygulamasını açın</b><span>Bluetooth’un açık ve cihazın uyanık olduğundan emin olun.</span></div></div><div class="st"><div class="n">2</div><div><b>Sağ üstteki pod bağlama simgesine dokunun</b><span>Uygulama yakındaki Has Rep cihazlarını tarar.</span></div></div><div class="st"><div class="n">3</div><div><b>Cihazınızı seçip eşleştirin</b><span>Bağlandığında cihazdaki LED maviye döner.</span></div></div></div>
+          <div class="actions"><button type="button" class="btn primary" id="pair">Eşleştirmeyi simüle et</button><button type="button" class="btn" id="unpair">Bağlantıyı kes</button></div></div>
+          <div class="phone" id="phone" aria-hidden="true"><div class="bar"><span>HAS REP</span><div class="podbtn">◎</div></div><div class="scr"><div>Cihazlar</div><div class="row2" id="prow"><span>Cihaz aranmadı</span><span></span></div></div></div></div></article>
+    </div>
+  </div>
+  <div class="sup rv"><a href="#sss"><b>Sık sorulan sorular</b><span>Ölçüm, sayım, platform, pil</span><span class="mono">SSS bölümü ↓</span></a><a href="mailto:hasrep@canhastech.com"><b>Destek ekibi</b><span>Cihaz veya uygulama sorunları için</span><span class="mono">hasrep@canhastech.com</span></a><a href="index.html#iletisim"><b>Kulüp &amp; toplu kullanım</b><span>Antrenör paneli ve çoklu cihaz kurulumu</span><span class="mono">İletişim formu →</span></a></div>
+
+<section id="yardim" style="padding-top:0"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">Sorun mu var?</div><h2><span class="line"><span>Önce bunları deneyin.</span></span></h2></div><p>Çözülmezse yazın: <a href="mailto:hasrep@canhastech.com" style="color:#fff;border-bottom:1px solid var(--line2)">hasrep@canhastech.com</a> — ya da sağ alttaki WhatsApp düğmesi.</p></div>
+  <div class="faq rv">
+    <details><summary>Cihaz uygulamada görünmüyor</summary><div class="a">Cihazı sallayıp uyandırın (LED bir kez yanıp söner). Telefonun Bluetooth’u açık olsun. Uygulamada sağ üstteki pod simgesine dokunup yeniden tarayın. Hâlâ görünmüyorsa cihazı 1 dk şarja takıp tekrar deneyin.</div></details>
+    <details><summary>LED hiç yanmıyor</summary><div class="a">Pil tamamen bitmiş olabilir; en az 30 dk şarj edin. Şarjda kırmızı LED yanmıyorsa kabloyu ve adaptörü değiştirip deneyin.</div></details>
+    <details><summary>Tekrarlar eksik ya da fazla sayıldı</summary><div class="a">Antrenman sonunda kaydırmalı onay ekranında şüpheli tekrarları düzeltebilirsiniz. Cihazın bara sıkıca oturduğundan ve set arasında barı gereksiz sallamadığınızdan emin olun.</div></details>
+    <details><summary>Senkronizasyon sonrası veri gelmedi</summary><div class="a">Cihaz telefona yakınken (1–2 m) senkronizasyonu tekrar başlatın. Uygulamayı tamamen kapatıp açmak çoğu zaman yeterlidir. Veriler cihazın hafızasında durur, kaybolmaz.</div></details>
+    <details><summary>Cihazı nasıl temizlerim?</summary><div class="a">Hafif nemli, yumuşak bir bezle silin. Suya batırmayın, solvent kullanmayın. Manyetik klipsi metal talaşlarından uzak tutun.</div></details>
+  </div>
+  <div class="sup rv" style="margin-top:22px"><a href="mailto:hasrep@canhastech.com"><b>Has Rep destek</b><span>Cihaz ve uygulama soruları</span><span class="mono">hasrep@canhastech.com</span></a><a href="hasrep.html"><b>Has Rep ürün sayfası</b><span>VBT sistemi, uygulama turu, SSS</span><span class="mono">canhastech.com/hasrep.html</span></a><a href="index.html#iletisim"><b>CanhasTech</b><span>Diğer projeler ve iletişim</span><span class="mono">canhastech.com</span></a></div>
+</div></section>
+</main>
 </div>
 <footer><div class="wrap">
   <a class="logo" href="index.html" aria-label="Can Has Tech"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
-  <ul><li><a href="hasrep.html">Has Rep</a></li><li><a href="citydiamond.html">City Diamond Turizm</a></li><li><a href="cagriaslanfit.html">Cagriaslanfit</a></li><li><a href="cemilhasmedikal.html">Cemil Has Medikal</a></li><li><a href="tbiathletics.html">TBI Athletics</a></li><li><a href="hascontract.html">Has Contract</a></li></ul>
-  <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İZMİR · <a href="kvkk.html">KVKK</a> · <a href="hasrepkk.html">HAS REP GİZLİLİK</a></span>
+  <ul><li><a href="hasrep.html">Has Rep</a></li><li><a href="citydiamond.html">City Diamond Turizm</a></li><li><a href="shuttlemerkezi.html">Shuttle Merkezi</a></li><li><a href="cagriaslanfit.html">Cagriaslanfit</a></li><li><a href="cemilhasmedikal.html">Cemil Has Medikal</a></li><li><a href="tbiathletics.html">TBI Athletics</a></li><li><a href="hascontract.html">Has Contract</a></li></ul>
+  <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İZMİR · <a href="kvkk.html">KVKK</a> · <a href="hasrepkk.html">HAS REP KILAVUZ</a></span>
 </div>
 <div class="wrap umbrella"><a href="https://hassoftware.com.tr" target="_blank" rel="noopener" class="hs"><img src="logo-hassoftware.png" alt="HAS Software Technologies" loading="lazy" decoding="async"></a><span>CanhasTech, <b>HAS Software Technologies</b> bünyesinde bir markadır. Faturalandırma, sözleşme ve resmi işlemler HAS Software Technologies adına yürütülür.</span></div></footer>
 <a class="wa" href="https://wa.me/905537621914?text=Merhaba%2C%20CanhasTech%20ile%20bir%20proje%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp ile yazın"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1.1 2.7 11.5 11.5 0 0 0 4.4 3.9c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2 2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg><span>WhatsApp</span><i class="dot"></i></a>
 <script src="site.js" defer></script>
-<script defer></script>
+<script defer>
+/* app tour arrows */
+(function(){const t=document.getElementById('track');if(!t)return;const step=()=>t.querySelector('.shot').getBoundingClientRect().width+18;
+document.getElementById('tPrev').addEventListener('click',()=>t.scrollBy({left:-step(),behavior:'smooth'}));document.getElementById('tNext').addEventListener('click',()=>t.scrollBy({left:step(),behavior:'smooth'}))})();
+/* demo form (Web3Forms) */
+(function(){const chips=document.getElementById('dchips'),form=document.getElementById('demoform');if(!form)return;const done=document.getElementById('ddone'),send=document.getElementById('dsend');
+chips.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;chips.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));b.classList.add('on')});
+form.addEventListener('submit',async e=>{e.preventDefault();done.className='done';done.textContent='Gönderiliyor…';send.disabled=true;document.getElementById('dtype').value=chips.querySelector('.on').textContent;const name=document.getElementById('dn').value.trim();
+  try{const r=await fetch(form.action,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)});const j=await r.json();if(r.ok&&j.success){done.textContent=`Teşekkürler ${name} — demo talebiniz ulaştı, 48 saat içinde dönüyoruz.`;form.reset();chips.querySelectorAll('.chip').forEach((c,i)=>c.classList.toggle('on',i===0))}else throw new Error()}
+  catch(err){done.className='done err';done.textContent='Gönderilemedi. Lütfen tekrar deneyin ya da WhatsApp’tan yazın.'}finally{send.disabled=false}})})();
+(function(){
+  const $=id=>document.getElementById(id);
+  const pod=$('pod'),led=$('led'),sState=$('sState'),sLed=$('sLed'),sConn=$('sConn'),sBat=$('sBat'),phone=$('phone'),prow=$('prow'),steps=[...$('steps').children];
+  const C={blue:'#4DA3FF',red:'#FF5A5A',green:'#4FE08A',off:'#2A2A2E'};
+  const dev={awake:false,conn:false,charging:false,full:false};
+  let t=[];const later=(f,ms)=>t.push(setTimeout(f,ms));const clear=()=>{t.forEach(clearTimeout);t=[]};
+  const idle=()=>{prow.className='row2';prow.innerHTML='<span>Cihaz aranmadı</span><span></span>';steps.forEach(s=>s.className='st');phone.classList.remove('hint')};
+  function setLed(name,label,pulse){led.setAttribute('fill',C[name]);pod.classList.toggle('lit',name!=='off');pod.classList.toggle('pulse',!!pulse);pod.style.setProperty('--ledc',C[name]);sLed.innerHTML=`<i style="${name==='off'?'':'background:'+C[name]+';box-shadow:0 0 10px '+C[name]}"></i>${label}`;document.querySelectorAll('.led').forEach(b=>b.classList.toggle('on',b.dataset.led===name))}
+  function render(){
+    sState.innerHTML=`<i style="${dev.awake?'background:#fff':''}"></i>${dev.awake?'Uyanık':'Uyku modunda'}`;
+    sConn.textContent=dev.conn?'Uygulamaya bağlı':'Bağlı değil';
+    sBat.textContent=dev.full?'%100':dev.charging?'%72 · şarj oluyor':'%72';
+    if(dev.conn)setLed('blue','Mavi · bağlı');else if(dev.full)setLed('green','Yeşil · şarj dolu');else if(dev.charging)setLed('red','Kırmızı · şarjda',true);else setLed('off','Kapalı');
+  }
+  document.querySelectorAll('.led').forEach(b=>b.addEventListener('click',()=>{clear();const k=b.dataset.led;dev.awake=true;
+    if(k==='blue'){dev.conn=true;dev.charging=false;dev.full=false;steps.forEach(s=>s.className='st done');prow.className='row2 ok';prow.innerHTML='<span>Has Rep · A1F3</span><span class="b">Bağlı</span>'}
+    else{dev.conn=false;idle();dev.charging=k==='red';dev.full=k==='green'}
+    render()}));
+  $('shake').addEventListener('click',()=>{clear();pod.classList.remove('shake');void pod.offsetWidth;pod.classList.add('shake');$('wakeHint').innerHTML='Hareket algılandı — <b>uyanıyor</b>';
+    later(()=>{dev.awake=true;dev.charging=false;dev.full=false;render();setLed('blue','Uyanma sinyali');later(()=>{render();$('wakeHint').innerHTML='Cihaz <b>uyanık</b> · bağlantıya hazır'},450)},500)});
+  $('pair').addEventListener('click',()=>{clear();if(!dev.awake){$('wakeHint').innerHTML='Önce cihazı <b>sallayın</b>';pod.classList.remove('shake');void pod.offsetWidth;pod.classList.add('shake');dev.awake=true}
+    dev.conn=false;dev.charging=false;dev.full=false;render();idle();steps[0].className='st active';prow.innerHTML='<span>Uygulama açıldı</span><span></span>';
+    later(()=>{steps[0].className='st done';steps[1].className='st active';phone.classList.add('hint');prow.innerHTML='<span>Aranıyor…</span><span></span>'},900);
+    later(()=>{phone.classList.remove('hint');prow.className='row2 found';prow.innerHTML='<span>Has Rep · A1F3</span><span>Eşleştir</span>'},2100);
+    later(()=>{steps[1].className='st done';steps[2].className='st active'},2400);
+    later(()=>{steps[2].className='st done';dev.conn=true;render();prow.className='row2 ok';prow.innerHTML='<span>Has Rep · A1F3</span><span class="b">Bağlı</span>'},3300);
+  });
+  $('unpair').addEventListener('click',()=>{clear();dev.conn=false;idle();render()});
+  render();
+})();</script>
 </body></html>

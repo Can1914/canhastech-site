@@ -40,13 +40,16 @@ PROJECTS=[
  dict(slug='hasrep',name='Has Rep',mark='HR',sector='Spor teknolojisi',kind='Donanım + App',
       short='Akıllı VBT fitness cihazı & app',
       desc='Ağırlık antrenmanlarını veriye dönüştüren akıllı spor teknolojisi: bara takılan VBT cihazı hareket hızını ölçer, tekrarları sayar; uygulama uzamsal form analizi yapar, yapay zekâ ile antrenman oluşturur ve analiz eder.'),
- dict(slug='citydiamond',name='City Diamond Turizm',mark='CD',sector='Turizm',kind='Web + Panel',logo='logo-citydiamond.jpg',site='https://citydiamondturizm.com.tr',
-      short='Shuttle Merkezi',
-      desc='Turizm shuttle merkezi çözümü ve dijital altyapısı: online rezervasyon, sefer ve araç planlama, sürücü yönetimi, acente ve otel entegrasyonları.'),
+ dict(slug='citydiamond',name='City Diamond Turizm',mark='CD',sector='Turizm',kind='Kurumsal web sitesi',logo='logo-citydiamond.jpg',cover=True,site='https://citydiamondturizm.com.tr',
+      short='Turizm firması web sitesi',
+      desc='İzmir merkezli turizm ve VIP transfer firması için kurumsal web sitesi: araç filosu, transfer ve tur hizmetleri, rezervasyon talebi ve WhatsApp iletişimi.'),
+ dict(slug='shuttlemerkezi',name='Shuttle Merkezi',mark='SM',sector='Turizm · Ulaşım',kind='Web platformu',logo='logo-shuttlemerkezi.png',
+      short='Shuttle rezervasyon platformu',
+      desc='Shuttle ve transfer rezervasyon platformu: online rezervasyon, sefer ve araç planlama, sürücü yönetimi, acente ve otel entegrasyonları — ayrı bir web sitesi olarak.'),
  dict(slug='cagriaslanfit',name='Cagriaslanfit',mark='CA',sector='Fitness',kind='Mobil App',logo='logo-prive.png',
       short='Fitness mobil uygulaması',
       desc='Fitness ve sporcu odaklı özel mobil uygulama: kişiye özel programlar, ilerleme takibi ve koç-sporcu iletişimi tek yerde.'),
- dict(slug='cemilhasmedikal',name='Cemil Has Medikal',mark='CH',sector='Medikal',kind='Yazılım + App',logo='logo-hasmedical.png',pill=True,
+ dict(slug='cemilhasmedikal',name='Cemil Has Medikal',mark='CH',sector='Medikal',kind='Yazılım + App',logo='logo-hasmedical.png',
       short='Medikal yazılımı',
       desc='Medikal sektör için geliştirilmiş özel yazılım ve uygulama: ürün kataloğu, sipariş ve teslimat takibi, saha ekibi mobil uygulaması.'),
  dict(slug='tbiathletics',name='TBI Athletics',mark='TBI',sector='Atletizm',kind='Performans App',logo='logo-tbi.jpg',
@@ -80,7 +83,7 @@ def footer():
     return f'''<footer><div class="wrap">
   <a class="logo" href="index.html" aria-label="Can Has Tech"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
   <ul>{links}</ul>
-  <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İZMİR · <a href="kvkk.html">KVKK</a> · <a href="hasrepkk.html">HAS REP GİZLİLİK</a></span>
+  <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İZMİR · <a href="kvkk.html">KVKK</a> · <a href="hasrepkk.html">HAS REP KILAVUZ</a></span>
 </div>
 <div class="wrap umbrella"><a href="https://hassoftware.com.tr" target="_blank" rel="noopener" class="hs"><img src="logo-hassoftware.png" alt="HAS Software Technologies" loading="lazy" decoding="async"></a><span>CanhasTech, <b>HAS Software Technologies</b> bünyesinde bir markadır. Faturalandırma, sözleşme ve resmi işlemler HAS Software Technologies adına yürütülür.</span></div></footer>'''
 
@@ -132,18 +135,26 @@ INDEX_CSS='''
 .svc li span{color:var(--muted);font-family:var(--mono);font-size:12px;white-space:nowrap}
 @media(max-width:820px){.services{grid-template-columns:1fr}.svc{padding:28px}}
 
-.refs{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
+.about{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:start;border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:40px}
+.about .head{margin:0}.about h2{font-size:clamp(30px,4vw,46px);margin-top:18px}
+.about-text{display:grid;gap:16px;color:var(--muted);font-size:16px;line-height:1.7}
+.about-text b{color:#fff;font-weight:500}
+.about-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:10px;padding-top:22px;border-top:1px solid var(--line)}
+.about-facts div{display:grid;gap:2px}.about-facts b{color:#fff;font-weight:500;font-size:18px;letter-spacing:-.02em}.about-facts span{font-size:12.5px;color:var(--dim)}
+@media(max-width:900px){.about{grid-template-columns:1fr;gap:24px;padding:28px}.about-facts{grid-template-columns:1fr 1fr}}
+.refs{display:grid;grid-template-columns:repeat(8,1fr);gap:12px}
 .ref.hs img{max-height:56px;opacity:.7}
-.ref{border-radius:var(--r);border:1px solid var(--line);background:var(--card);height:120px;display:grid;place-items:center;padding:18px;transition:border-color .3s,transform .4s var(--ease);filter:grayscale(1);opacity:.85}
-.ref:hover{border-color:var(--line2);transform:translateY(-3px);filter:none;opacity:1}
+.ref{border-radius:var(--r);border:1px solid var(--line);background:var(--card);height:120px;display:grid;place-items:center;padding:18px;transition:border-color .3s,transform .4s var(--ease);opacity:.9;overflow:hidden}
+.ref:hover{border-color:var(--line2);transform:translateY(-3px);opacity:1}
+.ref.cover{padding:0}.ref.cover img{width:100%;height:100%;object-fit:cover;border-radius:0}
 .ref img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
 .ref.pill img{background:#fff;padding:8px 12px;border-radius:10px;max-height:64px}
-@media(max-width:1000px){.refs{grid-template-columns:repeat(4,1fr)}}@media(max-width:600px){.refs{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1100px){.refs{grid-template-columns:repeat(4,1fr)}}@media(max-width:600px){.refs{grid-template-columns:repeat(2,1fr)}}
 .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .pj{display:flex;flex-direction:column;min-height:360px;padding:0;cursor:pointer}
 .pj .visual{height:160px;position:relative;overflow:hidden;background:var(--card2);border-bottom:1px solid var(--line);display:grid;place-items:center}
-.pj .visual img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);transition:transform .8s var(--ease),filter .5s}
-.pj:hover .visual img{transform:scale(1.04);filter:grayscale(.2)}
+.pj .visual img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.pj:hover .visual img{transform:scale(1.04)}
 .pj .visual img.plogo{width:auto;height:96px;object-fit:contain;filter:none;position:relative;border-radius:14px;transition:transform .6s var(--ease)}
 .pj .visual img.plogo.pill{background:#fff;padding:10px 16px;height:64px}
 .pj:hover .visual img.plogo{transform:scale(1.05)}
@@ -158,7 +169,7 @@ INDEX_CSS='''
 .pj .more::after{content:"→";transition:transform .3s}
 .pj:hover .more::after{transform:translateX(4px)}
 .pj .soon{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#000;background:#fff;padding:5px 9px;border-radius:999px;z-index:2}
-.pj.static{cursor:default;grid-column:span 2;min-height:260px}.pj.static .more::after{content:""}
+.pj.static{cursor:default}.pj.static .more::after{content:""}
 .pj.feature{grid-column:span 2}.pj.feature .visual{height:210px}
 @media(max-width:900px){.projects{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.projects{grid-template-columns:1fr}.pj.feature,.pj.static{grid-column:auto}}
@@ -185,13 +196,14 @@ form.card{display:grid;gap:14px}
 
 def index_page():
     # schema node positions (percent of the 900x300 stage)
-    pos=[(12,24),(50,16),(88,24),(12,82),(50,90),(88,82)]
+    pos=[(10,22),(32,10),(68,10),(90,22),(10,84),(50,92),(90,84)]
     nodes=''.join(f'<a class="node" href="{p["slug"]}.html" style="left:{x}%;top:{y}%;animation-delay:{1.35+i*.1:.2f}s"><span class="pill">{p["mark"]}</span><small>{p["name"]}</small></a>' for i,(p,(x,y)) in enumerate(zip([q for q in PROJECTS if not q.get('nopage')],pos)))
     wires=''.join(f'<path class="wire" d="M450 180 L {x*9} {y*3.4}"/>' for x,y in pos)
     hub=f'<a class="node hub" href="#projeler" style="left:50%;top:53%;animation-delay:1.25s"><span class="pill"><img src="canhastech-mark.png" width="52" height="53" alt="CanhasTech"></span><small>CanhasTech Hub</small></a>'
     cards=''
     for i,p in enumerate(PROJECTS):
-        if p['slug']=='hasrep': vis='<img src="device-bar.jpg" width="1004" height="310" loading="lazy" decoding="async" alt="Olimpik bara takılı Has Rep VBT sensörü">'
+        if p['slug']=='hasrep': vis='<img src="hasrep-urun.jpg" width="1086" height="680" loading="lazy" decoding="async" alt="Has Rep sensörü" style="filter:none">'
+        elif p.get('cover'): vis=f'<img src="{p["logo"]}" loading="lazy" decoding="async" alt="{p["name"]} logosu" style="filter:none">'
         elif p.get('logo'): vis=f'<div class="g"></div><img class="plogo{" pill" if p.get("pill") else ""}" src="{p["logo"]}" loading="lazy" decoding="async" alt="{p["name"]} logosu">'
         else: vis=f'<div class="g"></div><div class="mark">{p["mark"]}</div>'
         tag=f'<span class="soon">Çok yakında</span>' if p.get('soon') else ''
@@ -228,13 +240,25 @@ def index_page():
   </div>
 </div></section>
 
+<section id="hakkimizda" style="padding-top:0"><div class="wrap">
+  <div class="about rv">
+    <div><div class="eyebrow">Hakkımızda</div><h2><span class="line"><span>İzmir’den,</span></span><span class="line"><span>ürün gibi düşünen bir ekip.</span></span></h2></div>
+    <div class="about-text">
+      <p>CanhasTech, <b>İzmir</b> merkezli bir yazılım, donanım ve yapay zekâ stüdyosu. <b>HAS Software Technologies</b> bünyesinde faaliyet gösteriyoruz; resmi işlemler, sözleşme ve faturalandırma HAS Software Technologies adına yürütülür.</p>
+      <p>İki şey yapıyoruz: müşterilerimiz için <b>ihtiyaca göre özel web siteleri ve mobil uygulamalar</b> geliştiriyoruz; kendi ürünlerimizi — <b>Has Rep</b> akıllı antrenman sensörü, <b>Has Contract</b> ve <b>HasVocab</b> — tasarlayıp üretiyoruz. Kendi ürünümüzü çıkarmanın disipliniyle müşteri projelerine yaklaşıyoruz: gerçek kullanıcı, gerçek veri, ölçülebilir sonuç.</p>
+      <p>Tasarımdan yazılıma, gerekirse donanım ve yapay zekâya kadar tek ekip, tek sorumluluk. İzmir’de yerinde, Türkiye’nin her yerinde online çalışıyoruz.</p>
+      <div class="about-facts"><div><b>İzmir</b><span>merkez</span></div><div><b>Web + Mobil</b><span>geliştirme</span></div><div><b>3</b><span>kendi ürünümüz</span></div><div><b>HAS Software</b><span>çatı şirket</span></div></div>
+    </div>
+  </div>
+</div></section>
+
 <section id="referanslar" style="padding-top:0"><div class="wrap">
   <div class="head rv"><div><div class="eyebrow">Referanslar &amp; markalar</div><h2><span class="line"><span>Birlikte çalıştıklarımız.</span></span></h2></div><p>Ekosistemimizdeki markalar ve çözüm geliştirdiğimiz kurumlar. CanhasTech, resmi işlemlerde HAS Software Technologies çatısı altında faaliyet gösterir.</p></div>
   <div class="refs rv">
-    <a class="ref" href="citydiamond.html" title="City Diamond Turizm"><img src="logo-citydiamond.jpg" alt="City Diamond Turizm" loading="lazy" decoding="async"></a>
-    <a class="ref pill" href="citydiamond.html" title="Shuttle Merkezi"><img src="logo-shuttlemerkezi.png" alt="Shuttle Merkezi" loading="lazy" decoding="async"></a>
+    <a class="ref cover" href="citydiamond.html" title="City Diamond Turizm"><img src="logo-citydiamond.jpg" alt="City Diamond Turizm" loading="lazy" decoding="async"></a>
+    <a class="ref" href="shuttlemerkezi.html" title="Shuttle Merkezi"><img src="logo-shuttlemerkezi.png" alt="Shuttle Merkezi" loading="lazy" decoding="async"></a>
     <a class="ref" href="cagriaslanfit.html" title="Privé — Cagriaslanfit"><img src="logo-prive.png" alt="Privé Elite Athlete Development" loading="lazy" decoding="async"></a>
-    <a class="ref pill" href="cemilhasmedikal.html" title="HAS Medical Equipments"><img src="logo-hasmedical.png" alt="HAS Medical Equipments" loading="lazy" decoding="async"></a>
+    <a class="ref" href="cemilhasmedikal.html" title="HAS Medical Equipments"><img src="logo-hasmedical.png" alt="HAS Medical Equipments" loading="lazy" decoding="async"></a>
     <a class="ref" href="tbiathletics.html" title="TBI Athletics"><img src="logo-tbi.jpg" alt="TBI Athletics" loading="lazy" decoding="async"></a>
     <a class="ref" href="hascontract.html" title="Has Contract"><img src="logo-hascontract.png" alt="Has Contract" loading="lazy" decoding="async" style="max-height:72px"></a>
     <a class="ref hs" href="https://hassoftware.com.tr" target="_blank" rel="noopener" title="HAS Software Technologies"><img src="logo-hassoftware.png" alt="HAS Software Technologies" loading="lazy" decoding="async"></a>
@@ -273,7 +297,7 @@ form.addEventListener('submit',async e=>{e.preventDefault();done.className='done
 # ---------------------------------------------------------------- HAS REP
 HASREP_CSS='''
 .hero .brand{display:block;width:min(260px,60vw);height:auto;margin:22px auto -6px;-webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,#000 55%,transparent 100%)}
-.hero .product{margin:56px auto 0;max-width:1004px;position:relative}
+.hero .product{margin:56px auto 0;max-width:820px;position:relative}
 .gallery{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-top:14px}
 .gallery figure{margin:0;border-radius:var(--r);border:1px solid var(--line);background:var(--card);overflow:hidden;position:relative}
 .gallery img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;transition:transform .9s var(--ease)}
@@ -442,64 +466,7 @@ form.addEventListener('submit',async e=>{e.preventDefault();done.className='done
   render();
 })();'''
 
-def hasrep_page():
-    body=f'''{nav('hasrep')}
-<header class="hero">
-  <div class="wrap">
-    <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="index.html#projeler">Ekosistem</a><i>/</i><span style="color:#fff">Has Rep</span></div>
-    <img class="brand up" src="hasrep-logo.jpg" width="900" height="609" alt="Has Rep logosu" style="animation-delay:.1s" decoding="async">
-    <h1><span class="line"><span data-kinetic data-delay=".15">Has Rep</span></span><span class="line thin"><span data-kinetic data-delay=".4" data-step="0.018">Ağırlık antrenmanlarını veriye dönüştürün</span></span></h1>
-    <p class="lede up" style="animation-delay:1s">Bara takılan VBT cihazı hareket hızını ölçer ve tekrarları sayar; uygulama form analizi yapar, yapay zekâ ile antrenman oluşturur ve analiz eder.</p>
-    <p class="sub up" style="animation-delay:1.1s">Sporcu ve antrenör için tek sistem: sensör pod + iOS uygulaması. Antrenmanı başlat, telefonu bırak.</p>
-    <div class="cta-row up" style="animation-delay:1.2s"><a class="btn primary" href="#demo">Demo talep et</a><a class="btn" href="#uygulama">Uygulamayı gör</a><a class="btn" href="#kilavuz">Kullanım kılavuzu</a></div>
-    <div class="product up" style="animation-delay:1.35s"><img src="device-bar.jpg" width="1004" height="310" loading="eager" fetchpriority="high" decoding="async" alt="Olimpik bara manyetik klipsle takılı Has Rep VBT sensörü"></div>
-  </div>
-</header>
-<main>
-<section id="vbt" style="padding-top:40px" aria-labelledby="vbt-h"><div class="wrap">
-  <div class="head rv"><div><div class="eyebrow">VBT sistemi</div><h2 id="vbt-h"><span class="line"><span>Hız temelli antrenman,</span></span><span class="line"><span>cihazdan uygulamaya.</span></span></h2></div><p>Hız temelli antrenman (VBT) yükü değil bar hızını yönetir. Has Rep bu hızı bara oturan kompakt sensörden okur; uygulama veriyi antrenmana çevirir.</p></div>
-  <div class="pillars rv">
-    <div class="pillar"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16a8 8 0 0 1 16 0"/><path d="M12 16l4-5"/><circle cx="12" cy="16" r="1.5"/></svg></div><h3>Hareket hızı ölçümü</h3><p>Her tekrarın kaldırış hızını okur. Aynı yükte bar yavaşladıysa yorgunluk başlamıştır; hızlandıysa formdasınız.</p></div>
-    <div class="pillar"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 18v-5M10 18V8M15 18v-8M20 18V5"/></svg></div><h3>Otomatik tekrar sayımı</h3><p>Tekrarları cihaz kendisi ayırır ve sayar. Yarım tekrarı ve yeniden konumlanmayı saymaz; telefon cebinizde kalabilir.</p></div>
-    <div class="pillar"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="2"/><path d="M12 7v6l-3 6M12 13l3 6M8 10l4-2 4 2"/></svg></div><h3>Uzamsal form analizi</h3><p>Bar yolunu ve hareket kalitesini üç boyutta izler; sapan tekrarı işaretler, antrenöre ham izi bırakır.</p></div>
-    <div class="pillar"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 4a3 3 0 0 0-3 3v1a3 3 0 0 0-2 3 3 3 0 0 0 2 3v1a3 3 0 0 0 3 3h1V4H9zM15 4a3 3 0 0 1 3 3v1a3 3 0 0 1 2 3 3 3 0 0 1-2 3v1a3 3 0 0 1-3 3h-1V4h1z"/></svg></div><h3>Yapay zekâ: oluştur &amp; analiz et</h3><p>Uygulama sizin verinizle antrenman programı oluşturur, her antrenmanı analiz eder ve gelişimi raporlar.</p></div>
-  </div>
-  <div class="sig rv">
-    <div class="big"><div><div class="eyebrow">İmza özellik</div><h3 style="margin-top:14px">Antrenmanı başlat,<br>telefonu bırak.</h3></div><p>Antrenman boyunca telefona dokunmazsınız. Pod her tekrarı kendi hafızasına kaydeder; bağlantı kopsa bile veri kaybolmaz. Antrenman bitince senkronize edilir, uygulama emin olamadığı birkaç şeyi kart kart sorar — sağa kaydır doğru, sola kaydır düzelt. 30 saniye, bitti.</p></div>
-    <div class="steps">
-      <div class="s"><div class="n">01</div><div><b>Antrenmanı başlat</b><span>Pod'u bara tak, uygulamada tek düğme. Sonra telefon cebe ya da dolaba.</span></div></div>
-      <div class="s"><div class="n">02</div><div><b>Antrenmanını yap</b><span>Set, tekrar ve dinlenme otomatik ayrılır. Telefon yakınsa canlı bar hızı önizlemesi akar.</span></div></div>
-      <div class="s"><div class="n">03</div><div><b>Bitir, kaydır, onayla</b><span>Senkronizasyon sonrası şüpheli tekrarlar kartla sorulur. Her rep doğrulanmış — sahte rep yok.</span></div></div>
-    </div>
-  </div>
-  <div class="gallery rv">
-    <figure><img src="hasrep-box.jpg" width="1100" height="905" loading="lazy" decoding="async" alt="Has Rep kutusu ve üzerinde sensör — Every rep counts"><figcaption>Every rep counts · Train · Measure · Improve</figcaption></figure>
-    <figure><img src="hasrep-puck.jpg" width="1000" height="921" loading="lazy" decoding="async" alt="Has Rep sensörü masa üzerinde"><figcaption>Manyetik klips · Bar olan her yerde</figcaption></figure>
-  </div>
-</div></section>
-
-<section id="uygulama" style="padding-top:0" aria-labelledby="app-h"><div class="wrap">
-  <div class="head rv"><div><div class="eyebrow">Uygulama turu</div><h2 id="app-h"><span class="line"><span>Antrenman ekranından</span></span><span class="line"><span>rekor bildirimine.</span></span></h2></div><p>Gerçek uygulama ekranları. Canlı bar hızı, set özetleri, form analizi, kaydırmalı onay, kişisel rekorlar ve tahmini 1RM.</p></div>
-  <div class="tour rv"><div class="fade l"></div><div class="fade r"></div>
-    <div class="track" id="track">
-      <figure class="shot"><div class="frame"><img src="app-antrenman.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="Aktif antrenman ekranı: bar hızı 0.39 m/s, güç 239 W, form %83"></div><figcaption class="cap"><b>Canlı antrenman</b><span>Bar hızı, güç, form skoru ve RPE — set sürerken.</span></figcaption></figure>
-      <figure class="shot"><div class="frame"><img src="app-set.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="Set geçmişi: her setin ortalama hızı ve tekrar sayısı"></div><figcaption class="cap"><b>Set özeti</b><span>Her setin ortalama hızı ve tekrarı; hız düşüşü bir bakışta.</span></figcaption></figure>
-      <figure class="shot"><div class="frame"><img src="app-form.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="Form analizi: bar eğimi ve rep tutarlılığı grafikleri"></div><figcaption class="cap"><b>Form analizi</b><span>Bar eğimi, tekrar tutarlılığı ve sticking point.</span></figcaption></figure>
-      <figure class="shot"><div class="frame"><img src="app-onay.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="Kaydırmalı onay kartı: bu tekrar sayılsın mı?"></div><figcaption class="cap"><b>Kaydırmalı onay</b><span>Sağa kaydır say, sola kaydır sayma. Sadece şüpheliler sorulur.</span></figcaption></figure>
-      <figure class="shot"><div class="frame"><img src="app-rekor.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="Yeni kişisel rekor bildirimi"></div><figcaption class="cap"><b>Rekor bildirimi</b><span>Hız ve yük rekorları antrenman sonunda kutlanır.</span></figcaption></figure>
-      <figure class="shot"><div class="frame"><img src="app-istatistik.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="İstatistik: haftalık hacim trendi, kişisel rekorlar, tahmini 1RM"></div><figcaption class="cap"><b>İstatistik &amp; 1RM</b><span>Haftalık hacim, kişisel rekorlar, tahmini 1RM.</span></figcaption></figure>
-      <figure class="shot"><div class="frame"><img src="app-gecmis.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="Antrenman geçmişi listesi"></div><figcaption class="cap"><b>Geçmiş</b><span>Tüm antrenmanlar; süre, set ve toplam tonaj.</span></figcaption></figure>
-    </div>
-  </div>
-  <div class="tour-nav rv"><button type="button" id="tPrev" aria-label="Önceki">←</button><button type="button" id="tNext" aria-label="Sonraki">→</button></div>
-</div></section>
-
-<section id="sss" style="padding-top:0" aria-labelledby="sss-h"><div class="wrap">
-  <div class="head rv"><div><div class="eyebrow">Sık sorulanlar</div><h2 id="sss-h"><span class="line"><span>Merak edilenler.</span></span></h2></div><p>Cevabını bulamadığınız soru için WhatsApp ya da <a href="mailto:destek@canhastech.com" style="color:#fff;border-bottom:1px solid var(--line2)">destek@canhastech.com</a>.</p></div>
-  <div class="faq rv"><details><summary>Has Rep tam olarak ne ölçüyor?</summary><div class="a">Ortalama konsantrik bar hızı (m/s), set içi hız kaybı yüzdesi ve tekrar sayısı çekirdek metriklerdir. Bunlara tepe hız, güç (W), hız bölgeleri ve tahmini 1RM eklenir. Form tarafında bar eğimi, tekrar tutarlılığı ve stabilite gösterilir.</div></details>\n<details><summary>Antrenman sırasında telefonu yanımda tutmam gerekiyor mu?</summary><div class="a">Hayır. Pod her şeyi kendi hafızasına kaydeder; telefon cepte, dolapta ya da evde kalabilir. Antrenman sonunda senkronize edersiniz. Telefon yakınsa ek olarak canlı önizleme de akar.</div></details>\n<details><summary>Tekrar sayımı ne kadar güvenilir? Sahte tekrar sayar mı?</summary><div class="a">Bar'ı alıp bırakma gibi hareketler filtrelenir; uygulamanın emin olamadığı tekrarlar antrenman sonunda kaydırmalı onayla size sorulur. Böylece kayıtlı her tekrar doğrulanmış olur.</div></details>\n<details><summary>Hangi hareketlerde çalışır?</summary><div class="a">Bar olan her harekette: squat, bench press, deadlift, row, overhead press ve olimpik kaldırışlar. Manyetik klips saniyeler içinde takılır. İlk sürümde temel hareketler en yüksek doğrulukla desteklenir, liste genişlemeye devam eder.</div></details>\n<details><summary>Form analizi kamera gibi milimetrik bar yolu veriyor mu?</summary><div class="a">Hayır, dürüst olalım: hareket sensörleri milimetrik bar yolu çıkaramaz. Has Rep bunun yerine yatay sapmayı bölge olarak (yeşil/sarı/kırmızı), tekrar tutarlılığını ve sallanma/stabiliteyi güvenilir biçimde ölçer.</div></details>\n<details><summary>Uygulama hangi platformda?</summary><div class="a">İlk sürüm iOS içindir. Android sürümü yol haritasında; demo formundan bekleme listesine katılabilirsiniz.</div></details>\n<details><summary>Pil ve şarj nasıl?</summary><div class="a">Pod kullanılmadığında uyku moduna geçer, sallayınca uyanır. Şarjdayken LED kırmızı, dolduğunda yeşil yanar. Kullanım kılavuzu bölümünde tüm LED durumları anlatılır.</div></details>\n<details><summary>Antrenör olarak birden fazla sporcuyu takip edebilir miyim?</summary><div class="a">Evet, kulüp ve antrenör kullanımı için çoklu cihaz kurulumu ve antrenör görünümü planlanıyor. Demo talebinde "Kulüp / antrenör" seçeneğini işaretleyin, sizinle ayrıca görüşelim.</div></details></div>
-</div></section>
-
-<section class="guide" id="kilavuz" aria-labelledby="kilavuz-h"><div class="wrap">
+GUIDE='''<section class="guide" id="kilavuz" aria-labelledby="kilavuz-h"><div class="wrap">
   <div class="head rv"><div><div class="eyebrow">Kullanım kılavuzu &amp; destek</div><h2 id="kilavuz-h"><span class="line"><span>Cihazınızı</span></span><span class="line"><span>iki dakikada tanıyın.</span></span></h2></div><p>LED ne söylüyor, cihaz nasıl uyanır, uygulamaya nasıl bağlanır. Kartlardaki düğmeler soldaki cihazı canlı olarak etkiler.</p></div>
   <div class="guide-grid rv">
     <aside class="stage" aria-label="Has Rep cihaz durumu">
@@ -529,14 +496,74 @@ def hasrep_page():
           <div class="phone" id="phone" aria-hidden="true"><div class="bar"><span>HAS REP</span><div class="podbtn">◎</div></div><div class="scr"><div>Cihazlar</div><div class="row2" id="prow"><span>Cihaz aranmadı</span><span></span></div></div></div></div></article>
     </div>
   </div>
-  <div class="sup rv"><a href="#sss"><b>Sık sorulan sorular</b><span>Ölçüm, sayım, platform, pil</span><span class="mono">SSS bölümü ↓</span></a><a href="mailto:destek@canhastech.com"><b>Destek ekibi</b><span>Cihaz veya uygulama sorunları için</span><span class="mono">destek@canhastech.com</span></a><a href="index.html#iletisim"><b>Kulüp &amp; toplu kullanım</b><span>Antrenör paneli ve çoklu cihaz kurulumu</span><span class="mono">İletişim formu →</span></a></div>
+  <div class="sup rv"><a href="#sss"><b>Sık sorulan sorular</b><span>Ölçüm, sayım, platform, pil</span><span class="mono">SSS bölümü ↓</span></a><a href="mailto:hasrep@canhastech.com"><b>Destek ekibi</b><span>Cihaz veya uygulama sorunları için</span><span class="mono">hasrep@canhastech.com</span></a><a href="index.html#iletisim"><b>Kulüp &amp; toplu kullanım</b><span>Antrenör paneli ve çoklu cihaz kurulumu</span><span class="mono">İletişim formu →</span></a></div>
+'''
+
+def hasrep_page():
+    body=f'''{nav('hasrep')}
+<header class="hero">
+  <div class="wrap">
+    <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="index.html#projeler">Ekosistem</a><i>/</i><span style="color:#fff">Has Rep</span></div>
+    <img class="brand up" src="hasrep-logo.jpg" width="900" height="609" alt="Has Rep logosu" style="animation-delay:.1s" decoding="async">
+    <h1><span class="line"><span data-kinetic data-delay=".15">Has Rep</span></span><span class="line thin"><span data-kinetic data-delay=".4" data-step="0.018">Ağırlık antrenmanlarını veriye dönüştürün</span></span></h1>
+    <p class="lede up" style="animation-delay:1s">Bara takılan VBT cihazı hareket hızını ölçer ve tekrarları sayar; uygulama form analizi yapar, yapay zekâ ile antrenman oluşturur ve analiz eder.</p>
+    <p class="sub up" style="animation-delay:1.1s">Sporcu ve antrenör için tek sistem: sensör pod + iOS uygulaması. Antrenmanı başlat, telefonu bırak.</p>
+    <div class="cta-row up" style="animation-delay:1.2s"><a class="btn primary" href="#demo">Demo talep et</a><a class="btn" href="#uygulama">Uygulamayı gör</a><a class="btn" href="#kilavuz">Kullanım kılavuzu</a></div>
+    <div class="product up" style="animation-delay:1.35s"><img src="hasrep-urun.jpg" width="1086" height="680" loading="eager" fetchpriority="high" decoding="async" alt="Has Rep sensörü"></div>
+  </div>
+</header>
+<main>
+<section id="vbt" style="padding-top:40px" aria-labelledby="vbt-h"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">VBT sistemi</div><h2 id="vbt-h"><span class="line"><span>Hız temelli antrenman,</span></span><span class="line"><span>cihazdan uygulamaya.</span></span></h2></div><p>Hız temelli antrenman (VBT) yükü değil bar hızını yönetir. Has Rep bu hızı bara oturan kompakt sensörden okur; uygulama veriyi antrenmana çevirir.</p></div>
+  <div class="pillars rv">
+    <div class="pillar"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16a8 8 0 0 1 16 0"/><path d="M12 16l4-5"/><circle cx="12" cy="16" r="1.5"/></svg></div><h3>Hareket hızı ölçümü</h3><p>Her tekrarın kaldırış hızını okur. Aynı yükte bar yavaşladıysa yorgunluk başlamıştır; hızlandıysa formdasınız.</p></div>
+    <div class="pillar"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 18v-5M10 18V8M15 18v-8M20 18V5"/></svg></div><h3>Otomatik tekrar sayımı</h3><p>Tekrarları cihaz kendisi ayırır ve sayar. Yarım tekrarı ve yeniden konumlanmayı saymaz; telefon cebinizde kalabilir.</p></div>
+    <div class="pillar"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="2"/><path d="M12 7v6l-3 6M12 13l3 6M8 10l4-2 4 2"/></svg></div><h3>Uzamsal form analizi</h3><p>Bar yolunu ve hareket kalitesini üç boyutta izler; sapan tekrarı işaretler, antrenöre ham izi bırakır.</p></div>
+    <div class="pillar"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 4a3 3 0 0 0-3 3v1a3 3 0 0 0-2 3 3 3 0 0 0 2 3v1a3 3 0 0 0 3 3h1V4H9zM15 4a3 3 0 0 1 3 3v1a3 3 0 0 1 2 3 3 3 0 0 1-2 3v1a3 3 0 0 1-3 3h-1V4h1z"/></svg></div><h3>Yapay zekâ: oluştur &amp; analiz et</h3><p>Uygulama sizin verinizle antrenman programı oluşturur, her antrenmanı analiz eder ve gelişimi raporlar.</p></div>
+  </div>
+  <div class="sig rv">
+    <div class="big"><div><div class="eyebrow">İmza özellik</div><h3 style="margin-top:14px">Antrenmanı başlat,<br>telefonu bırak.</h3></div><p>Antrenman boyunca telefona dokunmazsınız. Pod her tekrarı kendi hafızasına kaydeder; bağlantı kopsa bile veri kaybolmaz. Antrenman bitince senkronize edilir, uygulama emin olamadığı birkaç şeyi kart kart sorar — sağa kaydır doğru, sola kaydır düzelt. 30 saniye, bitti.</p></div>
+    <div class="steps">
+      <div class="s"><div class="n">01</div><div><b>Antrenmanı başlat</b><span>Pod'u bara tak, uygulamada tek düğme. Sonra telefon cebe ya da dolaba.</span></div></div>
+      <div class="s"><div class="n">02</div><div><b>Antrenmanını yap</b><span>Set, tekrar ve dinlenme otomatik ayrılır. Telefon yakınsa canlı bar hızı önizlemesi akar.</span></div></div>
+      <div class="s"><div class="n">03</div><div><b>Bitir, kaydır, onayla</b><span>Senkronizasyon sonrası şüpheli tekrarlar kartla sorulur. Her rep doğrulanmış — sahte rep yok.</span></div></div>
+    </div>
+  </div>
+  <div class="gallery rv">
+    <figure><img src="hasrep-box.jpg" width="1100" height="905" loading="lazy" decoding="async" alt="Has Rep kutusu ve üzerinde sensör — Every rep counts"><figcaption>Every rep counts · Train · Measure · Improve</figcaption></figure>
+    <figure><img src="hasrep-urun-sq.jpg" width="900" height="900" loading="lazy" decoding="async" alt="Has Rep sensörü masa üzerinde"><figcaption>Manyetik klips · Bar olan her yerde</figcaption></figure>
+  </div>
+</div></section>
+
+<section id="uygulama" style="padding-top:0" aria-labelledby="app-h"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">Uygulama turu</div><h2 id="app-h"><span class="line"><span>Antrenman ekranından</span></span><span class="line"><span>rekor bildirimine.</span></span></h2></div><p>Gerçek uygulama ekranları. Canlı bar hızı, set özetleri, form analizi, kaydırmalı onay, kişisel rekorlar ve tahmini 1RM.</p></div>
+  <div class="tour rv"><div class="fade l"></div><div class="fade r"></div>
+    <div class="track" id="track">
+      <figure class="shot"><div class="frame"><img src="app-antrenman.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="Aktif antrenman ekranı: bar hızı 0.39 m/s, güç 239 W, form %83"></div><figcaption class="cap"><b>Canlı antrenman</b><span>Bar hızı, güç, form skoru ve RPE — set sürerken.</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="app-set.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="Set geçmişi: her setin ortalama hızı ve tekrar sayısı"></div><figcaption class="cap"><b>Set özeti</b><span>Her setin ortalama hızı ve tekrarı; hız düşüşü bir bakışta.</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="app-form.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="Form analizi: bar eğimi ve rep tutarlılığı grafikleri"></div><figcaption class="cap"><b>Form analizi</b><span>Bar eğimi, tekrar tutarlılığı ve sticking point.</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="app-onay.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="Kaydırmalı onay kartı: bu tekrar sayılsın mı?"></div><figcaption class="cap"><b>Kaydırmalı onay</b><span>Sağa kaydır say, sola kaydır sayma. Sadece şüpheliler sorulur.</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="app-rekor.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="Yeni kişisel rekor bildirimi"></div><figcaption class="cap"><b>Rekor bildirimi</b><span>Hız ve yük rekorları antrenman sonunda kutlanır.</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="app-istatistik.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="İstatistik: haftalık hacim trendi, kişisel rekorlar, tahmini 1RM"></div><figcaption class="cap"><b>İstatistik &amp; 1RM</b><span>Haftalık hacim, kişisel rekorlar, tahmini 1RM.</span></figcaption></figure>
+      <figure class="shot"><div class="frame"><img src="app-gecmis.jpg" width="600" height="1304" loading="lazy" decoding="async" alt="Antrenman geçmişi listesi"></div><figcaption class="cap"><b>Geçmiş</b><span>Tüm antrenmanlar; süre, set ve toplam tonaj.</span></figcaption></figure>
+    </div>
+  </div>
+  <div class="tour-nav rv"><button type="button" id="tPrev" aria-label="Önceki">←</button><button type="button" id="tNext" aria-label="Sonraki">→</button></div>
+</div></section>
+
+<section id="sss" style="padding-top:0" aria-labelledby="sss-h"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">Sık sorulanlar</div><h2 id="sss-h"><span class="line"><span>Merak edilenler.</span></span></h2></div><p>Cevabını bulamadığınız soru için WhatsApp ya da <a href="mailto:hasrep@canhastech.com" style="color:#fff;border-bottom:1px solid var(--line2)">hasrep@canhastech.com</a>.</p></div>
+  <div class="faq rv"><details><summary>Has Rep tam olarak ne ölçüyor?</summary><div class="a">Ortalama konsantrik bar hızı (m/s), set içi hız kaybı yüzdesi ve tekrar sayısı çekirdek metriklerdir. Bunlara tepe hız, güç (W), hız bölgeleri ve tahmini 1RM eklenir. Form tarafında bar eğimi, tekrar tutarlılığı ve stabilite gösterilir.</div></details>\n<details><summary>Antrenman sırasında telefonu yanımda tutmam gerekiyor mu?</summary><div class="a">Hayır. Pod her şeyi kendi hafızasına kaydeder; telefon cepte, dolapta ya da evde kalabilir. Antrenman sonunda senkronize edersiniz. Telefon yakınsa ek olarak canlı önizleme de akar.</div></details>\n<details><summary>Tekrar sayımı ne kadar güvenilir? Sahte tekrar sayar mı?</summary><div class="a">Bar'ı alıp bırakma gibi hareketler filtrelenir; uygulamanın emin olamadığı tekrarlar antrenman sonunda kaydırmalı onayla size sorulur. Böylece kayıtlı her tekrar doğrulanmış olur.</div></details>\n<details><summary>Hangi hareketlerde çalışır?</summary><div class="a">Bar olan her harekette: squat, bench press, deadlift, row, overhead press ve olimpik kaldırışlar. Manyetik klips saniyeler içinde takılır. İlk sürümde temel hareketler en yüksek doğrulukla desteklenir, liste genişlemeye devam eder.</div></details>\n<details><summary>Form analizi kamera gibi milimetrik bar yolu veriyor mu?</summary><div class="a">Hayır, dürüst olalım: hareket sensörleri milimetrik bar yolu çıkaramaz. Has Rep bunun yerine yatay sapmayı bölge olarak (yeşil/sarı/kırmızı), tekrar tutarlılığını ve sallanma/stabiliteyi güvenilir biçimde ölçer.</div></details>\n<details><summary>Uygulama hangi platformda?</summary><div class="a">İlk sürüm iOS içindir. Android sürümü yol haritasında; demo formundan bekleme listesine katılabilirsiniz.</div></details>\n<details><summary>Pil ve şarj nasıl?</summary><div class="a">Pod kullanılmadığında uyku moduna geçer, sallayınca uyanır. Şarjdayken LED kırmızı, dolduğunda yeşil yanar. Kullanım kılavuzu bölümünde tüm LED durumları anlatılır.</div></details>\n<details><summary>Antrenör olarak birden fazla sporcuyu takip edebilir miyim?</summary><div class="a">Evet, kulüp ve antrenör kullanımı için çoklu cihaz kurulumu ve antrenör görünümü planlanıyor. Demo talebinde "Kulüp / antrenör" seçeneğini işaretleyin, sizinle ayrıca görüşelim.</div></details></div>
+</div></section>
+
+{GUIDE}
   {pnav('hasrep')}
 </div></section>
 <section class="demo" id="demo"><div class="wrap rv">
   <div><div class="eyebrow">Demo &amp; erken erişim</div><h2><span class="line"><span>Has Rep’i</span></span><span class="line"><span>kendiniz deneyin.</span></span></h2>
     <p class="lead">Bireysel sporcu, antrenör ya da kulüp — formu doldurun, size demo planlayalım ve ilk parti sevkiyatta öncelik verelim.</p>
     <ul><li>Cihaz + uygulama ile canlı demo (İzmir’de yerinde, diğer şehirlerde online)</li><li>Erken erişim fiyatı ve teslimat takvimi</li><li>Kulüpler için çoklu cihaz ve antrenör paneli planı</li></ul>
-    <p style="margin-top:26px"><a class="btn" href="hasrep-tanitim.pdf" target="_blank" rel="noopener">Tanıtım afişi (PDF, 3.5 MB) ↗</a></p></div>
+    <p style="margin-top:26px"><a class="btn" href="hasrepkk.html">Kullanım kılavuzu →</a></p></div>
   <form class="card" id="demoform" action="https://api.web3forms.com/submit" method="POST"><input type="hidden" name="access_key" value="{WEB3FORMS_KEY}"><input type="hidden" name="subject" value="Has Rep — demo / erken erişim talebi"><input type="hidden" name="from_name" value="canhastech.com/hasrep"><input type="hidden" name="profil" id="dtype" value="Bireysel sporcu"><input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
     <div class="f2"><div class="f"><label for="dn">Ad Soyad <span class="req">*</span></label><input id="dn" name="ad_soyad" required autocomplete="name" placeholder="Adınız"></div><div class="f"><label for="de">E-posta <span class="req">*</span></label><input id="de" name="email" type="email" required autocomplete="email" placeholder="ornek@kulup.com"></div></div>
     <div class="f"><label for="dp">Telefon (isteğe bağlı)</label><input id="dp" name="telefon" type="tel" autocomplete="tel" placeholder="+90 5xx xxx xx xx"></div>
@@ -548,16 +575,22 @@ def hasrep_page():
 
 {band()}
 </main>'''
-    prod={"@context":"https://schema.org","@type":"Product","name":"Has Rep","brand":{"@type":"Brand","name":"CanhasTech"},"image":[SITE+"hasrep-box.jpg",SITE+"hasrep-puck.jpg",SITE+"device-bar.jpg"],"description":"Ağırlık antrenmanlarını veriye dönüştüren VBT cihazı ve uygulaması: hareket hızı ölçümü, otomatik tekrar sayımı, uzamsal form analizi, yapay zekâ ile antrenman oluşturma ve analiz.","url":SITE+"hasrep.html","category":"Spor teknolojisi"}
+    prod={"@context":"https://schema.org","@type":"Product","name":"Has Rep","brand":{"@type":"Brand","name":"CanhasTech"},"image":[SITE+"hasrep-urun-sq.jpg",SITE+"hasrep-box.jpg"],"description":"Ağırlık antrenmanlarını veriye dönüştüren VBT cihazı ve uygulaması: hareket hızı ölçümü, otomatik tekrar sayımı, uzamsal form analizi, yapay zekâ ile antrenman oluşturma ve analiz.","url":SITE+"hasrep.html","category":"Spor teknolojisi"}
     faq=[{'q':q,'a':a.replace('\\u0027',"'")} for q,a in [('Has Rep tam olarak ne ölçüyor?', 'Ortalama konsantrik bar hızı (m/s), set içi hız kaybı yüzdesi ve tekrar sayısı çekirdek metriklerdir. Bunlara tepe hız, güç (W), hız bölgeleri ve tahmini 1RM eklenir. Form tarafında bar eğimi, tekrar tutarlılığı ve stabilite gösterilir.'), ('Antrenman sırasında telefonu yanımda tutmam gerekiyor mu?', 'Hayır. Pod her şeyi kendi hafızasına kaydeder; telefon cepte, dolapta ya da evde kalabilir. Antrenman sonunda senkronize edersiniz. Telefon yakınsa ek olarak canlı önizleme de akar.'), ('Tekrar sayımı ne kadar güvenilir? Sahte tekrar sayar mı?', 'Bar\\u0027ı alıp bırakma gibi hareketler filtrelenir; uygulamanın emin olamadığı tekrarlar antrenman sonunda kaydırmalı onayla size sorulur. Böylece kayıtlı her tekrar doğrulanmış olur.'), ('Hangi hareketlerde çalışır?', 'Bar olan her harekette: squat, bench press, deadlift, row, overhead press ve olimpik kaldırışlar. Manyetik klips saniyeler içinde takılır. İlk sürümde temel hareketler en yüksek doğrulukla desteklenir, liste genişlemeye devam eder.'), ('Form analizi kamera gibi milimetrik bar yolu veriyor mu?', 'Hayır, dürüst olalım: hareket sensörleri milimetrik bar yolu çıkaramaz. Has Rep bunun yerine yatay sapmayı bölge olarak (yeşil/sarı/kırmızı), tekrar tutarlılığını ve sallanma/stabiliteyi güvenilir biçimde ölçer.'), ('Uygulama hangi platformda?', 'İlk sürüm iOS içindir. Android sürümü yol haritasında; demo formundan bekleme listesine katılabilirsiniz.'), ('Pil ve şarj nasıl?', 'Pod kullanılmadığında uyku moduna geçer, sallayınca uyanır. Şarjdayken LED kırmızı, dolduğunda yeşil yanar. Kullanım kılavuzu bölümünde tüm LED durumları anlatılır.'), ('Antrenör olarak birden fazla sporcuyu takip edebilir miyim?', 'Evet, kulüp ve antrenör kullanımı için çoklu cihaz kurulumu ve antrenör görünümü planlanıyor. Demo talebinde "Kulüp / antrenör" seçeneğini işaretleyin, sizinle ayrıca görüşelim.')]]
     faqld={"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":x['q'],"acceptedAnswer":{"@type":"Answer","text":x['a']}} for x in faq]}
-    meta=seo_head('hasrep.html','Has Rep — VBT cihazı ve kullanım kılavuzu | CanhasTech','Has Rep: bara takılan VBT cihazı hareket hızını ölçer ve tekrarları sayar; uygulama form analizi yapar, yapay zekâ ile antrenman oluşturur. LED göstergeleri, cihazı uyandırma ve uygulamaya bağlanma rehberi.',[prod,faqld,crumbs('Has Rep','hasrep.html')],preload='device-bar.jpg',image='og-hasrep.jpg')
+    meta=seo_head('hasrep.html','Has Rep — VBT cihazı ve kullanım kılavuzu | CanhasTech','Has Rep: bara takılan VBT cihazı hareket hızını ölçer ve tekrarları sayar; uygulama form analizi yapar, yapay zekâ ile antrenman oluşturur. LED göstergeleri, cihazı uyandırma ve uygulamaya bağlanma rehberi.',[prod,faqld,crumbs('Has Rep','hasrep.html')],preload='hasrep-urun.jpg',image='og-hasrep.jpg')
     return shell('Has Rep — VBT cihazı ve kullanım kılavuzu | CanhasTech',body,HASREP_CSS,HASREP_JS,meta=meta)
 
 # ---------------------------------------------------------------- OTHER PROJECT PAGES
 DETAIL={
  'citydiamond':dict(
-   h1='Shuttle Merkezi',lede='Rezervasyondan sefere, araçtan sürücüye: shuttle operasyonunun tamamı tek panelde.',
+   h1='Turizm firması web sitesi',lede='Araç filosu, transfer ve tur hizmetleri, rezervasyon talebi — İzmir merkezli turizm firması için kurumsal site.',
+   sub='Hızlı açılan, mobil öncelikli, arama motorlarında görünen ve WhatsApp ile anında iletişime bağlanan bir vitrin.',
+   feats=[('Hizmet & filo vitrini','VIP transfer, havalimanı transferi, günlük turlar ve araç filosu; her hizmet için ayrı sayfa.','Web'),('Rezervasyon talebi','Tarih, güzergâh ve yolcu sayısıyla talep formu; WhatsApp ve telefonla anında iletişim.','Dönüşüm'),('SEO & performans','Turizm aramalarında görünürlük için yapılandırılmış içerik, hızlı yükleme, mobil uyum.','Görünürlük')],
+   steps=[('Keşif','Hizmetler, güzergâhlar ve hedef müşteri birlikte netleştirildi.'),('Tasarım','Marka kimliğine (altın / siyah) uygun, mobil öncelikli arayüz.'),('Geliştirme','Statik, hızlı ve yönetmesi kolay site; rezervasyon talebi entegrasyonu.'),('Yayın','Alan adı, SEO ve analitik kurulumu; canlı takip.')],
+   metrics=[('Mobil','öncelikli'),('WhatsApp','anında iletişim'),('SEO','turizm aramaları'),('Canlı','citydiamondturizm.com.tr')]),
+ 'shuttlemerkezi':dict(
+   h1='Shuttle rezervasyon platformu',lede='Rezervasyondan sefere, araçtan sürücüye: shuttle operasyonunun tamamı tek panelde.',
    sub='Oteller, acenteler ve yolcular aynı altyapıyı kullanır; operasyon ekibi her seferi canlı görür.',
    feats=[('Online rezervasyon','Yolcu ve acente için web rezervasyonu, anlık fiyatlandırma, kapasite kontrolü.','Web'),('Sefer & araç planlama','Araç, sürücü ve rota planlaması; doluluk ve boş koltuk takibi.','Panel'),('Acente & otel entegrasyonu','Partner girişleri, komisyon ve mutabakat raporları.','Entegrasyon')],
    steps=[('Talep','Otel, acente veya yolcu rezervasyonu açar; sistem kapasiteyi kontrol eder.'),('Planlama','Operasyon ekibi seferi araca ve sürücüye atar; yolcuya bilgi gider.'),('Sefer','Sürücü uygulamadan listeyi görür; teslim ve tamamlanma kaydedilir.'),('Mutabakat','Günlük ve aylık raporlar; acente komisyonları otomatik hesaplanır.')],
@@ -660,37 +693,41 @@ def kvkk_page():
     meta=seo_head('kvkk.html','KVKK Aydınlatma Metni | CanhasTech','CanhasTech web sitesi iletişim formu ve WhatsApp üzerinden paylaşılan kişisel verilerin işlenmesine ilişkin KVKK aydınlatma metni.')
     return shell('KVKK Aydınlatma Metni | CanhasTech',body,css,meta=meta)
 
-# ---------------------------------------------------------------- HAS REP PRIVACY
+# ---------------------------------------------------------------- HAS REP MANUAL (QR on device opens this)
 def hasrepkk_page():
     body=f'''{nav('hasrepkk')}
-<header class="hero" style="padding-bottom:24px"><div class="wrap">
-  <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="hasrep.html">Has Rep</a><i>/</i><span style="color:#fff">Gizlilik</span></div>
-  <h1><span class="line"><span data-kinetic data-delay=".15" data-step="0.02">Has Rep Gizlilik Politikası</span></span></h1>
-  <p class="lede up" style="animation-delay:.8s">Has Rep mobil uygulaması ve sensör cihazı için kişisel verilerin korunması bildirimi</p>
+<header class="hero" style="padding-bottom:16px"><div class="wrap">
+  <img class="brand up" src="hasrep-logo.jpg" width="900" height="609" alt="Has Rep logosu" style="animation-delay:.05s" decoding="async">
+  <h1><span class="line"><span data-kinetic data-delay=".15" data-step="0.02">Kullanım Kılavuzu</span></span></h1>
+  <p class="lede up" style="animation-delay:.8s">Has Rep’e hoş geldiniz. Bu sayfa cihazın arkasındaki QR koddan açılır; kurulumdan LED anlamlarına her şey burada.</p>
+  <div class="cta-row up" style="animation-delay:.95s"><a class="btn primary" href="#hizli">Hızlı başlangıç</a><a class="btn" href="#kilavuz">LED &amp; bağlantı</a><a class="btn" href="#yardim">Yardım</a></div>
 </div></header>
-<main><section style="padding-top:24px"><div class="wrap"><div class="legal rv">
-<p class="meta">Uygulama: <b>Has Rep</b> (iOS) · Geliştirici: <b>HAS Software Technologies</b> (CanhasTech markası) · İletişim: <a href="mailto:hasrep.app@gmail.com">hasrep.app@gmail.com</a> · Son güncelleme: 13 Eylül 2026</p>
-<h2>1. Toplanan veriler</h2>
-<p>Has Rep aşağıdaki verileri toplar:</p>
-<ul><li><b>Hesap bilgileri:</b> e-posta adresi (kayıt ve giriş için) ve isteğe bağlı ad.</li><li><b>Antrenman verileri:</b> set, tekrar, ağırlık, bar hızı, form metrikleri ve antrenman süresi.</li><li><b>Cihaz verileri:</b> Has Rep sensör cihazının Bluetooth (BLE) bağlantı ve tanımlama bilgileri; cihazdan aktarılan ham hareket sensörü verisi.</li><li><b>Sağlık verileri:</b> Apple Sağlık'a kaydedilen antrenman bilgileri — yalnızca kullanıcı izniyle.</li></ul>
-<h2>2. Verilerin kullanımı</h2>
-<p>Toplanan veriler yalnızca şu amaçlarla kullanılır: antrenman takibi ve analizi; kişisel rekor ve ilerleme takibi; yapay zekâ ile antrenman planı oluşturma ve analiz; sıralama ve sosyal özellikler; uygulama performansını ve doğruluğunu iyileştirmek.</p>
-<h2>3. Veri paylaşımı</h2>
-<p>Kişisel verileriniz üçüncü taraflara <b>satılmaz ve pazarlama amacıyla paylaşılmaz</b>. Veriler Firebase (Google) altyapısında güvenli biçimde saklanır. Yapay zekâ özellikleri için antrenman verileriniz kimliğinizden ayrıştırılmış olarak işlenebilir.</p>
-<h2>4. Veri güvenliği</h2>
-<p>Verileriniz Firebase Authentication ve Firestore güvenlik kurallarıyla korunur; yalnızca hesap sahibi kendi verilerine erişebilir. Aktarım TLS ile şifrelenir.</p>
-<h2>5. Apple Sağlık entegrasyonu</h2>
-<p>Has Rep, antrenman verilerini Apple Sağlık'a kaydedebilir. Bu özellik tamamen isteğe bağlıdır ve kullanıcı izni gerektirir. Apple Sağlık verileri cihazda kalır, sunucularımıza gönderilmez.</p>
-<h2>6. Saklama süresi ve hesap silme</h2>
-<p>Verileriniz hesabınız açık olduğu sürece saklanır. Hesabınızı ve tüm verilerinizi silmek için uygulama içinde <b>Profil → Ayarlar → Hesabı Sil</b> seçeneğini kullanabilirsiniz; silme işlemi geri alınamaz ve en geç 30 gün içinde tamamlanır.</p>
-<h2>7. Haklarınız</h2>
-<p>6698 sayılı KVKK m. 11 kapsamında verilerinize erişme, düzeltme, silme ve itiraz haklarınız vardır. Taleplerinizi <a href="mailto:hasrep.app@gmail.com">hasrep.app@gmail.com</a> adresine iletebilirsiniz; en geç 30 gün içinde yanıtlanır.</p>
-<h2>8. Değişiklikler</h2>
-<p>Bu politika güncellenebilir; güncel sürüm her zaman bu sayfada yayımlanır.</p>
-</div></div></section></main>'''
-    css='.legal{max-width:68ch;color:var(--muted);font-size:16px}.legal h2{font-size:20px;color:#fff;margin:34px 0 10px}.legal p,.legal ul{margin-bottom:12px}.legal li{margin-bottom:6px}.legal b{color:#fff;font-weight:500}.legal a{color:#fff;border-bottom:1px solid var(--line2)}.legal .meta{font-family:var(--mono);font-size:12.5px;padding-bottom:18px;border-bottom:1px solid var(--line)}'
-    meta=seo_head('hasrepkk.html','Has Rep Gizlilik Politikası | CanhasTech','Has Rep iOS uygulaması ve sensör cihazı için gizlilik politikası: toplanan veriler, kullanım amaçları, Apple Sağlık entegrasyonu, hesap silme ve KVKK hakları.',image='og-hasrep.jpg')
-    return shell('Has Rep Gizlilik Politikası | CanhasTech',body,css,meta=meta)
+<main>
+<section id="hizli" style="padding-top:40px" aria-labelledby="hizli-h"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">Hızlı başlangıç</div><h2 id="hizli-h"><span class="line"><span>Dört adımda hazır.</span></span></h2></div><p>İlk kullanımda cihazı tam şarj edin (LED yeşil yanana kadar). Sonrası bir dakika.</p></div>
+  <div class="quick rv">
+    <div class="q"><div class="n">1</div><b>Şarj edin</b><span>USB-C ile şarja takın. Şarj olurken LED kırmızı, dolunca yeşil yanar.</span></div>
+    <div class="q"><div class="n">2</div><b>Uygulamayı indirin</b><span>App Store’dan Has Rep uygulamasını kurun ve e-postanızla kayıt olun.</span></div>
+    <div class="q"><div class="n">3</div><b>Sallayıp eşleştirin</b><span>Cihazı hafifçe sallayın; uygulamada sağ üstteki pod simgesine dokunup cihazınızı seçin. LED maviye döner.</span></div>
+    <div class="q"><div class="n">4</div><b>Bara takın, başlayın</b><span>Manyetik klipsle bara oturtun, “Antrenmanı Başlat”a basın, telefonu bırakın. Bitince senkronize edip tekrarları onaylayın.</span></div>
+  </div>
+</div></section>
+{GUIDE.replace('<section class="guide" id="kilavuz" aria-labelledby="kilavuz-h">','<section class="guide" id="kilavuz" aria-labelledby="kilavuz-h" style="padding-top:0;border-top:0">')}
+<section id="yardim" style="padding-top:0"><div class="wrap">
+  <div class="head rv"><div><div class="eyebrow">Sorun mu var?</div><h2><span class="line"><span>Önce bunları deneyin.</span></span></h2></div><p>Çözülmezse yazın: <a href="mailto:hasrep@canhastech.com" style="color:#fff;border-bottom:1px solid var(--line2)">hasrep@canhastech.com</a> — ya da sağ alttaki WhatsApp düğmesi.</p></div>
+  <div class="faq rv">
+    <details><summary>Cihaz uygulamada görünmüyor</summary><div class="a">Cihazı sallayıp uyandırın (LED bir kez yanıp söner). Telefonun Bluetooth’u açık olsun. Uygulamada sağ üstteki pod simgesine dokunup yeniden tarayın. Hâlâ görünmüyorsa cihazı 1 dk şarja takıp tekrar deneyin.</div></details>
+    <details><summary>LED hiç yanmıyor</summary><div class="a">Pil tamamen bitmiş olabilir; en az 30 dk şarj edin. Şarjda kırmızı LED yanmıyorsa kabloyu ve adaptörü değiştirip deneyin.</div></details>
+    <details><summary>Tekrarlar eksik ya da fazla sayıldı</summary><div class="a">Antrenman sonunda kaydırmalı onay ekranında şüpheli tekrarları düzeltebilirsiniz. Cihazın bara sıkıca oturduğundan ve set arasında barı gereksiz sallamadığınızdan emin olun.</div></details>
+    <details><summary>Senkronizasyon sonrası veri gelmedi</summary><div class="a">Cihaz telefona yakınken (1–2 m) senkronizasyonu tekrar başlatın. Uygulamayı tamamen kapatıp açmak çoğu zaman yeterlidir. Veriler cihazın hafızasında durur, kaybolmaz.</div></details>
+    <details><summary>Cihazı nasıl temizlerim?</summary><div class="a">Hafif nemli, yumuşak bir bezle silin. Suya batırmayın, solvent kullanmayın. Manyetik klipsi metal talaşlarından uzak tutun.</div></details>
+  </div>
+  <div class="sup rv" style="margin-top:22px"><a href="mailto:hasrep@canhastech.com"><b>Has Rep destek</b><span>Cihaz ve uygulama soruları</span><span class="mono">hasrep@canhastech.com</span></a><a href="hasrep.html"><b>Has Rep ürün sayfası</b><span>VBT sistemi, uygulama turu, SSS</span><span class="mono">canhastech.com/hasrep.html</span></a><a href="index.html#iletisim"><b>CanhasTech</b><span>Diğer projeler ve iletişim</span><span class="mono">canhastech.com</span></a></div>
+</div></section>
+</main>'''
+    css=HASREP_CSS+'.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.q{border-radius:var(--r);border:1px solid var(--line);background:var(--card);padding:24px;display:grid;gap:8px;align-content:start}.q .n{width:32px;height:32px;border-radius:10px;background:#fff;color:#000;display:grid;place-items:center;font-family:var(--mono);font-size:12px;margin-bottom:6px}.q b{font-weight:500;font-size:16px}.q span{color:var(--muted);font-size:14px}@media(max-width:900px){.quick{grid-template-columns:1fr 1fr}}@media(max-width:520px){.quick{grid-template-columns:1fr}}'
+    meta=seo_head('hasrepkk.html','Has Rep Kullanım Kılavuzu | CanhasTech','Has Rep kullanım kılavuzu: hızlı başlangıç, LED durum göstergeleri (mavi bağlı, kırmızı şarjda, yeşil dolu), cihazı sallayarak uyandırma, uygulamaya bağlanma ve sorun giderme.',image='og-hasrep.jpg')
+    return shell('Has Rep Kullanım Kılavuzu | CanhasTech',body,css,HASREP_JS,meta=meta)
 
 # ---------------------------------------------------------------- write
 open(os.path.join(OUT,'hasrepkk.html'),'w').write(hasrepkk_page())

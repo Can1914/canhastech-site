@@ -17,6 +17,7 @@ def seo_head(page,title,desc,jsonld=None,preload=None,image='og-canhastech.jpg')
 <meta property="og:type" content="website"><meta property="og:site_name" content="CanhasTech"><meta property="og:locale" content="tr_TR">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE}{image}">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{SITE}{image}">'''
+    m+=f'\n<link rel="alternate" hreflang="tr" href="{url}"><link rel="alternate" hreflang="en" href="{SITE}en/{"" if page=="index.html" else page}"><link rel="alternate" hreflang="x-default" href="{url}">'
     if preload:m+=f'\n<link rel="preload" as="image" href="{os.path.splitext(preload)[0]}.webp" type="image/webp" fetchpriority="high">'
     if jsonld:m+='\n<script type="application/ld+json">'+json.dumps(jsonld,ensure_ascii=False)+'</script>'
     return m
@@ -69,6 +70,7 @@ def nav(active):
     return f'''<nav aria-label="Ana menü"><div class="wrap">
   <a class="logo" href="index.html" aria-label="Can Has Tech"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
   <ul>{li}</ul>
+  <a class="lang" href="en/__PAGE__" hreflang="en" lang="en" title="English">EN</a>
   <a class="btn sm primary" href="index.html#iletisim">Proje başlat</a>
   <button class="burger" type="button" aria-label="Menü" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
 </div></nav>
@@ -728,17 +730,59 @@ def hasrepkk_page():
     meta=seo_head('hasrepkk.html','Has Rep Kullanım Kılavuzu | CanhasTech','Has Rep kullanım kılavuzu: hızlı başlangıç, LED durum göstergeleri (mavi bağlı, kırmızı şarjda, yeşil dolu), cihazı sallayarak uyandırma, uygulamaya bağlanma ve sorun giderme.',image='og-hasrep.jpg')
     return shell('Has Rep Kullanım Kılavuzu | CanhasTech',body,css,HASREP_JS,meta=meta)
 
+# ---------------------------------------------------------------- EN build
+from i18n_en import D as _D, JS as _JS
+import html as _html
+def _wrap(doc):
+    if doc.lstrip().startswith('<!doctype'): return doc
+    i=doc.index('<svg')
+    return '<!doctype html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">\n'+doc[:i]+'</head><body>\n'+doc[i:]+'\n</body></html>'
+def make_en(tr,page):
+    h=_wrap(tr)
+    def tn(m):
+        inner=m.group(1); key=_html.unescape(inner.strip())
+        if key in _D:
+            lead=inner[:len(inner)-len(inner.lstrip())]; trail=inner[len(inner.rstrip()):]
+            return '>'+lead+_html.escape(_D[key],quote=False)+trail+'<'
+        return m.group(0)
+    # protect scripts/styles from text-node pass
+    parts=_re.split(r'(<script.*?</script>|<style.*?</style>)',h,flags=_re.S)
+    for i,p in enumerate(parts):
+        if p.startswith('<script') or p.startswith('<style'): continue
+        p=_re.sub(r'>([^<>]+)<',tn,p)
+        p=_re.sub(r'\b(alt|title|placeholder|aria-label|content|data-split)="([^"]*)"',lambda m:f'{m.group(1)}="{_html.escape(_D.get(_html.unescape(m.group(2)),m.group(2)),quote=True)}"',p)
+        parts[i]=p
+    h=''.join(parts)
+    def _ldval(v):
+        raw=json.loads('"'+v.group(1)+'"'); return json.dumps(_D.get(raw,raw),ensure_ascii=False)
+    h=_re.sub(r'<script type="application/ld\+json">(.*?)</script>',lambda m:'<script type="application/ld+json">'+_re.sub(r'"((?:[^"\\]|\\.)*)"',_ldval,m.group(1))+'</script>',h,flags=_re.S)
+    for k,v in _JS.items(): h=h.replace(k,v)
+    for p in PROJECTS:
+        h=h.replace(f'{p["name"]}: {p["desc"]}', f'{_D.get(p["name"],p["name"])}: {_D.get(p["desc"],p["desc"])}')
+    h=h.replace('<html lang="tr">','<html lang="en">').replace('content="tr_TR"','content="en_US"')
+    url_tr=SITE+('' if page=='index.html' else page); url_en=SITE+'en/'+('' if page=='index.html' else page)
+    h=h.replace(f'<link rel="canonical" href="{url_tr}">',f'<link rel="canonical" href="{url_en}">').replace(f'property="og:url" content="{url_tr}"',f'property="og:url" content="{url_en}"')
+    h=_re.sub(r'\b(href|src|srcset)="((?!https?:|\.\./|#|mailto:|tel:)[^"]*\.(?:css|js|webp|jpg|png|ico|json|woff2))"',lambda m:f'{m.group(1)}="../{m.group(2)}"',h)
+    h=h.replace('<a class="lang" href="en/__PAGE__" hreflang="en" lang="en" title="English">EN</a>',f'<a class="lang" href="../{"" if page=="index.html" else page}" hreflang="tr" lang="tr" title="Türkçe">TR</a>')
+    h=h.replace('href="https://wa.me/'+WHATSAPP+'?text=Merhaba%2C%20CanhasTech%20ile%20bir%20proje%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum.','href="https://wa.me/'+WHATSAPP+'?text=Hello%2C%20I%27d%20like%20to%20talk%20about%20a%20project%20with%20CanhasTech.')
+    return h
+os.makedirs(os.path.join(OUT,'en'),exist_ok=True)
+def write_page(fn,html):
+    html=html.replace('en/__PAGE__','en/'+('' if fn=='index.html' else fn))
+    open(os.path.join(OUT,fn),'w').write(html)
+    open(os.path.join(OUT,'en',fn),'w').write(make_en(html,fn))
+
 # ---------------------------------------------------------------- write
-open(os.path.join(OUT,'hasrepkk.html'),'w').write(hasrepkk_page())
-open(os.path.join(OUT,'kvkk.html'),'w').write(kvkk_page())
+write_page('hasrepkk.html',hasrepkk_page())
+write_page('kvkk.html',kvkk_page())
 open(os.path.join(OUT,'CNAME'),'w').write('canhastech.com\n')
-open(os.path.join(OUT,'404.html'),'w').write(notfound_page())
-open(os.path.join(OUT,'index.html'),'w').write(index_page())
-open(os.path.join(OUT,'hasrep.html'),'w').write(hasrep_page())
+write_page('404.html',notfound_page())
+write_page('index.html',index_page())
+write_page('hasrep.html',hasrep_page())
 for p in PROJECTS[1:]:
     if p.get('nopage'): continue
-    open(os.path.join(OUT,f"{p['slug']}.html"),'w').write(project_page(p))
+    write_page(f"{p['slug']}.html",project_page(p))
 pages=['index.html']+[f"{p['slug']}.html" for p in PROJECTS if not p.get('nopage')]+['kvkk.html','hasrepkk.html']
-open(os.path.join(OUT,'sitemap.xml'),'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{SITE}{"" if pg=="index.html" else pg}</loc><changefreq>monthly</changefreq><priority>{"1.0" if pg=="index.html" else "0.8" if pg=="hasrep.html" else "0.6"}</priority></url>\n' for pg in pages)+'</urlset>\n')
+open(os.path.join(OUT,'sitemap.xml'),'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{SITE}{pre}{"" if pg=="index.html" else pg}</loc><changefreq>monthly</changefreq><priority>{"1.0" if pg=="index.html" else "0.8" if pg=="hasrep.html" else "0.6"}</priority></url>\n' for pre in ['','en/'] for pg in pages)+'</urlset>\n')
 open(os.path.join(OUT,'robots.txt'),'w').write(f'User-agent: *\nAllow: /\nSitemap: {SITE}sitemap.xml\n')
 print('built:',sorted(f for f in os.listdir(OUT) if f.endswith('.html')))

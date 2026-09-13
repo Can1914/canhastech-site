@@ -190,3 +190,8 @@ footer .umbrella b{color:var(--muted);font-weight:500}
 footer .hs img{height:28px;width:auto;display:block;opacity:.55;transition:opacity .2s}
 footer .hs:hover img{opacity:1}
 @media(max-width:600px){footer .umbrella{flex-direction:column;align-items:flex-start}}
+
+/* language switch */
+nav .lang{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--muted);border:1px solid var(--line2);border-radius:6px;padding:6px 9px;margin-left:auto;margin-right:12px;transition:color .2s,border-color .2s}
+nav .lang:hover{color:#fff;border-color:#fff}
+@media(max-width:820px){nav .lang{margin-right:10px}}

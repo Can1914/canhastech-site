@@ -52,9 +52,12 @@ PROJECTS=[
  dict(slug='tbiathletics',name='TBI Athletics',mark='TBI',sector='Atletizm',kind='Performans App',logo='logo-tbi.jpg',
       short='Performans app’i',
       desc='Spor ve atletizm odaklı performans yazılımı: sporcu profilleri, antrenman yükü ve toparlanma takibi, antrenör raporları.'),
- dict(slug='hascontract',name='Has Contract',mark='HC',sector='Kurumsal',kind='Web Platform',
-      short='Kurumsal çözümler',
-      desc='Kurumsal sözleşme ve yönetim çözümleri: sözleşme yaşam döngüsü, onay akışları, arşiv ve raporlama — denetime hazır.'),
+ dict(slug='hascontract',name='Has Contract',mark='HC',sector='Kurumsal · Yapay zekâ',kind='Mobil + Web App',soon=True,
+      short='AI sözleşme analizi & oluşturma',
+      desc='Yapay zekâ ile sözleşme analizi ve sıfırdan sözleşme oluşturma uygulaması: yüklediğiniz sözleşmenin riskli maddelerini işaretler, sade Türkçeyle özetler; birkaç soruyla sıfırdan sözleşme taslağı üretir.'),
+ dict(slug='hasvocab',name='HasVocab',mark='HV',sector='Eğitim',kind='Mobil App',soon=True,nopage=True,logo='logo-hasvocab.png',pill=True,
+      short='Çok yakında',
+      desc='Yeni mobil uygulamamız HasVocab çok yakında. Detaylar ve erken erişim için bizi takip edin.'),
 ]
 
 def nav(active):
@@ -68,16 +71,16 @@ def nav(active):
 </div></nav>
 <div class="mnav" id="mnav">
   <a href="index.html">Ana sayfa</a><a href="index.html#hizmetler">Hizmetler</a><a href="index.html#projeler">Ekosistem</a><a href="hasrep.html">Has Rep</a><a href="index.html#iletisim">İletişim</a>
-  <div class="k">Projeler</div>{''.join(f'<a class="sub" href="{p["slug"]}.html">{p["name"]}</a>' for p in PROJECTS)}
+  <div class="k">Projeler</div>{''.join(f'<a class="sub" href="{p["slug"]}.html">{p["name"]}</a>' for p in PROJECTS if not p.get('nopage'))}
   <a class="btn primary" href="index.html#iletisim">Proje başlat</a>
 </div>'''
 
 def footer():
-    links=''.join(f'<li><a href="{p["slug"]}.html">{p["name"]}</a></li>' for p in PROJECTS)
+    links=''.join(f'<li><a href="{p["slug"]}.html">{p["name"]}</a></li>' for p in PROJECTS if not p.get('nopage'))
     return f'''<footer><div class="wrap">
   <a class="logo" href="index.html" aria-label="Can Has Tech"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
   <ul>{links}</ul>
-  <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İSTANBUL · <a href="kvkk.html">KVKK</a></span>
+  <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İSTANBUL · <a href="kvkk.html">KVKK</a> · <a href="hasrepkk.html">HAS REP GİZLİLİK</a></span>
 </div>
 <div class="wrap umbrella"><a href="https://hassoftware.com.tr" target="_blank" rel="noopener" class="hs"><img src="logo-hassoftware.png" alt="HAS Software Technologies" loading="lazy" decoding="async"></a><span>CanhasTech, <b>HAS Software Technologies</b> bünyesinde bir markadır. Faturalandırma, sözleşme ve resmi işlemler HAS Software Technologies adına yürütülür.</span></div></footer>'''
 
@@ -91,7 +94,7 @@ def shell(title,body,extra_css='',extra_js='',main=False,meta=''):
     return f'<!doctype html>\n<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">\n{doc[:doc.index("<svg")]}</head><body>\n{doc[doc.index("<svg"):]}\n</body></html>'
 
 def pnav(slug):
-    i=[p['slug'] for p in PROJECTS].index(slug);prev=PROJECTS[i-1];nxt=PROJECTS[(i+1)%len(PROJECTS)]
+    PP=[p for p in PROJECTS if not p.get('nopage')];i=[p['slug'] for p in PP].index(slug);prev=PP[i-1];nxt=PP[(i+1)%len(PP)]
     return f'''<div class="pnav rv"><a href="{prev['slug']}.html"><span class="k">← Önceki proje</span><b>{prev['name']}</b></a><a class="next" href="{nxt['slug']}.html"><span class="k">Sonraki proje →</span><b>{nxt['name']}</b></a></div>'''
 
 def band():
@@ -153,9 +156,11 @@ INDEX_CSS='''
 .pj .more{margin-top:18px;font-size:13px;color:var(--silver);display:flex;align-items:center;gap:8px}
 .pj .more::after{content:"→";transition:transform .3s}
 .pj:hover .more::after{transform:translateX(4px)}
+.pj .soon{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#000;background:#fff;padding:5px 9px;border-radius:999px;z-index:2}
+.pj.static{cursor:default;grid-column:span 2;min-height:260px}.pj.static .more::after{content:""}
 .pj.feature{grid-column:span 2}.pj.feature .visual{height:210px}
 @media(max-width:900px){.projects{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.projects{grid-template-columns:1fr}.pj.feature{grid-column:auto}}
+@media(max-width:600px){.projects{grid-template-columns:1fr}.pj.feature,.pj.static{grid-column:auto}}
 
 .cta{border-top:1px solid var(--line)}
 .cta .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
@@ -180,7 +185,7 @@ form.card{display:grid;gap:14px}
 def index_page():
     # schema node positions (percent of the 900x300 stage)
     pos=[(12,24),(50,16),(88,24),(12,82),(50,90),(88,82)]
-    nodes=''.join(f'<a class="node" href="{p["slug"]}.html" style="left:{x}%;top:{y}%;animation-delay:{1.35+i*.1:.2f}s"><span class="pill">{p["mark"]}</span><small>{p["name"]}</small></a>' for i,(p,(x,y)) in enumerate(zip(PROJECTS,pos)))
+    nodes=''.join(f'<a class="node" href="{p["slug"]}.html" style="left:{x}%;top:{y}%;animation-delay:{1.35+i*.1:.2f}s"><span class="pill">{p["mark"]}</span><small>{p["name"]}</small></a>' for i,(p,(x,y)) in enumerate(zip([q for q in PROJECTS if not q.get('nopage')],pos)))
     wires=''.join(f'<path class="wire" d="M450 180 L {x*9} {y*3.4}"/>' for x,y in pos)
     hub=f'<a class="node hub" href="#projeler" style="left:50%;top:53%;animation-delay:1.25s"><span class="pill"><img src="canhastech-mark.png" width="52" height="53" alt="CanhasTech"></span><small>CanhasTech Hub</small></a>'
     cards=''
@@ -188,13 +193,15 @@ def index_page():
         if p['slug']=='hasrep': vis='<img src="device-bar.jpg" width="1004" height="310" loading="lazy" decoding="async" alt="Olimpik bara takılı Has Rep VBT sensörü">'
         elif p.get('logo'): vis=f'<div class="g"></div><img class="plogo{" pill" if p.get("pill") else ""}" src="{p["logo"]}" loading="lazy" decoding="async" alt="{p["name"]} logosu">'
         else: vis=f'<div class="g"></div><div class="mark">{p["mark"]}</div>'
-        cards+=f'''<a class="card glass pj{' feature' if p['slug']=='hasrep' else ''}" href="{p['slug']}.html"><div class="visual">{vis}</div><div class="body"><div class="tag"><span>{p['sector']}</span><span>{p['kind']}</span></div><h3>{p['name']}</h3><p>{p['desc']}</p><div class="more">{p['name']} sayfasına git</div></div></a>'''
+        tag=f'<span class="soon">Çok yakında</span>' if p.get('soon') else ''
+        inner=f'<div class="visual">{vis}{tag}</div><div class="body"><div class="tag"><span>{p["sector"]}</span><span>{p["kind"]}</span></div><h3>{p["name"]}</h3><p>{p["desc"]}</p><div class="more">{"Detaylar yakında" if p.get("nopage") else p["name"]+" sayfasına git"}</div></div>'
+        if p.get('nopage'): cards+=f'<div class="card glass pj static">{inner}</div>'
+        else: cards+=f'<a class="card glass pj{" feature" if p["slug"]=="hasrep" else ""}" href="{p["slug"]}.html">{inner}</a>'
     body=f'''{nav('index')}
 <header class="hero" id="top">
-  <div class="beam" aria-hidden="true"></div>
   <div class="wrap">
     <div class="eyebrow up" style="animation-delay:.05s">Yazılım · Donanım · Yapay zekâ</div>
-    <h1><span class="line"><span data-kinetic data-delay=".15">CanhasTech</span></span><span class="line thin"><span data-kinetic data-delay=".4" data-step="0.02">Akıllı teknolojiler ekosistemi</span></span></h1>
+    <h1><span class="line"><span data-kinetic data-delay=".15">Can Has Tech</span></span><span class="line thin"><span data-kinetic data-delay=".4" data-step="0.02">Akıllı teknolojiler ekosistemi</span></span></h1>
     <p class="lede up" style="animation-delay:.9s">İhtiyacınıza göre özel web siteleri ve mobil uygulamalar geliştiriyoruz.</p>
     <p class="sub up" style="animation-delay:1s">Fikirden ürüne: tasarım, yazılım, gerekirse donanım ve yapay zekâ — tek ekipten, tek sorumlulukla.</p>
     <div class="cta-row up" style="animation-delay:1.1s"><a class="btn primary" href="#iletisim">Projenizi anlatın <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a><a class="btn" href="#projeler">Ekosistemi keşfet</a></div>
@@ -436,7 +443,6 @@ form.addEventListener('submit',async e=>{e.preventDefault();done.className='done
 def hasrep_page():
     body=f'''{nav('hasrep')}
 <header class="hero">
-  <div class="beam" aria-hidden="true"></div>
   <div class="wrap">
     <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="index.html#projeler">Ekosistem</a><i>/</i><span style="color:#fff">Has Rep</span></div>
     <img class="brand up" src="hasrep-logo.jpg" width="900" height="609" alt="Has Rep logosu" style="animation-delay:.1s" decoding="async">
@@ -573,11 +579,11 @@ DETAIL={
    steps=[('Test','Dönem başı testleri girilir; referans değerler oluşur.'),('Yük','Her antrenman sonrası yük ve RPE kaydı; haftalık toplam izlenir.'),('Toparlanma','Uyku ve yorgunluk verisi; yeşil / sarı / kırmızı durum.'),('Rapor','Antrenör dönem raporunu tek tıkla alır.')],
    metrics=[('Sporcu','+ antrenör görünümü'),('Haftalık','yük özeti'),('3','durum: yeşil · sarı · kırmızı'),('PDF','rapor çıktısı')]),
  'hascontract':dict(
-   h1='Kurumsal çözümler',lede='Sözleşme yaşam döngüsü, onay akışları ve arşiv — denetime hazır.',
-   sub='Şablondan imzaya, hatırlatmadan arşive: kurumsal sözleşme yönetimi tek platformda.',
-   feats=[('Şablon & oluşturma','Kurumsal şablonlar, değişken alanlar, sürüm takibi.','Platform'),('Onay akışları','Rol bazlı onay, hatırlatmalar, süre aşımı uyarıları.','Süreç'),('Arşiv & raporlama','Tam metin arama, süre dolumu takvimi, denetim izi.','Kayıt')],
-   steps=[('Oluştur','Şablondan sözleşme üretilir; alanlar doldurulur.'),('Onayla','Tanımlı akışla onaycılar sırayla imzalar; gecikmeler hatırlatılır.'),('Yürürlük','Sözleşme arşive girer; yenileme ve süre dolumu takvime işlenir.'),('Denetim','Her adım kayıt altındadır; raporlar tek tıkla alınır.')],
-   metrics=[('Rol','bazlı onay'),('Tam metin','arama'),('Otomatik','süre hatırlatma'),('Denetim','izi')]),
+   h1='AI ile sözleşme analizi ve oluşturma',lede='Sözleşmenizi yükleyin, riskleri görün; ya da birkaç soruyla sıfırdan sözleşme oluşturun.',
+   sub='Çok yakında. Hukuki danışmanlığın yerini almaz; sözleşmeyi anlamanızı ve hazırlamanızı hızlandırır.',
+   feats=[('Yapay zekâ ile analiz','Sözleşmeyi yükleyin; riskli maddeler, eksik hükümler ve tek taraflı şartlar işaretlenir, sade Türkçeyle özetlenir.','Analiz'),('Sıfırdan oluşturma','Birkaç soruya cevap verin; kira, hizmet, gizlilik, iş sözleşmesi gibi türlerde taslak dakikalar içinde hazır.','Oluşturma'),('Düzenle & paylaş','Maddeleri yapay zekâ ile yeniden yazdırın, sürümleri karşılaştırın, PDF olarak paylaşın.','Belge')],
+   steps=[('Yükle veya seç','Mevcut sözleşmenizi yükleyin ya da sıfırdan başlamak için sözleşme türünü seçin.'),('Analiz','Yapay zekâ maddeleri okur; risk, eksik ve dikkat gerektiren noktaları listeler.'),('Düzenle','Önerilen değişiklikleri tek dokunuşla uygulayın veya kendi ifadenizi yazın.'),('Oluştur & paylaş','Son hâli PDF olarak dışa aktarın; karşı tarafla paylaşın.')],
+   metrics=[('AI','madde madde analiz'),('Dakikalar','içinde taslak'),('Sade','Türkçe özet'),('Çok yakında','iOS · Web')]),
 }
 
 def project_page(p):
@@ -587,9 +593,8 @@ def project_page(p):
     metrics=''.join(f'<div class="m"><div class="v">{v}</div><div class="l">{l}</div></div>' for v,l in d['metrics'])
     body=f'''{nav(p['slug'])}
 <header class="hero">
-  <div class="beam" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="index.html#projeler">Ekosistem</a><i>/</i><span style="color:#fff">{p['name']}</span></div>
+    <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="index.html#projeler">Ekosistem</a><i>/</i><span style="color:#fff">{p['name']}</span>{'<i>/</i><span style="color:#fff;background:#fff;color:#000;padding:2px 8px;border-radius:999px">Çok yakında</span>' if p.get('soon') else ''}</div>
     {f'<img class="plogo-hero{" pill" if p.get("pill") else ""} up" src="{p["logo"]}" alt="{p["name"]} logosu" style="animation-delay:.1s" decoding="async">' if p.get('logo') else ''}
     <h1><span class="line"><span data-kinetic data-delay=".15">{p['name']}</span></span><span class="line thin"><span data-kinetic data-delay=".4" data-step="0.02">{d['h1']}</span></span></h1>
     <p class="lede up" style="animation-delay:1s">{d['lede']}</p>
@@ -617,19 +622,19 @@ def project_page(p):
 # ---------------------------------------------------------------- 404
 def notfound_page():
     body=f'''{nav('404')}
-<header class="hero"><div class="beam" aria-hidden="true"></div><div class="wrap">
+<header class="hero"><div class="wrap">
   <div class="eyebrow up">404</div>
   <h1><span class="line"><span data-kinetic data-delay=".15">Sayfa bulunamadı</span></span></h1>
   <p class="lede up" style="animation-delay:.8s">Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.</p>
   <div class="cta-row up" style="animation-delay:.95s"><a class="btn primary" href="index.html">Ana sayfaya dön</a><a class="btn" href="hasrep.html">Has Rep</a><a class="btn" href="index.html#iletisim">İletişim</a></div>
 </div></header>
-<main><section style="padding-top:0"><div class="wrap"><div class="grid3 rv">{''.join(f'<a class="card glass" href="{p["slug"]}.html"><div class="k"><span>{p["sector"]}</span></div><h3>{p["name"]}</h3><p>{p["short"]}</p></a>' for p in PROJECTS)}</div></div></section></main>'''
+<main><section style="padding-top:0"><div class="wrap"><div class="grid3 rv">{''.join(f'<a class="card glass" href="{p["slug"]}.html"><div class="k"><span>{p["sector"]}</span></div><h3>{p["name"]}</h3><p>{p["short"]}</p></a>' for p in PROJECTS if not p.get('nopage'))}</div></div></section></main>'''
     return shell('Sayfa bulunamadı | CanhasTech',body,meta='<meta name="robots" content="noindex">')
 
 # ---------------------------------------------------------------- KVKK
 def kvkk_page():
     body=f'''{nav('kvkk')}
-<header class="hero" style="padding-bottom:24px"><div class="beam" aria-hidden="true"></div><div class="wrap">
+<header class="hero" style="padding-bottom:24px"><div class="wrap">
   <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><span style="color:#fff">KVKK</span></div>
   <h1><span class="line"><span data-kinetic data-delay=".15" data-step="0.02">Aydınlatma Metni</span></span></h1>
   <p class="lede up" style="animation-delay:.8s">6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında bilgilendirme</p>
@@ -653,15 +658,49 @@ def kvkk_page():
     meta=seo_head('kvkk.html','KVKK Aydınlatma Metni | CanhasTech','CanhasTech web sitesi iletişim formu ve WhatsApp üzerinden paylaşılan kişisel verilerin işlenmesine ilişkin KVKK aydınlatma metni.')
     return shell('KVKK Aydınlatma Metni | CanhasTech',body,css,meta=meta)
 
+# ---------------------------------------------------------------- HAS REP PRIVACY
+def hasrepkk_page():
+    body=f'''{nav('hasrepkk')}
+<header class="hero" style="padding-bottom:24px"><div class="wrap">
+  <div class="crumb up"><a href="index.html">CanhasTech</a><i>/</i><a href="hasrep.html">Has Rep</a><i>/</i><span style="color:#fff">Gizlilik</span></div>
+  <h1><span class="line"><span data-kinetic data-delay=".15" data-step="0.02">Has Rep Gizlilik Politikası</span></span></h1>
+  <p class="lede up" style="animation-delay:.8s">Has Rep mobil uygulaması ve sensör cihazı için kişisel verilerin korunması bildirimi</p>
+</div></header>
+<main><section style="padding-top:24px"><div class="wrap"><div class="legal rv">
+<p class="meta">Uygulama: <b>Has Rep</b> (iOS) · Geliştirici: <b>HAS Software Technologies</b> (CanhasTech markası) · İletişim: <a href="mailto:hasrep.app@gmail.com">hasrep.app@gmail.com</a> · Son güncelleme: 13 Eylül 2026</p>
+<h2>1. Toplanan veriler</h2>
+<p>Has Rep aşağıdaki verileri toplar:</p>
+<ul><li><b>Hesap bilgileri:</b> e-posta adresi (kayıt ve giriş için) ve isteğe bağlı ad.</li><li><b>Antrenman verileri:</b> set, tekrar, ağırlık, bar hızı, form metrikleri ve antrenman süresi.</li><li><b>Cihaz verileri:</b> Has Rep sensör cihazının Bluetooth (BLE) bağlantı ve tanımlama bilgileri; cihazdan aktarılan ham hareket sensörü verisi.</li><li><b>Sağlık verileri:</b> Apple Sağlık'a kaydedilen antrenman bilgileri — yalnızca kullanıcı izniyle.</li></ul>
+<h2>2. Verilerin kullanımı</h2>
+<p>Toplanan veriler yalnızca şu amaçlarla kullanılır: antrenman takibi ve analizi; kişisel rekor ve ilerleme takibi; yapay zekâ ile antrenman planı oluşturma ve analiz; sıralama ve sosyal özellikler; uygulama performansını ve doğruluğunu iyileştirmek.</p>
+<h2>3. Veri paylaşımı</h2>
+<p>Kişisel verileriniz üçüncü taraflara <b>satılmaz ve pazarlama amacıyla paylaşılmaz</b>. Veriler Firebase (Google) altyapısında güvenli biçimde saklanır. Yapay zekâ özellikleri için antrenman verileriniz kimliğinizden ayrıştırılmış olarak işlenebilir.</p>
+<h2>4. Veri güvenliği</h2>
+<p>Verileriniz Firebase Authentication ve Firestore güvenlik kurallarıyla korunur; yalnızca hesap sahibi kendi verilerine erişebilir. Aktarım TLS ile şifrelenir.</p>
+<h2>5. Apple Sağlık entegrasyonu</h2>
+<p>Has Rep, antrenman verilerini Apple Sağlık'a kaydedebilir. Bu özellik tamamen isteğe bağlıdır ve kullanıcı izni gerektirir. Apple Sağlık verileri cihazda kalır, sunucularımıza gönderilmez.</p>
+<h2>6. Saklama süresi ve hesap silme</h2>
+<p>Verileriniz hesabınız açık olduğu sürece saklanır. Hesabınızı ve tüm verilerinizi silmek için uygulama içinde <b>Profil → Ayarlar → Hesabı Sil</b> seçeneğini kullanabilirsiniz; silme işlemi geri alınamaz ve en geç 30 gün içinde tamamlanır.</p>
+<h2>7. Haklarınız</h2>
+<p>6698 sayılı KVKK m. 11 kapsamında verilerinize erişme, düzeltme, silme ve itiraz haklarınız vardır. Taleplerinizi <a href="mailto:hasrep.app@gmail.com">hasrep.app@gmail.com</a> adresine iletebilirsiniz; en geç 30 gün içinde yanıtlanır.</p>
+<h2>8. Değişiklikler</h2>
+<p>Bu politika güncellenebilir; güncel sürüm her zaman bu sayfada yayımlanır.</p>
+</div></div></section></main>'''
+    css='.legal{max-width:68ch;color:var(--muted);font-size:16px}.legal h2{font-size:20px;color:#fff;margin:34px 0 10px}.legal p,.legal ul{margin-bottom:12px}.legal li{margin-bottom:6px}.legal b{color:#fff;font-weight:500}.legal a{color:#fff;border-bottom:1px solid var(--line2)}.legal .meta{font-family:var(--mono);font-size:12.5px;padding-bottom:18px;border-bottom:1px solid var(--line)}'
+    meta=seo_head('hasrepkk.html','Has Rep Gizlilik Politikası | CanhasTech','Has Rep iOS uygulaması ve sensör cihazı için gizlilik politikası: toplanan veriler, kullanım amaçları, Apple Sağlık entegrasyonu, hesap silme ve KVKK hakları.',image='og-hasrep.jpg')
+    return shell('Has Rep Gizlilik Politikası | CanhasTech',body,css,meta=meta)
+
 # ---------------------------------------------------------------- write
+open(os.path.join(OUT,'hasrepkk.html'),'w').write(hasrepkk_page())
 open(os.path.join(OUT,'kvkk.html'),'w').write(kvkk_page())
 open(os.path.join(OUT,'CNAME'),'w').write('canhastech.com\n')
 open(os.path.join(OUT,'404.html'),'w').write(notfound_page())
 open(os.path.join(OUT,'index.html'),'w').write(index_page())
 open(os.path.join(OUT,'hasrep.html'),'w').write(hasrep_page())
 for p in PROJECTS[1:]:
+    if p.get('nopage'): continue
     open(os.path.join(OUT,f"{p['slug']}.html"),'w').write(project_page(p))
-pages=['index.html']+[f"{p['slug']}.html" for p in PROJECTS]+['kvkk.html']
+pages=['index.html']+[f"{p['slug']}.html" for p in PROJECTS if not p.get('nopage')]+['kvkk.html','hasrepkk.html']
 open(os.path.join(OUT,'sitemap.xml'),'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{SITE}{"" if pg=="index.html" else pg}</loc><changefreq>monthly</changefreq><priority>{"1.0" if pg=="index.html" else "0.8" if pg=="hasrep.html" else "0.6"}</priority></url>\n' for pg in pages)+'</urlset>\n')
 open(os.path.join(OUT,'robots.txt'),'w').write(f'User-agent: *\nAllow: /\nSitemap: {SITE}sitemap.xml\n')
 print('built:',sorted(f for f in os.listdir(OUT) if f.endswith('.html')))

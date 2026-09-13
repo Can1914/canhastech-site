@@ -9,7 +9,7 @@
 <meta property="og:type" content="website"><meta property="og:site_name" content="CanhasTech"><meta property="og:locale" content="tr_TR">
 <meta property="og:title" content="Has Rep Kullanım Kılavuzu | CanhasTech"><meta property="og:description" content="Has Rep kullanım kılavuzu: hızlı başlangıç, LED durum göstergeleri (mavi bağlı, kırmızı şarjda, yeşil dolu), cihazı sallayarak uyandırma, uygulamaya bağlanma ve sorun giderme."><meta property="og:url" content="https://canhastech.com/hasrepkk.html"><meta property="og:image" content="https://canhastech.com/og-hasrep.jpg">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Has Rep Kullanım Kılavuzu | CanhasTech"><meta name="twitter:description" content="Has Rep kullanım kılavuzu: hızlı başlangıç, LED durum göstergeleri (mavi bağlı, kırmızı şarjda, yeşil dolu), cihazı sallayarak uyandırma, uygulamaya bağlanma ve sorun giderme."><meta name="twitter:image" content="https://canhastech.com/og-hasrep.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="preload" as="font" type="font/woff2" href="fonts/Geist-500-latin.woff2" crossorigin><link rel="preload" as="font" type="font/woff2" href="fonts/Geist-400-latin.woff2" crossorigin><link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="site.css">
 <style>
 .hero .brand{display:block;width:min(260px,60vw);height:auto;margin:22px auto -6px;-webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,#000 55%,transparent 100%)}
@@ -156,7 +156,7 @@ form.card{display:grid;gap:14px}
 <div class="smoke" aria-hidden="true"><i class="s1"></i><i class="s2"></i><i class="s3"></i></div>
 <div class="page">
 <nav aria-label="Ana menü"><div class="wrap">
-  <a class="logo" href="index.html" aria-label="Can Has Tech"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
+  <a class="logo" href="index.html" aria-label="Can Has Tech"><picture><source srcset="canhastech-mark.webp" type="image/webp"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"></picture><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
   <ul><li><a href="index.html" data-kinetic data-delay="0.15" data-step="0.02">Ana sayfa</a></li><li><a href="index.html#hizmetler" data-kinetic data-delay="0.23" data-step="0.02">Hizmetler</a></li><li><a href="index.html#projeler" data-kinetic data-delay="0.31" data-step="0.02">Ekosistem</a></li><li><a href="hasrep.html" data-kinetic data-delay="0.39" data-step="0.02">Has Rep</a></li><li><a href="index.html#iletisim" data-kinetic data-delay="0.47" data-step="0.02">İletişim</a></li></ul>
   <a class="btn sm primary" href="index.html#iletisim">Proje başlat</a>
   <button class="burger" type="button" aria-label="Menü" aria-expanded="false" aria-controls="mnav"><i></i><i></i><i></i></button>
@@ -167,7 +167,7 @@ form.card{display:grid;gap:14px}
   <a class="btn primary" href="index.html#iletisim">Proje başlat</a>
 </div>
 <header class="hero" style="padding-bottom:16px"><div class="wrap">
-  <img class="brand up" src="hasrep-logo.jpg" width="900" height="609" alt="Has Rep logosu" style="animation-delay:.05s" decoding="async">
+  <picture><source srcset="hasrep-logo.webp" type="image/webp"><img class="brand up" src="hasrep-logo.jpg" width="900" height="609" alt="Has Rep logosu" style="animation-delay:.05s" decoding="async"></picture>
   <h1><span class="line"><span data-kinetic data-delay=".15" data-step="0.02">Kullanım Kılavuzu</span></span></h1>
   <p class="lede up" style="animation-delay:.8s">Has Rep’e hoş geldiniz. Bu sayfa cihazın arkasındaki QR koddan açılır; kurulumdan LED anlamlarına her şey burada.</p>
   <div class="cta-row up" style="animation-delay:.95s"><a class="btn primary" href="#hizli">Hızlı başlangıç</a><a class="btn" href="#kilavuz">LED &amp; bağlantı</a><a class="btn" href="#yardim">Yardım</a></div>
@@ -187,7 +187,7 @@ form.card{display:grid;gap:14px}
   <div class="guide-grid rv">
     <aside class="stage" aria-label="Has Rep cihaz durumu">
       <div class="pod" id="pod"><div class="halo"></div>
-        <img src="hasrep-urun-sq.jpg" width="900" height="900" alt="Has Rep sensörü" decoding="async"><span id="led" class="leddot" aria-hidden="true"></span>
+        <picture><source srcset="hasrep-urun-sq.webp" type="image/webp"><img src="hasrep-urun-sq.jpg" width="900" height="900" alt="Has Rep sensörü" decoding="async"></picture><span id="led" class="leddot" aria-hidden="true"></span>
       </div>
       <div class="status"><div><div class="k">Durum</div><div class="v" id="sState"><i></i>Uyku modunda</div></div><div><div class="k">LED</div><div class="v" id="sLed"><i></i>Kapalı</div></div><div><div class="k">Bağlantı</div><div class="v" id="sConn">Bağlı değil</div></div><div><div class="k">Şarj</div><div class="v" id="sBat">%72</div></div></div>
     </aside>

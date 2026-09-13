@@ -2,7 +2,7 @@
 import os
 OUT=os.path.dirname(os.path.abspath(__file__))
 
-FONTS='<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">'
+FONTS='<link rel="preload" as="font" type="font/woff2" href="fonts/Geist-500-latin.woff2" crossorigin><link rel="preload" as="font" type="font/woff2" href="fonts/Geist-400-latin.woff2" crossorigin><link rel="stylesheet" href="fonts/fonts.css">'
 SITE='https://canhastech.com/'
 WEB3FORMS_KEY='18ddeacb-67bd-46c4-a1a2-361990c1e6a5'   # web3forms.com adresinden alınan access key
 WHATSAPP='905537621914'                 # ülke koduyla, boşluksuz
@@ -17,7 +17,7 @@ def seo_head(page,title,desc,jsonld=None,preload=None,image='og-canhastech.jpg')
 <meta property="og:type" content="website"><meta property="og:site_name" content="CanhasTech"><meta property="og:locale" content="tr_TR">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE}{image}">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{SITE}{image}">'''
-    if preload:m+=f'\n<link rel="preload" as="image" href="{preload}" fetchpriority="high">'
+    if preload:m+=f'\n<link rel="preload" as="image" href="{os.path.splitext(preload)[0]}.webp" type="image/webp" fetchpriority="high">'
     if jsonld:m+='\n<script type="application/ld+json">'+json.dumps(jsonld,ensure_ascii=False)+'</script>'
     return m
 ORG={"@context":"https://schema.org","@type":"Organization","name":"CanhasTech","alternateName":"Can Has Tech","url":SITE,"logo":SITE+"canhastech-logo.png","email":"info@canhastech.com","address":{"@type":"PostalAddress","addressLocality":"İzmir","addressCountry":"TR"},"description":"İhtiyaca göre özel web siteleri ve mobil uygulamalar geliştiren yazılım, donanım ve yapay zekâ stüdyosu.","parentOrganization":{"@type":"Organization","name":"HAS Software Technologies","url":"https://hassoftware.com.tr"}}
@@ -90,7 +90,16 @@ def footer():
 WA=f'<a class="wa" href="https://wa.me/{WHATSAPP}?text=Merhaba%2C%20CanhasTech%20ile%20bir%20proje%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp ile yazın"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1.1 2.7 11.5 11.5 0 0 0 4.4 3.9c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2 2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg><span>WhatsApp</span><i class="dot"></i></a>'
 SMOKE='<div class="smoke" aria-hidden="true"><i class="s1"></i><i class="s2"></i><i class="s3"></i></div>'
 
+import re as _re
+def _pictures(html):
+    def sub(m):
+        tag=m.group(0); src=m.group(1); base=os.path.splitext(src)[0]
+        if not os.path.exists(os.path.join(OUT,base+'.webp')): return tag
+        return f'<picture><source srcset="{base}.webp" type="image/webp">{tag}</picture>'
+    return _re.sub(r'<img [^>]*?src="([^"]+\.(?:jpg|png))"[^>]*>',sub,html)
+
 def shell(title,body,extra_css='',extra_js='',main=False,meta=''):
+    body=_pictures(body)
     head=f'<title>{title}</title>\n{meta}\n{FONTS}\n<link rel="stylesheet" href="site.css">\n<style>{extra_css}</style>'
     doc=f'{head}\n{MARK}\n{SMOKE}\n<div class="page">\n{body}\n</div>\n{footer()}\n{WA}\n<script src="site.js" defer></script>\n<script defer>{extra_js}</script>'
     if main: return doc   # the Artifact tool wraps the main page in its own skeleton

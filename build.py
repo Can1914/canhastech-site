@@ -20,7 +20,7 @@ def seo_head(page,title,desc,jsonld=None,preload=None,image='og-canhastech.jpg')
     if preload:m+=f'\n<link rel="preload" as="image" href="{preload}" fetchpriority="high">'
     if jsonld:m+='\n<script type="application/ld+json">'+json.dumps(jsonld,ensure_ascii=False)+'</script>'
     return m
-ORG={"@context":"https://schema.org","@type":"Organization","name":"CanhasTech","alternateName":"Can Has Tech","url":SITE,"logo":SITE+"canhastech-logo.png","email":"info@canhastech.com","address":{"@type":"PostalAddress","addressLocality":"İstanbul","addressCountry":"TR"},"description":"İhtiyaca göre özel web siteleri ve mobil uygulamalar geliştiren yazılım, donanım ve yapay zekâ stüdyosu.","parentOrganization":{"@type":"Organization","name":"HAS Software Technologies","url":"https://hassoftware.com.tr"}}
+ORG={"@context":"https://schema.org","@type":"Organization","name":"CanhasTech","alternateName":"Can Has Tech","url":SITE,"logo":SITE+"canhastech-logo.png","email":"info@canhastech.com","address":{"@type":"PostalAddress","addressLocality":"İzmir","addressCountry":"TR"},"description":"İhtiyaca göre özel web siteleri ve mobil uygulamalar geliştiren yazılım, donanım ve yapay zekâ stüdyosu.","parentOrganization":{"@type":"Organization","name":"HAS Software Technologies","url":"https://hassoftware.com.tr"}}
 def crumbs(name,page):
     return {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"CanhasTech","item":SITE},{"@type":"ListItem","position":2,"name":"Ekosistem","item":SITE+"#projeler"},{"@type":"ListItem","position":3,"name":name,"item":SITE+page}]}
 
@@ -80,7 +80,7 @@ def footer():
     return f'''<footer><div class="wrap">
   <a class="logo" href="index.html" aria-label="Can Has Tech"><img src="canhastech-mark.png" width="39" height="40" alt="" decoding="async"><span class="w"><b>CAN HAS TECH</b><span>Technology Solutions</span></span></a>
   <ul>{links}</ul>
-  <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İSTANBUL · <a href="kvkk.html">KVKK</a> · <a href="hasrepkk.html">HAS REP GİZLİLİK</a></span>
+  <span class="mono" style="font-size:11px;letter-spacing:.14em">© 2026 CANHASTECH · İZMİR · <a href="kvkk.html">KVKK</a> · <a href="hasrepkk.html">HAS REP GİZLİLİK</a></span>
 </div>
 <div class="wrap umbrella"><a href="https://hassoftware.com.tr" target="_blank" rel="noopener" class="hs"><img src="logo-hassoftware.png" alt="HAS Software Technologies" loading="lazy" decoding="async"></a><span>CanhasTech, <b>HAS Software Technologies</b> bünyesinde bir markadır. Faturalandırma, sözleşme ve resmi işlemler HAS Software Technologies adına yürütülür.</span></div></footer>'''
 
@@ -235,7 +235,7 @@ def index_page():
     <a class="ref" href="cagriaslanfit.html" title="Privé — Cagriaslanfit"><img src="logo-prive.png" alt="Privé Elite Athlete Development" loading="lazy" decoding="async"></a>
     <a class="ref pill" href="cemilhasmedikal.html" title="HAS Medical Equipments"><img src="logo-hasmedical.png" alt="HAS Medical Equipments" loading="lazy" decoding="async"></a>
     <a class="ref" href="tbiathletics.html" title="TBI Athletics"><img src="logo-tbi.jpg" alt="TBI Athletics" loading="lazy" decoding="async"></a>
-    <a class="ref pill" href="https://hassoftware.com.tr" target="_blank" rel="noopener" title="HAS Software Technologies"><img src="logo-hassoftware.png" alt="HAS Software Technologies" loading="lazy" decoding="async"></a>
+    <a class="ref" href="https://hassoftware.com.tr" target="_blank" rel="noopener" title="HAS Software Technologies"><img src="logo-hassoftware.png" alt="HAS Software Technologies" loading="lazy" decoding="async"></a>
   </div>
 </div></section>
 
@@ -246,7 +246,7 @@ def index_page():
 
 <section class="cta" id="iletisim"><div class="wrap rv">
   <div><div class="eyebrow">İletişim</div><h2><span class="line"><span>Projenizi</span></span><span class="line"><span>hayata geçirelim.</span></span></h2><p class="lead">Bir fikir, bir ekran görüntüsü ya da yarım kalmış bir proje — nereden başladığınız fark etmez. 48 saat içinde dönüş yapar, ilk görüşmede kapsam ve yol haritasını birlikte çıkarırız.</p>
-    <div class="contacts"><a href="mailto:info@canhastech.com">info@canhastech.com<span>E-posta</span></a><a href="https://canhastech.com" target="_blank" rel="noopener">canhastech.com<span>Web</span></a><a href="#top">İstanbul, Türkiye<span>Konum</span></a></div></div>
+    <div class="contacts"><a href="mailto:info@canhastech.com">info@canhastech.com<span>E-posta</span></a><a href="https://canhastech.com" target="_blank" rel="noopener">canhastech.com<span>Web</span></a><a href="#top">İzmir, Türkiye<span>Konum</span></a></div></div>
   <form class="card" id="contact" action="https://api.web3forms.com/submit" method="POST"><input type="hidden" name="access_key" value="{WEB3FORMS_KEY}"><input type="hidden" name="subject" value="CanhasTech — yeni proje talebi"><input type="hidden" name="from_name" value="canhastech.com"><input type="hidden" name="proje_turu" id="ptype" value="Web sitesi"><input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off"><div class="f2"><div class="f"><label for="n">Ad Soyad <span class="req">*</span></label><input id="n" name="ad_soyad" placeholder="Adınız" required autocomplete="name"></div><div class="f"><label for="e">E-posta <span class="req">*</span></label><input id="e" name="email" type="email" placeholder="ornek@sirket.com" required autocomplete="email"></div></div>
     <div class="f"><label>Proje türü</label><div class="chips" id="chips"><button type="button" class="chip on">Web sitesi</button><button type="button" class="chip">Mobil uygulama</button><button type="button" class="chip">Web + Mobil</button><button type="button" class="chip">Donanım / IoT</button><button type="button" class="chip">Yapay zekâ</button></div></div>
     <div class="f"><label for="m">Kısaca anlatın</label><textarea id="m" name="mesaj" placeholder="Ne yapmak istiyorsunuz, kimin için, ne zaman?"></textarea></div>
@@ -533,7 +533,7 @@ def hasrep_page():
 <section class="demo" id="demo"><div class="wrap rv">
   <div><div class="eyebrow">Demo &amp; erken erişim</div><h2><span class="line"><span>Has Rep’i</span></span><span class="line"><span>kendiniz deneyin.</span></span></h2>
     <p class="lead">Bireysel sporcu, antrenör ya da kulüp — formu doldurun, size demo planlayalım ve ilk parti sevkiyatta öncelik verelim.</p>
-    <ul><li>Cihaz + uygulama ile canlı demo (İstanbul’da yerinde, diğer şehirlerde online)</li><li>Erken erişim fiyatı ve teslimat takvimi</li><li>Kulüpler için çoklu cihaz ve antrenör paneli planı</li></ul>
+    <ul><li>Cihaz + uygulama ile canlı demo (İzmir’de yerinde, diğer şehirlerde online)</li><li>Erken erişim fiyatı ve teslimat takvimi</li><li>Kulüpler için çoklu cihaz ve antrenör paneli planı</li></ul>
     <p style="margin-top:26px"><a class="btn" href="hasrep-tanitim.pdf" target="_blank" rel="noopener">Tanıtım afişi (PDF, 3.5 MB) ↗</a></p></div>
   <form class="card" id="demoform" action="https://api.web3forms.com/submit" method="POST"><input type="hidden" name="access_key" value="{WEB3FORMS_KEY}"><input type="hidden" name="subject" value="Has Rep — demo / erken erişim talebi"><input type="hidden" name="from_name" value="canhastech.com/hasrep"><input type="hidden" name="profil" id="dtype" value="Bireysel sporcu"><input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
     <div class="f2"><div class="f"><label for="dn">Ad Soyad <span class="req">*</span></label><input id="dn" name="ad_soyad" required autocomplete="name" placeholder="Adınız"></div><div class="f"><label for="de">E-posta <span class="req">*</span></label><input id="de" name="email" type="email" required autocomplete="email" placeholder="ornek@kulup.com"></div></div>
@@ -640,7 +640,7 @@ def kvkk_page():
   <p class="lede up" style="animation-delay:.8s">6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında bilgilendirme</p>
 </div></header>
 <main><section style="padding-top:24px"><div class="wrap"><div class="legal rv">
-<p class="meta">Veri sorumlusu: <b>HAS Software Technologies</b> (CanhasTech markası) · İstanbul · <a href="mailto:info@canhastech.com">info@canhastech.com</a> · Son güncelleme: 13 Eylül 2026</p>
+<p class="meta">Veri sorumlusu: <b>HAS Software Technologies</b> (CanhasTech markası) · İzmir · <a href="mailto:info@canhastech.com">info@canhastech.com</a> · Son güncelleme: 13 Eylül 2026</p>
 <h2>1. Hangi verileri işliyoruz?</h2>
 <p>Web sitemizdeki iletişim formu üzerinden paylaştığınız <b>ad-soyad, e-posta adresi, proje türü ve mesaj içeriği</b>; WhatsApp üzerinden yazmanız hâlinde telefon numaranız ve mesajınız. Sitemiz çerez kullanmaz ve ziyaretçi takibi yapmaz.</p>
 <h2>2. Hangi amaçla?</h2>
